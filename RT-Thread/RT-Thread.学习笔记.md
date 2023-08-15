@@ -180,6 +180,12 @@ sequenceDiagram
 - 挂载LittleFS
 实际为将SFUD的读写函数与LittleFS的读写接口关联，交由LittleFS管理SPIFlash内的数据
 
+## SDIO快速应用
+
+
+
+
+
 
 
 
