@@ -1,6 +1,6 @@
 # 音频开发笔记
 
-## I2S、PCM、TDM简述
+## I2S、PCM、TDM、PDM简述
 
 I2S（Inter-IC Sound）、PCM（Pulse Code Modulation）和TDM（Time Division Multiplexing）是数字音频传输协议，常用于将音频数据从一个设备传输到另一个设备。它们之间的区别如下：
 
@@ -8,13 +8,13 @@ I2S（Inter-IC Sound）、PCM（Pulse Code Modulation）和TDM（Time Division M
 
 2. PCM：PCM是一种数字音频编码方式，也是一种数字音频传输格式。PCM将模拟音频信号按照一定的采样率和位深度进行采样和量化，然后将其转换为数字音频数据。PCM音频数据可以通过多种传输方式进行传输，包括I2S、SPDIF（Sony/Philips Digital Interface）、HDMI（High-Definition Multimedia Interface）等。
 
-3. TDM：TDM是一种多路复用技术，用于在共享传输介质上传输多个信号。在音频应用中，TDM可以用于同时传输多个音频通道的数据。TDM使用时分复用的原理，将每个音频通道的数据划分为不同的时隙，并按照时序依次发送。接收端根据时隙信息将数据还原为原始音频通道。TDM在音频设备之间传输多个通道的音频数据时很常见
+3. TDM：TDM是一种多路复用技术，用于在共享传输介质上传输多个信号。在音频应用中，TDM可以用于同时传输多个音频通道的数据。TDM使用时分复用的原理，将每个音频通道的数据划分为不同的时隙，并按照时序依次发送。接收端根据时隙信息将数据还原为原始音频通道。TDM在音频设备之间传输多个通道的音频数据时很常见(**通俗讲就是在不同时间片内传输不同通道的数据**)
 
 在应用PCM音频接口传输单声道数据（如麦克风）时，其接口名称为**PCM**；双声道经常使用**I2S**；而**TDM**则表示传输两个及以上声道的数据，同时区别于I2S特定的格式。
 
 ### I2S接口
 
-|    I2S    | 作用   |  备注 |
+|    接口    | 作用   |  备注 |
 | :-------: | :--: | :--: |
 | MCLK | 主设备发送时钟 | 在I2S总线中，任何设备都可以<br />通过提供时钟成为I2S的主控设备<br />主时钟（也名过采样率），一般是采样频率的128、或256、或384或512倍<br />即**MCLK = 128或者256或者512 * 采样频率** |
 | BCLK/SCK | 同步信号，用于同步每一位的数据，<br />具体是哪一个BCLK/SCK边沿采样是可配置的 | 对应数字音频的每一位数据，该时钟都有一个脉冲<br />**即BCLK = 声道数 * 采样频率 * 采样位数** |
@@ -31,10 +31,6 @@ I2S（Inter-IC Sound）、PCM（Pulse Code Modulation）和TDM（Time Division M
 #### 标准模式
 
 ![标准模式时序图](.\picture\标准模式时序图.png)
-
-
-
-
 
 #### 左对齐模式
 
@@ -53,6 +49,71 @@ I2S（Inter-IC Sound）、PCM（Pulse Code Modulation）和TDM（Time Division M
 PCM (Pulse Code Modulation) 是通过等时间隔（即采样率时钟周期）采样将模拟信号数字化的方法
 
 ![PCM采样量化](.\picture\pcm_samp.png)
+
+注：图中的意思是一个正弦波被分为若干等份，每一份的幅值对应一个值。假设这个正弦波的周期为**1s**，那么**采样的次数对应PCM传输数据的采样率，每一份的值对应采样精度**。
+
+TDM是PCM经过扩展得来的。一般情况下单声道使用PCM，双声道使用I2S，两个声道以上使用TDM。
+
+### PCM、TDM接口
+
+| 接口     | 作用             | 备注 |
+| -------- | ---------------- | ---- |
+| PCM_CLK  | 类似于I2S的BCLK  |      |
+| PCM_SYNC | 类似于I2S的WS    |      |
+| PCM_IN   | 类似于I2S的SDIN  |      |
+| PCM_OUT  | 类似于I2S的SDOUT |      |
+
+### PCM、TDM模式
+
+根据SD相对帧同步时钟SYNC的位置，TDM分两种基本模式
+
+#### TDM-ModeA
+
+数据在FSYNC有效后，BCLK的第***2***个上升沿有效
+
+![TDM-ModeA](.\picture\TDM-ModeA.png)
+
+#### TDM-ModeB
+
+数据在FSYNC有效后，BCLK的第**1**个上升沿有效
+
+![TDM-ModeA](.\picture\TDM-ModeB.png)
+
+在实际应用中，总是以**SYNC的上升沿**表示第一次传输的开始。**帧同步时钟的频率等于音频采样频率**。根据不同SYNC时钟的脉冲宽度差别，帧同步时钟分为两种模式
+
+**SLOT概念**：SLOT在TDM中表示的是传输单个声道所占用的位数。注意，Slot的位数并不一定等于音频的量化深度。比如Slot可能为***32 bit\***，其中包括***24 bit\***有效数据位（Audio Word） + ***8 bit\***零填充（Zero Padding）。不同厂商对Slot的叫法可能有所区别，比如Circus Logic称之为Channel Block
+
+#### 长帧同步
+
+SYNC脉冲宽度等于一个SLOT长度
+
+![长帧同步](D:\02_data\github\笔记\MyNote\Audio\picture\长帧同步.png)
+
+#### 短帧同步
+
+SYNC脉冲宽度等于一个BCLK长度
+
+![短帧同步](D:\02_data\github\笔记\MyNote\Audio\picture\短帧同步.png)
+
+**如果需要更详细的理解PCM、TDM协议，请参考[pcmconfigv2_1.xls](./pcmconfigv2_1/pcmconfigv2_1.xls)，或利用开发板运行Demo，利用示波器或者逻辑分析仪进行抓包**
+
+
+
+## PDM(Pulse Density Modulation)
+
+PDM使用远高于PCM采样率的时钟采样调制模拟分量，只有1位输出，要么为0，要么为1。因此通过PDM方式表示的数字音频也被称为Oversampled 1-bit Audio。相比**PDM**一连串的0和1，**PCM**的量化结果更为直观简单。
+
+![PDM](D:\02_data\github\笔记\MyNote\Audio\picture\PDM.png)
+
+注：图中的正弦波经PDM采样后，输出值要么为0，要么为1
+
+## 优缺点
+
+| 协议     | 优点 | 缺点 |
+| -------- | ---- | ---- |
+| I2S      |      |      |
+| PCM、TDM |      |      |
+| PDM      |      |      |
 
 
 
