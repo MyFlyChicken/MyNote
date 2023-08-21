@@ -62,9 +62,7 @@ D:\InstallSoft\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe ..\..\.
 
 根据[Flash_Download_Tool__cn](./flash_download_tool_3.9.5/doc/Flash_Download_Tool__cn.pdf)烧录文件
 
-menuconfig配置
-
-
+## menuconfig配置
 
 
 
