@@ -42,6 +42,8 @@ git restore <文件夹或文件路径>
 
 [参考连接](https://cloud.tencent.com/developer/article/1730774)
 
+## 子模块处理
+
 ### 添加子模块
 
 添加一个远程仓库项目 `https://github.com/iphysresearch/GWToolkit.git` 子模块到一个已有主仓库项目中。代码形式是 `git submodule add <url> <repo_name>`， 如下面的例子：
