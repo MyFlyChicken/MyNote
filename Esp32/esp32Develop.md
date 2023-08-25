@@ -66,3 +66,9 @@ D:\InstallSoft\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe ..\..\.
 
 
 
+## esp32移植btstack
+
+1. 前往[btstack](git@github.com:bluekitchen/btstack.git)下载源码
+2. 打开esp-idf CMD或esp-idf PowerShell，将运行目录切换至btstack内的port\esp32
+3. 参考btstack内的port\esp32内的README.md文件进行移植
+
