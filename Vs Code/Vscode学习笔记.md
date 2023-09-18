@@ -1,5 +1,7 @@
 ## Vscode 全局搜索无法搜索到某一个文件夹
 
+**注**：用户为全局配置，工作区为打开的文件夹配置
+
 ![配置设置](./picture/SearchSetting.png)
 
 ## Vscode 配置搜索文件及非搜索文件
@@ -365,3 +367,98 @@ UseTab: Never
 ```
 
 根据实际情况修改json内的变量
+
+## Vscode 配置代码模板
+
+![代码配置位置](D:\02_data\github\笔记\MyNote\Vs Code\picture\userSetting.png)
+
+选中用户代码片段，点击**新建全局代码片段**，会提示确认文件名，输入文件名，在生成的文件内输入模板内容。
+
+```json
+{
+	// Place your 全局 snippets here. Each snippet is defined under a snippet name and has a scope, prefix, body and 
+	// description. Add comma separated ids of the languages where the snippet is applicable in the scope field. If scope 
+	// is left empty or omitted, the snippet gets applied to all languages. The prefix is what is 
+	// used to trigger the snippet and the body will be expanded and inserted. Possible variables are: 
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. 
+	// Placeholders with the same ids are connected.
+	// Example:
+	// "Print to console": {
+	// 	"scope": "javascript,typescript",
+	// 	"prefix": "log",
+	// 	"body": [
+	// 		"console.log('$1');",
+	// 		"$2"
+	// 	],
+	// 	"description": "Log output to console"
+	// }
+	"New project template": {
+		"prefix": "project_template",
+		"body": [
+		   "/**",
+		   "  *Copyright(C),2020 - 2021, Company Tech. Co., Ltd.",
+		   "  *FileName:   ${TM_FILENAME}",
+		   "  *Date:       ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE} ${CURRENT_HOUR}:${CURRENT_MINUTE}:${CURRENT_SECOND}",
+		   "  *Author:     Author",
+		   "  *Version:    1.0",
+		   "  *Path:       ${TM_DIRECTORY}",
+		   "  *Description:$1",
+			"*/"
+		],
+		"description": "c function header template"
+   },
+   "New .c file template": {
+		"prefix": "cfile_template",
+		"body": [
+			"/* include ------------------------------------------------------------------*/",
+			"#include ${1:<main.h>}",	//可以根据需要更改
+			"\n\n\n/* private define -----------------------------------------------------------*/",
+			"\n\n\n/* private variables --------------------------------------------------------*/",
+			"\n\n\n/* public function prototype ------------------------------------------------*/",
+			"\n\n\n/* private function prototype -----------------------------------------------*/"
+			],
+		"description": "c source file template"
+	},
+	"New .h file template": {
+		"prefix": "hfile_template",
+		"body": [
+		   "#ifndef __${TM_FILENAME_BASE}_H_ //shift+U转换为大写",
+		   "#define __${TM_FILENAME_BASE}_H_",  //json变量读出的小写不知道怎么转换为大写
+		   "\ntypedef struct{",
+		   "\t${1:void (_CODE* func)(void);}",
+		   "}${2:Class_t};",
+		   "\nextern Class_t Class;",
+		   "\n\n\n\n\n\n\n\n\n\n#endif"
+		],
+		"description": "c head file template"
+	},
+	 "New c function header template": {
+	 	"prefix": "function_template",
+	 	"body": [
+			"/**",
+			"  * @brief  ${1:Desc}",
+			"  * @param  ${2:None}",
+			"  * @retval ${3:None}",
+			"  * @note   ${4:None}",
+			"*/",
+			"static void ${5:function}(void)",
+			"{\n\t$6\n}"
+	 	],
+		 "description": "c function header template"
+	}
+}
+
+```
+
+### 如何使用代码模板
+
+新建一个文件，输入关键词，会自动在文件内生成模板文件。
+
+eg:
+
+新建一个C文件：
+
+- 在C文件内输入“project_template”，会生成文件的模板文件
+
+- 在C文件内输入“cfile_template”，会生成文件的模板文件
+
