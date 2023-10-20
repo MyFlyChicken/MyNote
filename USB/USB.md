@@ -1,6 +1,6 @@
 # USB相关知识点
 
-记录开发中遇到的知识点及个人理解
+USB是串行总线，所以数据是一位一位在数据线上传送的，USB使用的是LSB在前的方式，即先出来的是最低位的数据，接下来是次低位，最后是最高位（MSB）。
 
 ## USB描述符
 
@@ -85,7 +85,7 @@ bTag，表示该条目的功能，具体参见下表
 
 - 常用的全局条目有：Usage Page（用途页），Logical Minimum（逻辑最小值），Logical Maximum（逻辑最大值），Physical Minimum（物理最小值），Physical Maximum（物理最大值），Report Size（数据域大小，单位为位！），Report Count（数据域数量），Report ID（报告ID）。
 
-其中Reprot Size 用来描述某个数据域有多少个位；Report Count用来描述这样的数据域有多少个；Logical Minimum和Logical Maximum用来描述数据域的取值范围。
+其中Reprot Size 用来描述某个数据域有多少个位；Report Count用来描述这样的数据域有多少个；Logical Minimum和Logical Maximum用来描述数据域的取值范围。**Report Count不包含Report ID的大小**
 
 #### 局部条目
 
@@ -97,103 +97,126 @@ bTag，表示该条目的功能，具体参见下表
 
 ### 键盘描述符，鼠标描述符
 
+对于报表描述符，Usage在报表描述符内顺序排列，用于规定报告数据时数据的作用。**例如一个报表描述符内有Usage A，Usage B。同时Usage A，Usage B均为Report Size (8)，Report Count (1)，那么在上报数据时会先出现Usage A的数据项，再出现Usage B的数据项，假如这个描述符内有Report ID，那么上报数据时会先出现Report ID，再出现Usage A，Usage B的数据项。**
+
 ~~~c
-    //键盘描述符
-	0x05, 0x01, // USAGE_PAGE (Generic Desktop)
-    0x09, 0x06, // USAGE (Keyboard)
-    0xa1, 0x01, // COLLECTION (Application)
-    0x05, 0x07, // USAGE_PAGE (Keyboard)
-    0x19, 0xe0, // USAGE_MINIMUM (Keyboard LeftControl)
-    0x29, 0xe7, // USAGE_MAXIMUM (Keyboard Right GUI)
-    0x15, 0x00, // LOGICAL_MINIMUM (0)
-    0x25, 0x01, // LOGICAL_MAXIMUM (1)
-    0x75, 0x01, // REPORT_SIZE (1)
-    0x95, 0x08, // REPORT_COUNT (8)
-    0x81, 0x02, // INPUT (Data,Var,Abs)
-    0x95, 0x01, // REPORT_COUNT (1)
-    0x75, 0x08, // REPORT_SIZE (8)
-    0x81, 0x03, // INPUT (Cnst,Var,Abs)
-    0x95, 0x05, // REPORT_COUNT (5)
-    0x75, 0x01, // REPORT_SIZE (1)
-    0x05, 0x08, // USAGE_PAGE (LEDs)
-    0x19, 0x01, // USAGE_MINIMUM (Num Lock)
-    0x29, 0x05, // USAGE_MAXIMUM (Kana)
-    0x91, 0x02, // OUTPUT (Data,Var,Abs)
-    0x95, 0x01, // REPORT_COUNT (1)
-    0x75, 0x03, // REPORT_SIZE (3)
-    0x91, 0x03, // OUTPUT (Cnst,Var,Abs)
-    0x95, 0x06, // REPORT_COUNT (6)
-    0x75, 0x08, // REPORT_SIZE (8)
-    0x15, 0x00, // LOGICAL_MINIMUM (0)
-    0x25, 0xFF, // LOGICAL_MAXIMUM (255)
-    0x05, 0x07, // USAGE_PAGE (Keyboard)
-    0x19, 0x00, // USAGE_MINIMUM (Reserved (no event indicated))
-    0x29, 0x65, // USAGE_MAXIMUM (Keyboard Application)
-    0x81, 0x00, // INPUT (Data,Ary,Abs)
-    0xc0        // END_COLLECTION
+//键盘描述符
+0x05, 0x01,        // Usage Page (Generic Desktop Ctrls)
+0x09, 0x06,        // Usage (Keyboard)
+0xA1, 0x01,        // Collection (Application)
+0x05, 0x07,        //   Usage Page (Kbrd/Keypad)
+0x19, 0xE0,        //   Usage Minimum (0xE0)
+0x29, 0xE7,        //   Usage Maximum (0xE7)
+0x15, 0x00,        //   Logical Minimum (0)
+0x25, 0x01,        //   Logical Maximum (1)
+0x75, 0x01,        //   Report Size (1)
+0x95, 0x08,        //   Report Count (8)
+0x81, 0x02,        //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
+0x95, 0x01,        //   Report Count (1)
+0x75, 0x08,        //   Report Size (8)
+0x81, 0x03,        //   Input (Const,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
+0x95, 0x05,        //   Report Count (5)
+0x75, 0x01,        //   Report Size (1)
+0x05, 0x08,        //   Usage Page (LEDs)
+0x19, 0x01,        //   Usage Minimum (Num Lock)
+0x29, 0x05,        //   Usage Maximum (Kana)
+0x91, 0x02,        //   Output (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position,Non-volatile)
+0x95, 0x01,        //   Report Count (1)
+0x75, 0x03,        //   Report Size (3)
+0x91, 0x03,        //   Output (Const,Var,Abs,No Wrap,Linear,Preferred State,No Null Position,Non-volatile)
+0x95, 0x06,        //   Report Count (6)
+0x75, 0x08,        //   Report Size (8)
+0x15, 0x00,        //   Logical Minimum (0)
+0x25, 0xFF,        //   Logical Maximum (-1)
+0x05, 0x07,        //   Usage Page (Kbrd/Keypad)
+0x19, 0x00,        //   Usage Minimum (0x00)
+0x29, 0x65,        //   Usage Maximum (0x65)
+0x81, 0x00,        //   Input (Data,Array,Abs,No Wrap,Linear,Preferred State,No Null Position)
+0xC0,              // End Collection
+// 63 bytes
 ~~~
 
 ~~~c
-	//鼠标描述符
-	0x05, 0x01, // USAGE_PAGE (Generic Desktop)
-    0x09, 0x02, // USAGE (Mouse)
-    0xA1, 0x01, // COLLECTION (Application)
-    0x09, 0x01, //   USAGE (Pointer)
+//鼠标描述符
+0x05, 0x01,        // Usage Page (Generic Desktop Ctrls)
+0x09, 0x02,        // Usage (Mouse)
+0xA1, 0x01,        // Collection (Application)
+0x09, 0x01,        //   Usage (Pointer)
+0xA1, 0x00,        //   Collection (Physical)
+0x05, 0x09,        //     Usage Page (Button)
+0x19, 0x01,        //     Usage Minimum (0x01)
+0x29, 0x03,        //     Usage Maximum (0x03)
+0x15, 0x00,        //     Logical Minimum (0)
+0x25, 0x01,        //     Logical Maximum (1)
+0x95, 0x03,        //     Report Count (3)
+0x75, 0x01,        //     Report Size (1)
+0x81, 0x02,        //     Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
+0x95, 0x01,        //     Report Count (1)
+0x75, 0x05,        //     Report Size (5)
+0x81, 0x01,        //     Input (Const,Array,Abs,No Wrap,Linear,Preferred State,No Null Position)
+0x05, 0x01,        //     Usage Page (Generic Desktop Ctrls)
+0x09, 0x30,        //     Usage (X)
+0x09, 0x31,        //     Usage (Y)
+0x09, 0x38,        //     Usage (Wheel)
+0x15, 0x81,        //     Logical Minimum (-127)
+0x25, 0x7F,        //     Logical Maximum (127)
+0x75, 0x08,        //     Report Size (8)
+0x95, 0x03,        //     Report Count (3)
+0x81, 0x06,        //     Input (Data,Var,Rel,No Wrap,Linear,Preferred State,No Null Position)
+0xC0,              //   End Collection
+0x09, 0x3C,        //   Usage (Motion Wakeup)
+0x05, 0xFF,        //   Usage Page (Reserved 0xFF)
+0x09, 0x01,        //   Usage (0x01)
+0x15, 0x00,        //   Logical Minimum (0)
+0x25, 0x01,        //   Logical Maximum (1)
+0x75, 0x01,        //   Report Size (1)
+0x95, 0x02,        //   Report Count (2)
+0xB1, 0x22,        //   Feature (Data,Var,Abs,No Wrap,Linear,No Preferred State,No Null Position,Non-volatile)
+0x75, 0x06,        //   Report Size (6)
+0x95, 0x01,        //   Report Count (1)
+0xB1, 0x01,        //   Feature (Const,Array,Abs,No Wrap,Linear,Preferred State,No Null Position,Non-volatile)
+0xC0,              // End Collection
+// 74 bytes
+~~~
 
-    0xA1, 0x00, //   COLLECTION (Physical)
-    0x05, 0x09, //     USAGE_PAGE (Button)
-    0x19, 0x01, //     USAGE_MINIMUM (Button 1)
-    0x29, 0x03, //     USAGE_MAXIMUM (Button 3)
+~~~c
+//自定义数据收发
+0x06, 0x00, 0xFF,  // Usage Page (Vendor Defined 0xFF00)
+0x09, 0x01,        // Usage (0x01)
+0xA1, 0x01,        // Collection (Application)
+0x85, 0x02,        //   Report ID (2)
+0x09, 0x01,        //   Usage (0x01)
+0x15, 0x00,        //   Logical Minimum (0)
+0x26, 0xFF, 0x00,  //   Logical Maximum (255)
+0x95, 0x3F,        //   Report Count (63)
+0x75, 0x08,        //   Report Size (8)
+0x81, 0x02,        //   Input (Data,Var,Abs,No Wrap,Linear,Preferred State,No Null Position)
+0x85, 0x03,        //   Report ID (3)
+0x09, 0x01,        //   Usage (0x01)
+0x15, 0x00,        //   Logical Minimum (0)
+0x26, 0xFF, 0x00,  //   Logical Maximum (255)
+0x95, 0x3F,        //   Report Count (63)
+0x75, 0x08,        //   Report Size (8)
+0x91, 0x03,        //   Output (Const,Var,Abs,No Wrap,Linear,Preferred State,No Null Position,Non-volatile)
+0xC0,              // End Collection
+// 38 bytes
 
-    0x15, 0x00, //     LOGICAL_MINIMUM (0)
-    0x25, 0x01, //     LOGICAL_MAXIMUM (1)
-    0x95, 0x03, //     REPORT_COUNT (3)
-    0x75, 0x01, //     REPORT_SIZE (1)
-
-    0x81, 0x02, //     INPUT (Data,Var,Abs)
-    0x95, 0x01, //     REPORT_COUNT (1)
-    0x75, 0x05, //     REPORT_SIZE (5)
-    0x81, 0x01, //     INPUT (Cnst,Var,Abs)
-
-    0x05, 0x01, //     USAGE_PAGE (Generic Desktop)
-    0x09, 0x30, //     USAGE (X)
-    0x09, 0x31, //     USAGE (Y)
-    0x09, 0x38,
-
-    0x15, 0x81, //     LOGICAL_MINIMUM (-127)
-    0x25, 0x7F, //     LOGICAL_MAXIMUM (127)
-    0x75, 0x08, //     REPORT_SIZE (8)
-    0x95, 0x03, //     REPORT_COUNT (2)
-
-    0x81, 0x06, //     INPUT (Data,Var,Rel)
-    0xC0, 0x09,
-    0x3c, 0x05,
-    0xff, 0x09,
-
-    0x01, 0x15,
-    0x00, 0x25,
-    0x01, 0x75,
-    0x01, 0x95,
-
-    0x02, 0xb1,
-    0x22, 0x75,
-    0x06, 0x95,
-    0x01, 0xb1,
-
-    0x01, 0xc0 //   END_COLLECTION
 ~~~
 
 #### HID报表描述符复合设备
 
-复合设备由report id进行区分。**一个报告描述符可以描述多个报告，不同的报告通过报告ID来识别。报告ID放到报告的最前面，即第一字节。当报告描述符中没有规定报告ID时，报告中就没有ID字段，开始就是数据。**
+复合设备由report id进行区分。**一个报告描述符可以描述多个报告，不同的报告通过报告ID来识别。报告ID放到报告的最前面。当报告描述符中没有规定报告ID时，报告中就没有ID字段，开始就是数据。**
+
+~~~c
+//复合设备
+~~~
 
 
 
-## 附录
-
-参考资料：
+## 参考资料
 
 - [USB_HID协议中文版](.\资料\USB_HID协议中文版.pdf)
 
 - [USB-HID设备6-HID报告描述符详解 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/41960639)
 
+- [USB标准请求及描述符在线分析工具 - USB中文网 (usbzh.com)](https://www.usbzh.com/tool/usb.html))
