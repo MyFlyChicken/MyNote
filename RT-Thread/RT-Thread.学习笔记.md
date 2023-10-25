@@ -151,7 +151,10 @@ void rt_components_board_init(void)
 1. 进入..\rt-thread-5.0.1\bsp\stm32\stm32h750-weact-ministm32h7xx文件夹
 2. 右键运行env控制台
 3. 输入scons --dist 命令，将bsp打包为一个工程
-4. 拷贝工程到另一个文件夹
+4. 同目录下会生成一个dist文件夹，生成的压缩包在这个文件夹内。但是生成的keil工程文件路径是错误的，需要修改。**考虑是导出的方式不对？**
+
+
+
 #### 调用关系
 此处以**SPI总线**为"spi1",注册的**SPI设备**名为"spi10"，SPI设备的片选引脚为PD6，关联SFUD后，将"spi10"设备注册为一个"norflash0"的**块设备**
 
