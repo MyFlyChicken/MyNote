@@ -446,6 +446,28 @@ End Collection//关集合
 - 复合设备上报数据时，不同的report id上报的数据长度不同，由report id后跟随的集合决定
 - 参考资料[USB开源项目：Easy USB 51 Programer Plus-USB HID复合设备实例—键盘+鼠标_USB开发网_百合电子工作室USB专题站 (baiheee.com)](http://usb.baiheee.com/usb_projects/easy_usb_51_programer_plus/usb_keyboard_mouse.html)
 
+## USB接口
+
+### TYPE-C接口及功能定义
+
+![typec母座](./figures/Type-c母座.png)
+
+![typec母座](./figures/Type-c公头.png)
+
+![typec母座](./figures/Type-c引脚功能定义.png)
+
+- typec又分为6pin、16pin、24pin。其中6pin仅支持PD充电，16pin支持USB2.0通讯和PD充电，24pin支持USB2.0、USB3.0通讯和PD充电，
+
+### TYPE-B 接口及功能定义
+
+
+
+### TYPE-A 接口及功能定义
+
+
+
+
+
 ## 参考资料
 
 - [USB_HID协议中文版](.\资料\USB_HID协议中文版.pdf)

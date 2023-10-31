@@ -1,5 +1,11 @@
 # PCB
 
+## MOS管
+
+[MOSFET 导通条件_mos管导通条件-CSDN博客](https://blog.csdn.net/zhengyanan815/article/details/68921668)
+
+
+
 ## PCB99问
 
 1. 有极性的元器件如何布局

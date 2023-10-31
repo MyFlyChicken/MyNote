@@ -360,7 +360,7 @@ UseTab: Never
             "compilerPath": "C:/Program Files (x86)/My Compiler",  
             "cStandard": "c11",  
             "cppStandard": "c++17",  
-            "intelliSenseMode": "gcc-x64"  
+            "intelliSenseMode": "gcc-x64"
         }  
     ],  
     "version": 4
