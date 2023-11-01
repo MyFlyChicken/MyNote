@@ -1,5 +1,7 @@
-# 学习笔记
+### 学习笔记
 根据[RT-Thread官方参考文档](https://www.rt-thread.org/document/site/#/rt-thread-version/rt-thread-standard/README?id=rt-thread-%e7%9a%84%e6%9e%b6%e6%9e%84)做一些总结，意在对RT-Thread的架构有更充分的了解。[Github地址](https://github.com/RT-Thread/rt-thread)
+
+[RT-Thread内核视频教程](https://www.rt-thread.org/document/site/#/rt-thread-version/rt-thread-standard/tutorial/kernel/kernel-video)
 
 
 ## 软件架构
