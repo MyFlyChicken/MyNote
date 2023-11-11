@@ -92,6 +92,8 @@
 
 ### .clang-format模板
 
+注意使用的clang-format.exe，可能使用下边的模板会报错
+
 ```.clang-format
 # 初始化数组或者结构体时，注意三项事项：1.大括号在等号后边，不要换行 2.最后一个元素加一个逗号 3.初始化的结构体内有宏时，不要让clang-format参与初始化
 # 语言: None, Cpp, Java, JavaScript, ObjC, Proto, TableGen, TextProto
@@ -396,7 +398,7 @@ UseTab: Never
 		"prefix": "project_template",
 		"body": [
 		   "/**",
-		   "  *Copyright(C),2020 - 2021, Company Tech. Co., Ltd.",
+		   "  *Copyright(C),2023 - 2022, Company Tech. Co., Ltd.",
 		   "  *FileName:   ${TM_FILENAME}",
 		   "  *Date:       ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE} ${CURRENT_HOUR}:${CURRENT_MINUTE}:${CURRENT_SECOND}",
 		   "  *Author:     Author",
@@ -410,12 +412,13 @@ UseTab: Never
    "New .c file template": {
 		"prefix": "cfile_template",
 		"body": [
-			"/* include ------------------------------------------------------------------*/",
-			"#include ${1:<main.h>}",	//可以根据需要更改
-			"\n\n\n/* private define -----------------------------------------------------------*/",
-			"\n\n\n/* private variables --------------------------------------------------------*/",
-			"\n\n\n/* public function prototype ------------------------------------------------*/",
-			"\n\n\n/* private function prototype -----------------------------------------------*/"
+			"/* ----------------------- System includes ----------------------------------*/",
+			"\n\n\n/* ----------------------- Platform includes --------------------------------*/",
+			"\n\n\n/* ----------------------- Defines ------------------------------------------*/",
+			"\n\n\n/* ----------------------- Type definitions ---------------------------------*/",
+			"\n\n\n/* ----------------------- Static variables ---------------------------------*/",
+			"\n\n\n/* ----------------------- Static function ----------------------------------*/",
+			"\n\n\n/* ----------------------- Start implementation -----------------------------*/"
 			],
 		"description": "c source file template"
 	},
@@ -424,11 +427,19 @@ UseTab: Never
 		"body": [
 		   "#ifndef __${TM_FILENAME_BASE}_H_ //shift+U转换为大写",
 		   "#define __${TM_FILENAME_BASE}_H_",  //json变量读出的小写不知道怎么转换为大写
-		   "\ntypedef struct{",
-		   "\t${1:void (_CODE* func)(void);}",
-		   "}${2:Class_t};",
-		   "\nextern Class_t Class;",
-		   "\n\n\n\n\n\n\n\n\n\n#endif"
+		   "\n#ifdef __cplusplus",
+		   "extern \"C\" {",
+		   "#endif",
+		   "\n\n/* ----------------------- Defines ------------------------------------------*/",
+		   "\n\n\n/* ----------------------- Type definitions ---------------------------------*/",
+		   "\n\n\n/* ----------------------- Extern variable ---------------------------------*/",
+		   "\n\n\n/* ----------------------- Extern function ----------------------------------*/",
+		   "\n\n\n/* ----------------------- End ----------------------------------------------*/",
+		   "\n\n",
+		   "#ifdef __cplusplus",
+		   "}",
+		   "#endif",		   
+		   "\n\n#endif"
 		],
 		"description": "c head file template"
 	},

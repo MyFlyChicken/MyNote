@@ -57,7 +57,63 @@ error:
 
 map文件主要存储了编译文件内的数据存储结构，可以参看[Amap | Sergey Sikorskiy](https://www.sikorskiy.net/info/prj/amap/)进行文件分析
 
+## 去除警告
 
+功能写完一定要去除警告，可以避免出现未知的错误！
+使用attribute可以修饰函数，将定义的函数却没有引用的函数警告进行修饰，可以避免编译器警告
+
+如果提示missing braces around initializer，确实是缺少了括号，初始化时对结构体内部成员使用了一个错误的值
+
+~~~c
+struct apm32_adc
+{
+    const char *name;
+    ADC_T *adc;
+    ADC_Config_T adc_config;
+    rt_base_t channel_pin[DRV_ADC_CHANNEL_MAX_NUM];
+    struct rt_adc_device adc_dev;//为一个结构体
+};
+
+static struct apm32_adc adc_config[] =
+{
+    {
+        "adc2",
+        ADC2,
+        {
+            ADC_MODE_INDEPENDENT,
+            DISABLE,
+            DISABLE,
+            ADC_EXT_TRIG_CONV_None,
+            ADC_DATA_ALIGN_RIGHT,
+            1
+        },
+        {
+            GET_PIN(A, 0), GET_PIN(A, 1), GET_PIN(A, 2), GET_PIN(A, 3), GET_PIN(A, 4),
+            GET_PIN(A, 5), GET_PIN(A, 6), GET_PIN(A, 7), GET_PIN(B, 0), GET_PIN(B, 1),
+            GET_PIN(C, 0), GET_PIN(C, 1), GET_PIN(C, 2), GET_PIN(C, 3)
+        },
+        {}//正确实例，将结构体初始化为空，这样就避免了missing braces around initializer警告
+    },
+    {
+        "adc1",
+        ADC1,
+        {
+            ADC_MODE_INDEPENDENT,
+            DISABLE,
+            DISABLE,
+            ADC_EXT_TRIG_CONV_None,
+            ADC_DATA_ALIGN_RIGHT,
+            1
+        },
+        {
+            GET_PIN(A, 0), GET_PIN(A, 1), GET_PIN(A, 2), GET_PIN(A, 3), GET_PIN(A, 4),
+            GET_PIN(A, 5), GET_PIN(A, 6), GET_PIN(A, 7), GET_PIN(B, 0), GET_PIN(B, 1),
+            GET_PIN(C, 0), GET_PIN(C, 1), GET_PIN(C, 2), GET_PIN(C, 3)
+        },
+        RT_NULL//错误实例，将结构体赋值为RT_NULL
+    },    
+}
+~~~
 
 
 
