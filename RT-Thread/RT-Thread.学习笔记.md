@@ -15,7 +15,9 @@
 
 ![pkgs](./figures/pkgs.png)
 
-具体参考[env手册](https://www.rt-thread.org/document/site/#/development-tools/env/env) 
+具体参考[env手册](https://www.rt-thread.org/document/site/#/development-tools/env/env)
+
+**如果路径不对，可以将RT-ThreadStudio 文件夹内的platform\env_released\env\packages\packages内对应的package.json内容修改为正确的git路径**
 
 
 ## 软件架构
