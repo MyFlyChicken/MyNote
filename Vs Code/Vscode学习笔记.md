@@ -349,6 +349,7 @@ UseTab: Never
 ## Vscode 配置C/C++头文件、宏定义等
 
 - 配置工作空间的c_cpp_properties.json
+- **c_cpp_properties.json也可以使用环境变量内的头文件**
 
 ```json
 "configurations": [  
@@ -356,7 +357,9 @@ UseTab: Never
             "name": "Win32",  
             "includePath": [  
                 "${workspaceFolder}/**",  
-                "C:/Program Files (x86)/My Include Files/**"  
+                "C:/Program Files (x86)/My Include Files/**",
+                "${env:ADF_PATH}/components/**",//引用环境变量的头文件
+                "${env:IDF_PATH}/frameworks/esp-idf-v5.0.4/components/**"
             ],  
             "defines": [],  
             "compilerPath": "C:/Program Files (x86)/My Compiler",  
