@@ -28,7 +28,7 @@
 
 ## build目录
 
-![build目录](D:\02_data\github\笔记\MyNote\Esp32\编译文件.png)
+![build目录](./编译文件.png)
 
 ## 程序下载
 
@@ -42,7 +42,7 @@ idf.py -p COM5 flash
 
 下载程序，下载后会出现一系列日志
 
-![download-log](D:\02_data\github\笔记\MyNote\Esp32\download-log.png)
+![download-log](./download-log.png)
 
 - flash_download_Tool下载
 

@@ -30,17 +30,17 @@ I2S（Inter-IC Sound）、PCM（Pulse Code Modulation）和TDM（Time Division M
 
 #### 标准模式
 
-![标准模式时序图](.\picture\标准模式时序图.png)
+![标准模式时序图](./picture/标准模式时序图.png)
 
 #### 左对齐模式
 
-![左对齐模式时序图](.\picture\左对齐时序图.png)
+![左对齐模式时序图](./picture/左对齐时序图.png)
 
 由于在WS变化后的第一个SCK上升沿就开始采样，它不需要关心左右声道数据的字长，只要WS的时钟周期足够长，左对齐的方式支持16-32bit字长格式。
 
 #### 右对齐模式
 
-![左对齐模式时序图](.\picture\右对齐时序图.png)
+![左对齐模式时序图](./picture/右对齐时序图.png)
 
 
 
@@ -48,7 +48,7 @@ I2S（Inter-IC Sound）、PCM（Pulse Code Modulation）和TDM（Time Division M
 
 PCM (Pulse Code Modulation) 是通过等时间隔（即采样率时钟周期）采样将模拟信号数字化的方法
 
-![PCM采样量化](.\picture\pcm_samp.png)
+![PCM采样量化](./picture/pcm_samp.png)
 
 注：图中的意思是一个正弦波被分为若干等份，每一份的幅值对应一个值。假设这个正弦波的周期为**1s**，那么**采样的次数对应PCM传输数据的采样率，每一份的值对应采样精度**。
 
@@ -71,13 +71,13 @@ TDM是PCM经过扩展得来的。一般情况下单声道使用PCM，双声道�
 
 数据在FSYNC有效后，BCLK的第***2***个上升沿有效
 
-![TDM-ModeA](.\picture\TDM-ModeA.png)
+![TDM-ModeA](./picture/TDM-ModeA.png)
 
 #### TDM-ModeB
 
 数据在FSYNC有效后，BCLK的第**1**个上升沿有效
 
-![TDM-ModeA](.\picture\TDM-ModeB.png)
+![TDM-ModeA](./picture/TDM-ModeB.png)
 
 在实际应用中，总是以**SYNC的上升沿**表示第一次传输的开始。**帧同步时钟的频率等于音频采样频率**。根据不同SYNC时钟的脉冲宽度差别，帧同步时钟分为两种模式
 
@@ -87,13 +87,13 @@ TDM是PCM经过扩展得来的。一般情况下单声道使用PCM，双声道�
 
 SYNC脉冲宽度等于一个SLOT长度
 
-![长帧同步](D:\02_data\github\笔记\MyNote\Audio\picture\长帧同步.png)
+![长帧同步](./picture/长帧同步.png)
 
 #### 短帧同步
 
 SYNC脉冲宽度等于一个BCLK长度
 
-![短帧同步](D:\02_data\github\笔记\MyNote\Audio\picture\短帧同步.png)
+![短帧同步](./picture/短帧同步.png)
 
 **如果需要更详细的理解PCM、TDM协议，请参考[pcmconfigv2_1.xls](./pcmconfigv2_1/pcmconfigv2_1.xls)，或利用开发板运行Demo，利用示波器或者逻辑分析仪进行抓包**
 
@@ -103,7 +103,7 @@ SYNC脉冲宽度等于一个BCLK长度
 
 PDM使用远高于PCM采样率的时钟采样调制模拟分量，只有1位输出，要么为0，要么为1。因此通过PDM方式表示的数字音频也被称为Oversampled 1-bit Audio。相比**PDM**一连串的0和1，**PCM**的量化结果更为直观简单。
 
-![PDM](D:\02_data\github\笔记\MyNote\Audio\picture\PDM.png)
+![PDM](./picture/PDM.png)
 
 注：图中的正弦波经PDM采样后，输出值要么为0，要么为1
 
