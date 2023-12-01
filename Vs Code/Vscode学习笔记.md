@@ -107,13 +107,13 @@ AccessModifierOffset: -4
 AlignAfterOpenBracket: Align
 
 # 连续赋值时，对齐所有等号
-AlignConsecutiveAssignments: true
+#AlignConsecutiveAssignments: true
 
 # 连续声明时，对齐所有声明的变量名
-AlignConsecutiveDeclarations: true
+#AlignConsecutiveDeclarations: true
 
 # 右对齐逃脱换行(使用反斜杠换行)的反斜杠
-AlignEscapedNewlines: Right
+#AlignEscapedNewlines: Right
 
 # 水平对齐二元和三元表达式的操作数
 AlignOperands: DontAlign
@@ -139,29 +139,29 @@ AllowShortIfStatementsOnASingleLine: false
 # 允许短的循环保持在同一行
 AllowShortLoopsOnASingleLine: false
 
-AlignAfterOpenBracket: Align
+#AlignAfterOpenBracket: Align
 AlignArrayOfStructures: Right
 AlignConsecutiveAssignments:
   Enabled:         true
-  AcrossEmptyLines: true
+  AcrossEmptyLines: false
   AcrossComments:  false
   AlignCompound:   true
   PadOperators:    true
 AlignConsecutiveBitFields:
   Enabled:         true
-  AcrossEmptyLines: true
+  AcrossEmptyLines: false
   AcrossComments:  false
   AlignCompound:   true
   PadOperators:    true
 AlignConsecutiveDeclarations:
   Enabled:         true
-  AcrossEmptyLines: true
+  AcrossEmptyLines: false
   AcrossComments:  false
   AlignCompound:   true
   PadOperators:    true
 AlignConsecutiveMacros:
   Enabled:         true
-  AcrossEmptyLines: true
+  AcrossEmptyLines: false
   AcrossComments:  false
   AlignCompound:   true
   PadOperators:    true
@@ -174,7 +174,7 @@ BreakBeforeBraces: Custom
 
 # 大括号换行，只有当BreakBeforeBraces设置为Custom时才有效
 BraceWrapping:
-  AfterControlStatement: MultiLine,
+  # AfterControlStatement: MultiLine,
   # class定义后面
   AfterClass: false
   # 控制语句后面
@@ -227,7 +227,7 @@ BreakBeforeBinaryOperators: NonAssignment
 #   Mozilla(除枚举、函数、记录定义，与Attach类似), Stroustrup(除函数定义、catch、else，与Attach类似), 
 #   Allman(总是在大括号前换行), GNU(总是在大括号前换行，并对于控制语句的大括号增加额外的缩进), WebKit(在函数前换行), Custom
 #   注：这里认为语句块也属于函数
-BreakBeforeBraces: Custom
+# BreakBeforeBraces: Custom
 
 # 在三元运算符前换行
 BreakBeforeTernaryOperators: false
