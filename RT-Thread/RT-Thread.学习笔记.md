@@ -209,5 +209,9 @@ sequenceDiagram
 
 
 
+使用RTthread的驱动，如I2C时，可以用RT_USING_I2C宏进行预处理，用于管理代码是否参与编译
 
+
+
+串口默认配置全部一样，配置宏定义为RT_SERIAL_CONFIG_DEFAULT
 
