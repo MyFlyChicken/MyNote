@@ -1,3 +1,5 @@
+
+
 # github常用操作命令
 
 - 一般在命令行内，[]括号表示括号内的内容是可选项，<>括号表示括号内的内容是必选项
@@ -99,7 +101,7 @@ $ git status
 
 
 
-此时还要留意的是，在终端 Git 命令操作下，位于主仓库目录中除了子模块外的任何子目录下进行的 commit 操作，都会记到主仓库下。只有在子模块目录内的任何 commit 操作，才会记到子模块仓库下。如下面的示例：
+此时还要留意的是，在终端 Git 命令操作下，**位于主仓库目录中除了子模块外的任何子目录下进行的 commit 操作，都会记到主仓库下**。只有在子模块目录内的任何 commit 操作，才会记到子模块仓库下。如下面的示例：
 
 ```bash
 $ cd ~/projects/<module>
@@ -109,8 +111,6 @@ $ git log # still commits from Project <module>
 $ cd ~/projects/<module>/<submodule>
 $ git log # commits from <submodule>
 ```
-
-------
 
 ### 查看子模块
 
@@ -192,3 +192,9 @@ $ git clone --recursive <project url>
    ```bash
    $ rm -rf .git/modules/GWToolki
    ```
+
+### 关于子模块的个人理解
+
+1. 在子模块内地操作会push会推送到子模块的远端，如果想自己管理子模块，需要单独切一个分支。
+2. 在子模块目录内提交自己的提交，再切换到主目录进行提交。
+3. 如果远端有更新，可以切换到子模块目录进行pull操作，然后再merge到自己管理的子模块分支
