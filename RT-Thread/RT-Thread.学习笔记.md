@@ -198,7 +198,7 @@ sequenceDiagram
 在 rt_spi_bus_attach_device_cspin 函数内，会首先调用 rt_device_find，检测有无spi总线，如果有，再调用rt_spidev_device_init，在rt_spidev_device_init对需要挂载到SPI上的设备进行注册
 - 关联SFUD
 将挂载的SPI设备关联到SFUD，再将SFUD 注册为一个RT_Device_Class_Block设备
-- 挂载LittleFS
+- 挂载LittleFS 
 实际为将SFUD的读写函数与LittleFS的读写接口关联，交由LittleFS管理SPIFlash内的数据
 
 ## SDIO快速应用
@@ -207,11 +207,15 @@ sequenceDiagram
 
 
 
+## 基于RTthread构建自己的库,BSP
+
+1. 参考[官方文档](https://www.rt-thread.org/document/site/#/development-tools/build-config-system/summary)编写menuconfig
+
+2. 利用menuconfig生成的宏定义对文件进行预处理，实现适配多个产品
+
+## USART应用
+
+1. 串口默认配置全部一样，配置宏定义为RT_SERIAL_CONFIG_DEFAULT
 
 
-使用RTthread的驱动，如I2C时，可以用RT_USING_I2C宏进行预处理，用于管理代码是否参与编译
-
-
-
-串口默认配置全部一样，配置宏定义为RT_SERIAL_CONFIG_DEFAULT
 
