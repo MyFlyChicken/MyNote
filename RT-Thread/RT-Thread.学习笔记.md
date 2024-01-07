@@ -19,8 +19,8 @@
 
 **如果路径不对，可以将RT-ThreadStudio 文件夹内的platform\env_released\env\packages\packages内对应的package.json内容修改为正确的git路径**
 
-
 ## 软件架构
+
 ![软件架构](./figures/architecturezh.png)
 
 ## 目录结构
@@ -209,9 +209,19 @@ sequenceDiagram
 
 ## 基于RTthread构建自己的库,BSP
 
-1. 参考[官方文档](https://www.rt-thread.org/document/site/#/development-tools/build-config-system/summary)编写menuconfig
+### 编写Kconfig
 
-2. 利用menuconfig生成的宏定义对文件进行预处理，实现适配多个产品
+参考[官方文档](https://www.rt-thread.org/document/site/#/development-tools/build-config-system/Kconfig)
+
+1. source用于包含Kconfig的路径
+2. 其余编写方式参考官方文档
+3. config选中后会在rtconfig.h内生成对应的头文件
+
+### 编写C文件
+
+Kconfig文件与C文件编写相辅相成，根据Kconfig生成的宏定义，编写C函数
+
+
 
 ## USART应用
 

@@ -115,10 +115,21 @@ static struct apm32_adc adc_config[] =
 }
 ~~~
 
-## 串口乱码分析
+## 串口乱码分析原因
 
 1. 一样的程序放在不同板子上验证
 2. 查看寄存器是否配置正确
 3. 查看发送端与接收端配置是否相同
 4. 如果不同板子有些正常，排查下系统时钟是否正常，有可能晶振频率不对或者晶振不稳定
 
+## Rt-thread DFS使能时stdio的fopen无效
+
+![image-20240106183051353](C:\Users\yyf\AppData\Roaming\Typora\typora-user-images\image-20240106183051353.png)
+
+1. 检查是否使能RT_USING_POSIX_FS
+2. 检查是否使能RT_USING_POSIX_DEVIO
+3. 检查IDE是否使能了标准库，例如Keil使能 MicroLIB
+
+## Rt-thread 开启RT_USING_POSIX_STDIO后，shell线程一直死循环
+
+![image-20240106184025446](C:\Users\yyf\AppData\Roaming\Typora\typora-user-images\image-20240106184025446.png)
