@@ -6,6 +6,25 @@
 
 - 在一个本地仓库内的修改，如果没有提交，切换仓库后，这个修改依然存在。如果这个修改被提交了，那么切换到新的仓库，这个提交也会跟随新仓库，如果切换到已经有的仓库，这个提交的不会跟随到已有的仓库。
 
+## ssh key生成步骤
+
+1. 设置Git的user name和email
+
+```cmd
+git config --global user.name "git的名字"
+git config --global user.email "git的邮箱"
+
+git config --list #查看git配置
+```
+
+2. 生成密钥
+
+~~~cmd
+ssh-keygen -t rsa -C "git的邮箱"
+
+cat ~/.ssh/id_rsa.pub #打印出公钥内容，复制添加到git的SSH key
+~~~
+
 ## 回滚代码
 
 1. git log
@@ -212,3 +231,55 @@ $ git clone --recursive <project url>
 3. 提交操作
 
    
+
+# 异常处理
+
+### pull、push提示22端口超时
+
+![image-20240127190445186](./assets/image-20240127190445186.png)
+
+首先排查原因，使用命令
+
+```ssh
+ssh -vT github@github.com #查看连接日志，其中-v为显示连接日志，不加v只显示结果
+```
+
+解决办法
+
+1. 将22端口替换为443端口，在.ssh文件夹内加入config文件，内容如下
+
+[参考连接](https://blog.csdn.net/weixin_43233914/article/details/125143340)
+
+```config
+Host github.com
+User 你的邮箱
+Hostname ssh.github.com #注意这里是ssh.github.com
+PreferredAuthentications publickey
+IdentityFile ~/.ssh/id_rsa
+Port 443
+```
+
+2. 查看hosts内是否存在github.com的ip地址映射，22端口超时可能是因为ssh的默认ip地址与github.com的ip地址不一样
+
+[参考连接](https://blog.csdn.net/weixin_44671418/article/details/107378693)
+
+```
+#Windows
+# lines or following the machine name denoted by a '#' symbol.
+#
+# For example:
+#
+#      102.54.94.97     rhino.acme.com          # source server
+#       38.25.63.10     x.acme.com              # x client host
+
+# localhost name resolution is handled within DNS itself.
+#	127.0.0.1       localhost
+#	::1             localhost
+140.82.113.3 github.com
+199.232.69.194 github.global.ssl.fastly.net
+
+#Linux
+#与Windows一样，
+```
+
+在[IP查看](https://link.csdn.net/?target=https%3A%2F%2Fwww.ipaddress.com%2Fip-lookup)内查看github.com的ip地址，将网址的ip添加到hosts文件夹内，这样访问git时，直接访问ip就可以连接了
