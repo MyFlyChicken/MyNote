@@ -283,3 +283,12 @@ Port 443
 ```
 
 在[IP查看](https://link.csdn.net/?target=https%3A%2F%2Fwww.ipaddress.com%2Fip-lookup)内查看github.com的ip地址，将网址的ip添加到hosts文件夹内，这样访问git时，直接访问ip就可以连接了
+## 修复TAG分支的BUG
+
+1. 切换到要修复的TAG分支(git checkout 要修复的分支)
+2. 修改分支里的BUG
+3. 切换到另一个新建分支(git checkout -b 新分支)
+4. 提交相关代码(git add/git commit)
+5. 新建tag(git tag 新分支)
+6. 推送代码(git push origin 新分支)
+
