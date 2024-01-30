@@ -476,3 +476,71 @@ eg:
 
 - 在C文件内输入“cfile_template”，会生成文件的模板文件
 
+## 配置clangd、cmake、clang-format开发C/C++
+
+### 需要的插件
+
+| 插件         | 作用                |
+| ------------ | ------------------- |
+| CMake        | 编写cmakelist会提示 |
+| CMake Tools  | 配置cmake.exe       |
+| clangd       | 方便开发代码        |
+| Clang-Format | 格式化代码          |
+| CodeLLDB     | 调试代码            |
+
+### 需要的可执行文件
+
+cmake.exe
+
+make.exe（需要配置到环境变量）
+
+### 插件配置
+
+- CMake Tools
+
+需要添加cmake.exe的可执行路径
+
+需要配置构建文件的输出路径
+
+- Clang-Format
+
+参考上文
+
+> Vscode 配置CLang-format
+
+- clangd
+
+配置clangd.exe的执行路径
+
+配置clangd.exe的参数
+
+~~~json
+//在settings.json内
+"clangd.arguments": [
+    // 在后台自动分析文件（基于complie_commands)
+    "--background-index",
+    // 标记compelie_commands.json文件的目录位置
+    "--compile-commands-dir=build",
+    // 同时开启的任务数量
+    "-j=12",
+    // clang-tidy功能
+    "--clang-tidy",
+    // 全局补全（会自动补充头文件）
+    "--all-scopes-completion",
+    // 详细补全
+    "--completion-style=detailed",
+    // 补充头文件
+    "--header-insertion=iwyu",
+    // pch优化的位置
+    "--pch-storage=disk",
+  ],
+~~~
+
+- Clang-Format
+
+配置clang-format.exe路径
+
+配置”.clang-format“文件的路径
+
+
+
