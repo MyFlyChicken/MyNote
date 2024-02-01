@@ -486,13 +486,17 @@ eg:
 | CMake Tools  | 配置cmake.exe       |
 | clangd       | 方便开发代码        |
 | Clang-Format | 格式化代码          |
-| CodeLLDB     | 调试代码            |
+| CodeLLDB     | 调试代码？          |
 
 ### 需要的可执行文件
 
-cmake.exe
+需要配置到环境变量
 
-make.exe（需要配置到环境变量）
+[cmake.exe](https://cmake.org/download/)
+
+[make.exe](https://gnuwin32.sourceforge.net/packages/make.htm)
+
+[cland.exe](https://github.com/clangd/clangd)
 
 ### 插件配置
 
@@ -536,11 +540,15 @@ make.exe（需要配置到环境变量）
   ],
 ~~~
 
+**clangd对文件的查找方式依赖于compile_commands.json，因此需要搭配cmake，利用cmake生成compile_commands.json，即可方便的使用clangd**
+
 - Clang-Format
 
 配置clang-format.exe路径
 
 配置”.clang-format“文件的路径
 
+**注：由于clangd与C/C++存在冲突，如果仍然需要使用C/C++插件，则需要新增一个配置文件，在新增的配置文件内禁用clangd，使能C/C++。**
 
+![image-20240201134227046](./assets/image-20240201134227046.png)
 
