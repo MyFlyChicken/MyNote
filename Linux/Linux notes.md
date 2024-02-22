@@ -64,3 +64,11 @@ sudo vim  /etc/pacman.d/mirrorlist
 [Clang-Tidy](https://clang.llvm.org/extra/clang-tidy/)
 
 [VS Code 的使用技巧与键位表等](https://code.visualstudio.com/docs/getstarted/tips-and-tricks)
+
+/usr/bin文件夹一般存放全家环境变量
+
+tree 用来显示树形文件
+
+![image-20240222203342138](./assets/image-20240222203342138.png)
+
+which 用来搜索环境变量实际所在的位置

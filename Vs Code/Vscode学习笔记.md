@@ -536,11 +536,14 @@ make.exe（需要配置到环境变量）
   ],
 ~~~
 
+注：clangd识别文件路径以来cmake生成的compelie_commands.json，因此需要配置正确的compelie_commands.json路径，即上述**"--compile-commands-dir=build",**具体[连接](https://zhuanlan.zhihu.com/p/145430576?utm_id=0)。
+
 - Clang-Format
 
 配置clang-format.exe路径
 
 配置”.clang-format“文件的路径
 
+- extensions.json
 
-
+extensions.json 是 VS Code 编辑器中的一个配置文件，用于存储您当前安装的扩展（插件）列表和它们的配置信息。通过编辑这个文件，您可以轻松地将您当前的扩展列表备份并在其他环境中恢复它们，或在多个开发人员之间共享相同的扩展列表和配置。具体[连接](https://juejin.cn/s/extensions.json%20vscode)。
