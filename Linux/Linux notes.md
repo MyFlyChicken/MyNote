@@ -72,3 +72,15 @@ tree 用来显示树形文件
 ![image-20240222203342138](./assets/image-20240222203342138.png)
 
 which 用来搜索环境变量实际所在的位置
+
+## GCC工具使用
+
+[参考链接](https://www.cnblogs.com/kele-dad/p/9394568.html)
+
+### add2line
+
+```
+addr2line -e test1.out -a 160b  -f -p -C -i
+```
+
+注意：map文件需要包含调试信息，在编译的时候需要设置gcc的编译标志''-g"，也需要设置map文件输出“-Wl,-Map,name.map”
