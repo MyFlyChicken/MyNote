@@ -218,6 +218,12 @@ $ git clone --recursive <project url>
 2. 在子模块目录内提交自己的提交，再切换到主目录进行提交。
 3. 如果远端有更新，可以切换到子模块目录进行pull操作，然后再merge到自己管理的子模块分支
 
+### 克隆含有子模块的项目
+
+```
+git clone --recursive https://github.com/example/example.git
+```
+
 ## git如何忽略已经提交的文件 (.gitignore文件无效)
 
 .gitignore**只对新增的文件有效**，对已经提交的文件无效
