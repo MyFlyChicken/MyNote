@@ -6,5 +6,5 @@
 - [github](./github/github学习笔记.md)
 - [pyocd](./pyocd/pyocd.md)
 - [RT-Thread](./RT-Thread/RT-Thread.学习笔记)
-- [Vscode](./Vs Code/Vscode学习笔记)
+- [Vscode](./Vs Code/Vscode学习笔记.md)
 - [ESP32](./Esp32/esp32Develop.md)

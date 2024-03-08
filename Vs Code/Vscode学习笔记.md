@@ -476,17 +476,17 @@ eg:
 
 - 在C文件内输入“cfile_template”，会生成文件的模板文件
 
-## 配置clangd、cmake、clang-format开发C/C++
+## 配置clangd、cmake、clang-format开发C/C++代码
 
 ### 需要的插件
 
-| 插件         | 作用                |
-| ------------ | ------------------- |
-| CMake        | 编写cmakelist会提示 |
-| CMake Tools  | 配置cmake.exe       |
-| clangd       | 方便开发代码        |
-| Clang-Format | 格式化代码          |
-| CodeLLDB     | 调试代码？          |
+| 插件         | 作用                             |
+| ------------ | -------------------------------- |
+| CMake        | 编写cmakelist会提示              |
+| CMake Tools  | 配置cmake.exe                    |
+| clangd       | 方便开发代码，静态审查，代码跳转 |
+| Clang-Format | 格式化代码                       |
+| CodeLLDB     | 调试代码                         |
 
 ### 需要的可执行文件
 
@@ -540,7 +540,7 @@ eg:
   ],
 ~~~
 
-**clangd对文件的查找方式依赖于compile_commands.json，因此需要搭配cmake，利用cmake生成compile_commands.json，即可方便的使用clangd**
+注：clangd识别文件路径以来cmake生成的compelie_commands.json，因此需要配置正确的compelie_commands.json路径，即上述**"--compile-commands-dir=build",**具体[连接](https://zhuanlan.zhihu.com/p/145430576?utm_id=0)。
 
 - Clang-Format
 
@@ -548,6 +548,119 @@ eg:
 
 配置”.clang-format“文件的路径
 
+- extensions.json
+
+extensions.json 是 VS Code 编辑器中的一个配置文件，用于存储您当前安装的扩展（插件）列表和它们的配置信息。通过编辑这个文件，您可以轻松地将您当前的扩展列表备份并在其他环境中恢复它们，或在多个开发人员之间共享相同的扩展列表和配置。具体[连接](https://juejin.cn/s/extensions.json%20vscode)。
+
+## VScode MCU开发
+
+### 需要的插件
+
+```json
+{
+    "recommendations": [
+        "ms-vscode.cpptools",
+        "llvm.clangd",
+        "ms-vscode.cmake-tools",
+        "marus25.cortex-debug",
+        "twxs.cmake",
+        "dan-c-underwood.arm",
+        "zixuanwang.linkerscript",
+    ]
+}
+```
+
+### 需要的环境变量
+
+- gcc编译器环境变量
+
+- pyocd或其他调试server环境变量
+
+- > 配置clangd、cmake、clang-format开发C/C++代码内的环境变量
+
+### 需要配置的json
+
+#### task.json
+
+```
+{
+            "type": "shell",
+            "label": "pyocd programing",
+            "command": "pyocd",
+            "args": [
+                "flash",                
+                "--target=APM32E103CE",
+                "--erase=chip",
+                "-a=0x08000000",
+                "--frequency=1000000",
+                "./build/Debug/boot_temp.bin"//"${workspaceFolder}"路径是'\' 而git_bash的路径是'/ 会导致识别错误
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [],            
+        }
+```
+
+#### settings.json
+
+```
+"clangd.arguments": [
+        "--compile-commands-dir=build/Debug"//配置clangd识别compelie_commands.json的路径
+    ],
+```
+
+#### launch.json
+
+```
+ {//配置Cortex-Debug需要的信息
+            //没问题
+            "name": "rt-spark-pyocd",
+            "cwd": "${workspaceRoot}",
+            "executable":  "${workspaceRoot}/build/Debug/stm32h750-cmake.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "runToEntryPoint": "main",
+            "targetId": "STM32H750VBTx",
+            "servertype": "pyocd",
+            "serverpath": "C:/Users/yyf/AppData/Local/Programs/Python/Python312/Scripts/pyocd.exe",
+            "armToolchainPath": "C:/Program Files/arm-gnu-toolchain-13.2.Rel1-mingw-w64-i686-arm-none-eabi/bin",
+            "svdFile": "${workspaceFolder}/STM32H750.svd",
+            "gdbPath": "C:/Program Files/arm-gnu-toolchain-13.2.Rel1-mingw-w64-i686-arm-none-eabi/bin/arm-none-eabi-gdb",
+            //"cmsisPack": "${workspaceRoot}/Keil.STM32H7xx_DFP.3.1.1.pack",//不屏蔽该语句，会导致调试频繁出错误
+            "showDevDebugOutput":"parsed",
+        },    
+        {
+            "cwd": "${workspaceRoot}", //工作区根目录
+            "executable": "${workspaceRoot}/build/Debug/stm32h750-cmake.elf", //执行文件
+            "name": "Debug Microcontroller", //Debug名称，需要与其它调试json命名不一致
+            "request": "launch",//调试模式
+            "type": "cortex-debug",
+            "servertype": "pyocd",
+            "targetId":"STM32H750VBTx",//目标
+            "armToolchainPath": "C:/Program Files/arm-gnu-toolchain-13.2.Rel1-mingw-w64-i686-arm-none-eabi/bin",
+            "svdFile": "${workspaceFolder}/STM32H750.svd",    
+            "runToEntryPoint": "main",
+            "cmsisPack": "${workspaceFolder}/Keil.STM32H7xx_DFP.3.1.1.pack",
+            "showDevDebugOutput":"raw",
+        }     
+```
+
+#### c_cpp_properties.json
+
+​	基本用不到，省略
+
+**注意，以上json全部来自模板修改，参考[这里](https://github.com/MyFlyChicken/stm32-cube-cmake-vscode)***
+
+模板这里配置需要注意的地方
+
+![e9e7a4f10a1dcd5a1957f181dbc78a0](./assets/e9e7a4f10a1dcd5a1957f181dbc78a0.jpg)
+
+## Vscode 修改默认终端
+
+![image-20240302105724586](./assets/image-20240302105724586.png)
+
+**注意将默认终端切换为Git Bash后，路径符号会由Win的'\\'变为'/'**
 **注：由于clangd与C/C++存在冲突，如果仍然需要使用C/C++插件，则需要新增一个配置文件，在新增的配置文件内禁用clangd，使能C/C++。**
 
 ![image-20240201134227046](./assets/image-20240201134227046.png)
