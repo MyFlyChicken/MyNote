@@ -110,5 +110,9 @@ def will_connect():
 
 ```
 
+## 读取mcu flash并保存
 
+​                          命令       连接目标      子命令     起始地址     读取长度，必须为4的整数倍 重定向到其它文件
+
+pyocd commander -t=APM32E103CE -c read32 0x08000000   0x20000                  >  C:\Users\yuyf\Desktop\x1\111.txt
 
