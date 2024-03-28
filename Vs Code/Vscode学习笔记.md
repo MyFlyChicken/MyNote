@@ -361,7 +361,7 @@ UseTab: Never
 }
 ```
 
-
+- 一般将静态审查工具配置为[cppcheck](https://cppcheck.sourceforge.io/),从这里下载并在插件里指定路径
 
 ## Vscode 配置C/C++头文件、宏定义等
 
