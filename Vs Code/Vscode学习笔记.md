@@ -346,6 +346,23 @@ UseTab: Never
 
 ```
 
+## 配置C/C++开发C/C++代码
+
+### 需要的插件
+
+```
+{
+    "recommendations": [
+        "ms-vscode.cpptools",
+        "jbenden.c-cpp-flylint",
+        "danielpinto8zz6.c-cpp-compile-run",
+        "hars.CppSnippets"
+    ]
+}
+```
+
+
+
 ## Vscode 配置C/C++头文件、宏定义等
 
 - 配置工作空间的c_cpp_properties.json
@@ -664,4 +681,14 @@ extensions.json 是 VS Code 编辑器中的一个配置文件，用于存储您�
 **注：由于clangd与C/C++存在冲突，如果仍然需要使用C/C++插件，则需要新增一个配置文件，在新增的配置文件内禁用clangd，使能C/C++。**
 
 ![image-20240201134227046](./assets/image-20240201134227046.png)
+
+## Vscode C/C++静态代码审查
+
+- cppcheck：一个强大的静态代码分析工具，可以检测出许多常见的错误和代码问题。
+
+- Clang-tidy：一个 LLVM 项目的静态代码分析工具，可以检测出许多常见的代码问题，如内存泄漏、未初始化变量、循环错误等。
+
+- Lint：一个静态代码分析工具，可以检测出许多常见的代码风格问题，如缩进错误、命名错误等。
+
+
 
