@@ -84,3 +84,7 @@ addr2line -e test1.out -a 160b  -f -p -C -i
 ```
 
 注意：map文件需要包含调试信息，在编译的时候需要设置gcc的编译标志''-g"，也需要设置map文件输出“-Wl,-Map,name.map”
+
+## Linux指令教程
+
+[参考网址](https://www.runoob.com/linux/linux-file-attr-permission.html)
