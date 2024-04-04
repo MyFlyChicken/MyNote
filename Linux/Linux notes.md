@@ -88,3 +88,22 @@ addr2line -e test1.out -a 160b  -f -p -C -i
 ## Linux指令教程
 
 [参考网址](https://www.runoob.com/linux/linux-file-attr-permission.html)
+
+## 动态库找不到怎么解决
+
+![image-20240404092702819](./assets/image-20240404092702819.png)
+
+下载相关库
+
+```
+sudo pacman -S llvm-libs
+```
+
+### 库找不到的原因
+
+1. 下载的软件版本与之前已经安装的版本不匹配。所以找不到库，需要对原来的库进行更新
+   - clang: error while loading shared libraries: libLLVM-17.so: cannot open shared object file: No such file or directory
+   - sudo pacman -S llvm-libs
+
+## Doxygen使用
+
