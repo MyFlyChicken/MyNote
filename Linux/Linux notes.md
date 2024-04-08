@@ -107,3 +107,13 @@ sudo pacman -S llvm-libs
 
 ## Doxygen使用
 
+
+
+
+
+## 文件权限
+
+![img](./assets/file-llls22.jpg)
+
+![363003_1227493859FdXT](./assets/363003_1227493859FdXT.png)
+
