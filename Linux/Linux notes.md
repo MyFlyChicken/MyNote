@@ -107,9 +107,73 @@ sudo pacman -S llvm-libs
 
 ## Doxygen使用
 
+```
+Doxygen version 1.10.0 (GIT-NOTFOUND)
+Copyright Dimitri van Heesch 1997-2021
 
+You can use doxygen in a number of ways:
 
+1) Use doxygen to generate a template configuration file*:
+    doxygen [-s] -g [configName]
 
+2) Use doxygen to update an old configuration file*:
+    doxygen [-s] -u [configName]
+
+3) Use doxygen to generate documentation using an existing configuration file*:
+    doxygen [configName]
+
+4) Use doxygen to generate a template file controlling the layout of the
+   generated documentation:
+    doxygen -l [layoutFileName]
+
+    In case layoutFileName is omitted DoxygenLayout.xml will be used as filename.
+    If - is used for layoutFileName doxygen will write to standard output.
+
+5) Use doxygen to generate a template style sheet file for RTF, HTML or Latex.
+    RTF:        doxygen -w rtf styleSheetFile
+    HTML:       doxygen -w html headerFile footerFile styleSheetFile [configFile]
+    LaTeX:      doxygen -w latex headerFile footerFile styleSheetFile [configFile]
+
+6) Use doxygen to generate a rtf extensions file
+    doxygen -e rtf extensionsFile
+
+    If - is used for extensionsFile doxygen will write to standard output.
+
+7) Use doxygen to compare the used configuration file with the template configuration file
+    doxygen -x [configFile]
+
+   Use doxygen to compare the used configuration file with the template configuration file
+   without replacing the environment variables or CMake type replacement variables
+    doxygen -x_noenv [configFile]
+
+8) Use doxygen to show a list of built-in emojis.
+    doxygen -f emoji outputFileName
+
+    If - is used for outputFileName doxygen will write to standard output.
+
+*) If -s is specified the comments of the configuration items in the config file will be omitted.
+   If configName is omitted 'Doxyfile' will be used as a default.
+   If - is used for configFile doxygen will write / read the configuration to /from standard output / input.
+
+If -q is used for a doxygen documentation run, doxygen will see this as if QUIET=YES has been set.
+
+-v print version string, -V print extended version information
+-h,-? prints usage help information
+doxygen -d prints additional usage flags for debugging purposes
+```
+
+- doxygen -g [configName] 生成doxygen的配置文件
+- 修改[configName]配置文件
+- doxygen [configName] 生成
+- //TODO 生成调用关系图，加入结构体注释块
+
+- [Demo](./doxygenDemo)
+
+### 参考连接
+
+- [大佬的Confluence](https://www.midlane.top/wiki/display/utils/Doxygen)
+- [知乎大佬总结](https://zhuanlan.zhihu.com/p/122523174)
+- [官网](https://www.doxygen.org/)
 
 ## 文件权限
 
@@ -117,3 +181,4 @@ sudo pacman -S llvm-libs
 
 ![363003_1227493859FdXT](./assets/363003_1227493859FdXT.png)
 
+文件权限有读、写、执行，出现访问拒绝一般是文件没有执行权限
