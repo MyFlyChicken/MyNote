@@ -196,10 +196,6 @@ doxygen -d prints additional usage flags for debugging purposes
 
   @endcode 注释中代码段的结束。
 
-  @code .. @endcode 包含一段代码
-
-  @addtogroup 添加到一个组。
-
   @brief 概要信息
 
   @deprecated 已废弃函数
@@ -224,6 +220,31 @@ doxygen -d prints additional usage flags for debugging purposes
 
   @var、@enum、@struct、@class 对变量、美剧、结构体、类等进行标注
 
+- @list
+
+  ```
+    /*! 
+     *  A list of events:
+     *    - mouse events
+     *         -# mouse move event
+     *         -# mouse click event\n
+     *            More info about the click event.
+     *         -# mouse double click event
+     *    - keyboard events
+     *         1. key down event
+     *         2. key up event
+     *    - checkbox list
+     *         - [ ] unchecked
+     *         - [x] checked
+     *
+     *  More text here.
+     */
+  ```
+
+  上述demo生成的文档如下，list内的语法和markdown语法相似
+
+  ，![image-20240409150219886](./assets/image-20240409150219886.png)
+
 - [Demo](./doxygenDemo)
 
 ### 参考连接
@@ -239,3 +260,4 @@ doxygen -d prints additional usage flags for debugging purposes
 ![363003_1227493859FdXT](./assets/363003_1227493859FdXT.png)
 
 文件权限有读、写、执行，出现访问拒绝一般是文件没有执行权限
+
