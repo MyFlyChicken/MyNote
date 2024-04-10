@@ -8,3 +8,5 @@
 - [RT-Thread](./RT-Thread/RT-Thread.学习笔记)
 - [Vscode](./Vs Code/Vscode学习笔记.md)
 - [ESP32](./Esp32/esp32Develop.md)
+- [编码规范，参考esp32](https://docs.espressif.com/projects/esp-idf/zh_CN/v4.3.4/esp32/contribute/documenting-code.html#)
+
