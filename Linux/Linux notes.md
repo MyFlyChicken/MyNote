@@ -28,6 +28,45 @@
 
 [视频参考连接](https://www.bilibili.com/video/BV1sW411v7VZ?p=1&vd_source=2e33a3cba9dea05126d330dcf100be27)
 
+### WSL访问PC的USB设备
+
+- [下载usbipd-win](https://github.com/dorssel/usbipd-win/actions/runs/7813976713)
+
+​	不安装这个可能[报错](https://github.com/dorssel/usbipd-win/issues/856)
+
+- linux安装 hwdata
+
+```
+sudo pacman -S hwdata
+```
+
+- 关闭WSL
+
+```
+WSL --shutdown
+```
+
+- 查看windows USB设备
+- 共享windows USB设备
+- 附加USB设备
+- 打开linux命令行，查看新增的USB设备
+
+```
+#PowerShell
+usbipd list
+#假设需要访问的USB设备busid为4-4
+usbipd bind --busid 4-4
+usbipd attach --wsl --busid <busid>
+#Linux bash
+#lsusb需要先安装usbutils
+lsusb
+#PowerShell
+#断开linux对usb的访问
+usbipd detach --busid <busid>
+```
+
+- [参考网址](https://learn.microsoft.com/zh-cn/windows/wsl/connect-usb#attach-a-usb-device)
+
 ## 初装Linux需要进行的操作
 
 1. 镜像源改为国内地址，也可以不更换
@@ -107,6 +146,8 @@ sudo pacman -S llvm-libs
 
 ## Doxygen使用
 
+### 帮助文档
+
 ```
 Doxygen version 1.10.0 (GIT-NOTFOUND)
 Copyright Dimitri van Heesch 1997-2021
@@ -162,90 +203,129 @@ If -q is used for a doxygen documentation run, doxygen will see this as if QUIET
 doxygen -d prints additional usage flags for debugging purposes
 ```
 
+### 生成文档步骤
+
 - doxygen -g [configName] 生成doxygen的配置文件
-
 - 修改[configName]配置文件
-
 - doxygen [configName] 生成
-
 - TODO 函数调用关系
 
-- 常用注释命令，全部注释命令点击[这里](https://www.doxygen.nl/manual/commands.html)
+### 常用注释命令，[全部注释](https://www.doxygen.nl/manual/commands.html)
 
-  @exception <exception-object> {exception description} 对一个异常对象进行注释。
+@exception <exception-object> {exception description} 对一个异常对象进行注释。
 
-  @warning {warning message } 一些需要注意的事情
+@warning {warning message } 一些需要注意的事情
 
-  @todo { things to be done } 对将要做的事情进行注释，链接到所有TODO 汇总的TODO 列表
+@todo { things to be done } 对将要做的事情进行注释，链接到所有TODO 汇总的TODO 列表
 
-  @bug 缺陷，链接到所有缺陷汇总的缺陷列表
+@bug 缺陷，链接到所有缺陷汇总的缺陷列表
 
-  @see {comment with reference to other items } 一段包含其他部分引用的注释，中间包含对其他代码项的名称，自动产生对其的引用链接。
+@see {comment with reference to other items } 一段包含其他部分引用的注释，中间包含对其他代码项的名称，自动产生对其的引用链接。
 
-  @relates <name> 通常用做把非成员函数的注释文档包含在类的说明文档中。
+@relates <name> 通常用做把非成员函数的注释文档包含在类的说明文档中。
 
-  @since {text} 通常用来说明从什么版本、时间写此部分代码。
+@since {text} 通常用来说明从什么版本、时间写此部分代码。
 
-  @deprecated
+@deprecated
 
-  @pre { description of the precondition } 用来说明代码项的前提条件。
+@pre { description of the precondition } 用来说明代码项的前提条件。
 
-  @post { description of the postcondition } 用来说明代码项之后的使用条件。
+@post { description of the postcondition } 用来说明代码项之后的使用条件。
 
-  @code 在注释中开始说明一段代码，直到@endcode命令。
+@code 在注释中开始说明一段代码，直到@endcode命令。
 
-  @endcode 注释中代码段的结束。
+@endcode 注释中代码段的结束。
 
-  @brief 概要信息
+@brief 概要信息
 
-  @deprecated 已废弃函数
+@deprecated 已废弃函数
 
-  @details  详细描述
+@details  详细描述
 
-  @note 开始一个段落，用来描述一些注意事项
+@note 开始一个段落，用来描述一些注意事项
 
-  @par 开始一个段落，段落名称描述由你自己指定
+@par 开始一个段落，段落名称描述由你自己指定
 
-  @param 标记一个参数的意义
+@param 标记一个参数的意义
 
-  @fn 函数说明
+@fn 函数说明
 
-  @ingroup 加入到一个组
+@ingroup 加入到一个组
 
-  @return 描述返回意义
+@return 描述返回意义
 
-  @retval 描述返回值意义
+@retval 描述返回值意义
 
-  @include 包含文件
+@include 包含文件
 
-  @var、@enum、@struct、@class 对变量、美剧、结构体、类等进行标注
+@var、@enum、@struct、@class 对变量、美剧、结构体、类等进行标注
 
-- @list
+@list
 
-  ```
-    /*! 
-     *  A list of events:
-     *    - mouse events
-     *         -# mouse move event
-     *         -# mouse click event\n
-     *            More info about the click event.
-     *         -# mouse double click event
-     *    - keyboard events
-     *         1. key down event
-     *         2. key up event
-     *    - checkbox list
-     *         - [ ] unchecked
-     *         - [x] checked
-     *
-     *  More text here.
-     */
-  ```
+```
+  /*! 
+   *  A list of events:
+   *    - mouse events
+   *         -# mouse move event
+   *         -# mouse click event\n
+   *            More info about the click event.
+   *         -# mouse double click event
+   *    - keyboard events
+   *         1. key down event
+   *         2. key up event
+   *    - checkbox list
+   *         - [ ] unchecked
+   *         - [x] checked
+   *
+   *  More text here.
+   */
+```
 
-  上述demo生成的文档如下，list内的语法和markdown语法相似
+上述demo生成的文档如下，list内的语法和markdown语法相似
 
-  ，![image-20240409150219886](./assets/image-20240409150219886.png)
+，![image-20240409150219886](./assets/image-20240409150219886.png)
 
 - [Demo](./doxygenDemo)
+
+### 如何区分普通注释与Doxygen注释
+
+Doxygen通过在这里增加`*`，`/`，`!`来作为特殊标记，比如
+
+```
+/*
+ * 正常注释
+ */
+/**
+ * 要输出成文档的注释
+ */
+/*!
+ * 要输出成文档的注释
+ */
+同时，中间的*号可以省略，像这样
+/**
+   要输出成文档的注释
+ */
+/*!
+   要输出成文档的注释
+ */
+```
+
+对于`//`这种类型的注释，Doxygen在第二个`/`后，增加`!`或`/`作为区分标志，如果检测到有这些，就将接下来的注释作为导出文档来解释
+
+```
+/// 要输出成文档的注释
+或者
+//! 要输出成文档的注释
+```
+
+对于单行注释，卸载程序后边，如下(再识别标志后边加一个‘<')
+
+```
+#define DEV_ON      ((int)(1))      //!< Simple device is power on.
+#define DEV_OFF     ((int)(0))      //!< Simple device is power off.
+```
+
+
 
 ### 参考连接
 
@@ -261,3 +341,30 @@ doxygen -d prints additional usage flags for debugging purposes
 
 文件权限有读、写、执行，出现访问拒绝一般是文件没有执行权限
 
+## 文件类型(7个)
+
+- 普通文件类型
+  Linux中最多的一种文件类型, 包括 纯文本文件(ASCII)；二进制文件(binary)；数据格式的文件(data);各种压缩文件.第一个属性为 [-]
+- 目录文件
+
+​	目录， 能用 # cd 命令进入的。第一个属性为 [d]，例如 [drwxrwxrwx]
+
+- 块设备文件
+
+​	就是存储数据以供系统存取的接口设备，简单而言就是硬盘。例如一号硬盘的代码是 /dev/hda1等文件。第一个属性为 [b]
+
+- 字符设备
+
+​	串行端口的接口设备，例如键盘、鼠标等等。第一个属性为 [c]
+
+- 套接字文件
+
+​	这类文件通常用在网络数据连接。可以启动一个程序来监听客户端的要求，客户端就可以通过套接字来进行数据通信。第一个属性为 [s]，最常在 /var/run目录中看到这种文件类型
+
+- 管道文件
+
+​	FIFO也是一种特殊的文件类型，它主要的目的是，解决多个程序同时存取一个文件所造成的错误。FIFO是first-in-first-out(先进先出)的缩写。第一个属性为 [p]
+
+- 链接文件
+
+​	类似Windows下面的快捷方式。第一个属性为 [l]，例如 [lrwxrwxrwx]
