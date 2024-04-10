@@ -236,7 +236,28 @@ git clone --recursive https://github.com/example/example.git
 
 3. 提交操作
 
-   
+
+### git子模块递归更新无效
+
+#### 问题出现
+
+运行git submodule --init --recursive或 git submodule update --init --recursive后，对git status仍然有与主分支不同的地方
+
+![image-20240410205314298](./assets/image-20240410205314298.png)
+
+进入文件查看，发现文件夹内容为空，且运行git status，发现文件被删除
+
+![image-20240410205658713](./assets/image-20240410205658713.png)
+
+这种情况下载后，仍然会被删除。需要先后执行git reset与git restore，恢复数据
+
+![image-20240410205909303](./assets/image-20240410205909303.png)
+
+![image-20240410205948132](./assets/image-20240410205948132.png)
+
+**出现这种情况：下载后被删除，且进行了add，原因暂不清楚！！！！！！**
+
+[参考连接](https://developer.aliyun.com/article/1244422)
 
 # 异常处理
 
