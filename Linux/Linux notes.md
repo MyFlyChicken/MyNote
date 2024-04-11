@@ -368,3 +368,7 @@ Doxygen通过在这里增加`*`，`/`，`!`来作为特殊标记，比如
 - 链接文件
 
 ​	类似Windows下面的快捷方式。第一个属性为 [l]，例如 [lrwxrwxrwx]
+
+## Vim键盘映射图
+
+![映射图](D:\02_data\github\笔记\MyNote\Linux\assets\vi-vim-cheat-sheet-sch.gif)
