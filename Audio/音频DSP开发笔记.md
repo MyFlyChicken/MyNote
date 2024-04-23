@@ -78,9 +78,11 @@
 
 ## ![image-20240127135824445](./assets/image-20240127135824445.png)ADIDSP
 
+### 1452
 
+![image-20240423164556794](./assets/image-20240423164556794.png)
 
+Clock Generators 1/2/3 
+generate audio clocks for the serial ports, DSP, ASRCs, and other audio related functional blocks in the system
 
-
-
-
+![image-20240423164751415](./assets/image-20240423164751415.png)
