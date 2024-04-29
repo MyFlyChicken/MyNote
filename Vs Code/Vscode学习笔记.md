@@ -351,6 +351,7 @@ UseTab: Never
 ### 需要的插件
 
 ```
+#extensions.json
 {
     "recommendations": [
         "ms-vscode.cpptools",
@@ -574,6 +575,7 @@ extensions.json 是 VS Code 编辑器中的一个配置文件，用于存储您�
 ### 需要的插件
 
 ```json
+//extensions.json 
 {
     "recommendations": [
         "ms-vscode.cpptools",
@@ -667,7 +669,7 @@ extensions.json 是 VS Code 编辑器中的一个配置文件，用于存储您�
 
 ​	基本用不到，省略
 
-**注意，以上json全部来自模板修改，参考[这里](https://github.com/MyFlyChicken/stm32-cube-cmake-vscode)***
+**注意，以上json全部来自模板修改，参考[这里](https://github.com/MyFlyChicken/stm32-cube-cmake-vscode)**
 
 模板这里配置需要注意的地方
 
