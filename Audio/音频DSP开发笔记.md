@@ -78,6 +78,8 @@
 
 ## ![image-20240127135824445](./assets/image-20240127135824445.png)ADIDSP
 
+[**Sigmastudio教程**](https://wiki.analog.com/resources/tools-software/sigmastudio/usingsigmastudio)
+
 ### 1452
 
 ![image-20240423164556794](./assets/image-20240423164556794.png)
