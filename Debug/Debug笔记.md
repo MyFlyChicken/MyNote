@@ -133,3 +133,55 @@ static struct apm32_adc adc_config[] =
 ## Rt-thread 开启RT_USING_POSIX_STDIO后，shell线程一直死循环
 
 ![image-20240106184025446](C:\Users\yyf\AppData\Roaming\Typora\typora-user-images\image-20240106184025446.png)
+
+## HardFault_Handler原因分析
+
+首先记住以下几个特殊寄存器的作用
+
+| 寄存器名 | 作用                                                   |
+| -------- | ------------------------------------------------------ |
+| r0~r3    | 通用寄存器，形参或临时变量                             |
+| R12      | 用于存储中断或异常返回后的下一条指令地址               |
+| R13(SP)  | 指示当前程序运行时刻，栈的位置（栈自上而下生长的满栈） |
+| R14(LR)  | 程序跳转时，会存储函数调用返回后的地址                 |
+| R15(PC)  | 当前程序正在执行的指令                                 |
+| xPSR     | 存储处理器运行状态                                     |
+
+了解中断压栈的顺序
+
+![image-20240516202653163](./assets/image-20240516202653163.png)
+
+实例分析：
+
+![image-20240516203536945](./assets/image-20240516203536945.png)
+
+其中aaaa为被赋值为NULL的函数指针，执行前的寄存器状态如上图
+
+![image-20240516203658130](./assets/image-20240516203658130.png)
+
+执行aaaa后，进入HardFault_Handler，发现SP由0x20001220变为了0x20001200。根据自动入栈分析，此时
+
+0x20001200保存的为r0寄存器进入HardFault_Handler之前的值。此时查看0x20001200memory窗口。
+
+![image-20240516204450398](./assets/image-20240516204450398.png)
+
+r0无法对应，不知道为什么。
+
+**根据PC的值找到发生故障的位置**
+
+法1：Keil直接分析
+
+![image-20240516204726908](./assets/image-20240516204726908.png)
+
+![image-20240516204650629](./assets/image-20240516204650629.png)
+
+此时跳转到了发生HardFault_Handler的指令位置
+
+法2：addr2line.exe 分析
+
+addr2line.exe -e [可执行文件路径] -f(显示函数名) -i(显示文件及行号) -a(显示地址)
+
+![image-20240516205420813](./assets/image-20240516205420813.png)
+
+法3：[CmBacktrace](https://github.com/armink/CmBacktrace)库分析
+

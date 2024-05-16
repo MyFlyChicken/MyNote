@@ -1,0 +1,76 @@
+<mxfile host="Electron" modified="2024-05-16T12:26:26.239Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/22.1.2 Chrome/114.0.5735.289 Electron/25.9.4 Safari/537.36" etag="tqu_jTCe1jMr-a9XmYcN" version="22.1.2" type="device">
+  <diagram name="第 1 页" id="-OhvH-pfNZlgU1V_i6Ak">
+    <mxGraphModel dx="757" dy="566" grid="1" gridSize="10" guides="1" tooltips="0" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--1" value="当前栈的值SP(0x20001220)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="150" y="80" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--2" value="xPSR(0x2000121C)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="150" y="140" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--4" value="PC(0x20001218)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="150" y="170" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--5" value="LR(0x20001214)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="150" y="200" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--6" value="r12(0x20001210)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="150" y="230" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--7" value="r3(0x2000120C)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="150" y="260" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--8" value="r2(0x20001208)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="150" y="290" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--9" value="r1(0x20001204)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="150" y="320" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--10" value="r0(0x20001200)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="150" y="350" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--12" value="" style="shape=singleArrow;direction=south;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="300" y="80" width="40" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--13" value="进入中断时自动将xPSR/PC/LR/r12/r3~r0压栈，没一个值占用4字节，即SP-4，再对寄存器进行压栈" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="150" y="10" width="210" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--14" value="当前栈的值SP(0x20001220)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" vertex="1" parent="1">
+          <mxGeometry x="450" y="80" width="130" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--15" value="xPSR(0x2000121C)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="450" y="140" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--16" value="PC(0x20001218)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="450" y="170" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--17" value="LR(0x20001214)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="450" y="200" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--18" value="r12(0x20001210)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="450" y="230" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--19" value="r3(0x2000120C)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="450" y="260" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--20" value="r2(0x20001208)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="450" y="290" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--21" value="r1(0x20001204)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="450" y="320" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--22" value="r0(0x20001200)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+          <mxGeometry x="450" y="350" width="130" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--23" value="" style="shape=singleArrow;direction=south;whiteSpace=wrap;html=1;rotation=-180;" vertex="1" parent="1">
+          <mxGeometry x="600" y="80" width="40" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="5_UPU3M0KZ_QTpJcS0K--24" value="出栈时自动将xPSR/PC/LR/r12/r3~r0出栈，先将栈的值赋值给寄存器，再将SP+4，最终实现恢复现场" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" vertex="1" parent="1">
+          <mxGeometry x="440" y="10" width="210" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
