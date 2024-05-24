@@ -41,3 +41,13 @@
 ## [sublimemerge](https://www.sublimemerge.com/)
 
 免费的GIT GUI
+
+[Source Insight](./source insight/Source Insight 4.00.0126.7z)
+
+[汉化工具](https://github.com/MyFlyChicken/SourceInsight_i18n)
+
+[主题配置](./source insight/Monokai_theme.xml)
+
+![image-20240524203344101](./assets/image-20240524203344101.png)
+
+[快捷操作配置](https://www.armbbs.cn/forum.php?mod=viewthread&tid=95564&highlight=source%2Binsight)
