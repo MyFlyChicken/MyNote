@@ -104,7 +104,7 @@ sudo vim  /etc/pacman.d/mirrorlist
 
 [VS Code 的使用技巧与键位表等](https://code.visualstudio.com/docs/getstarted/tips-and-tricks)
 
-/usr/bin文件夹一般存放全家环境变量
+/usr/bin文件夹一般存放全部环境变量
 
 tree 用来显示树形文件
 
@@ -123,6 +123,35 @@ addr2line -e test1.out -a 160b  -f -p -C -i
 ```
 
 注意：map文件需要包含调试信息，在编译的时候需要设置gcc的编译标志''-g"，也需要设置map文件输出“-Wl,-Map,name.map”
+
+### 编译32位、64位程序
+
+如果linux的位数为64位，则默认编译的程序为64位程序（获取系统位数指令：**getconf LONG_BIT**）
+
+编译32位时，需要在cmake内指定编译参数
+
+![image-20240524132156833](./assets/image-20240524132156833.png)
+
+编译时，如果出现编译报错
+
+**Fatal error: gnu/stubs-32.h: No such file or directory**
+
+则需要执行以下指令，安装gcc的32位支持库
+
+```shell
+$ sudo pacman -Ss gcc|grep gcc-lib
+core/gcc-libs 12.2.0-1 [installed]
+core/lib32-gcc-libs 12.2.0-1 (multilib-devel)
+$ sudo pacman -Sy lib32-gcc-libs
+```
+
+### 查看可执行文件的位数
+
+```shell
+$ file 文件绝对位置
+```
+
+![image-20240524133225528](./assets/image-20240524133225528.png)
 
 ## Linux指令教程
 

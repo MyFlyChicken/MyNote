@@ -190,7 +190,7 @@ BraceWrapping:
   # union定义后面
   AfterUnion: true
   # extern之后
-  AfterExternBlock: true
+  AfterExternBlock: false # 如果设置为true，那么extern c后的内容会全部进行缩进。这是不需要的！！！！！！！！
   # catch之前
   BeforeCatch: true
   # else之前
