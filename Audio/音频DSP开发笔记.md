@@ -80,7 +80,9 @@
 
 [**Sigmastudio教程**](https://wiki.analog.com/resources/tools-software/sigmastudio/usingsigmastudio)
 
-### 1452
+### 1452确定采样率
+
+- 配置音频发生器时钟
 
 ![image-20240423164556794](./assets/image-20240423164556794.png)
 
@@ -88,3 +90,11 @@ Clock Generators 1/2/3
 generate audio clocks for the serial ports, DSP, ASRCs, and other audio related functional blocks in the system
 
 ![image-20240423164751415](./assets/image-20240423164751415.png)
+
+![image-20240604171512131](./assets/image-20240604171512131.png)
+
+![image-20240604171643876](./assets/image-20240604171643876.png)
+
+- 选择时钟，并设置Sample Rate，其中，Fs为Clock Generators 1/2/3 
+
+![image-20240604171800698](./assets/image-20240604171800698.png)
