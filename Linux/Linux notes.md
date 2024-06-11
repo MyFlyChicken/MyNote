@@ -401,3 +401,7 @@ Doxygen通过在这里增加`*`，`/`，`!`来作为特殊标记，比如
 ## Vim键盘映射图
 
 ![映射图](D:\02_data\github\笔记\MyNote\Linux\assets\vi-vim-cheat-sheet-sch.gif)
+
+## alias 
+
+类型别名，如**使用git log --oneline 经过配置可以使用git lg能有同样的效果**。主要用于减少shell输入字数。
