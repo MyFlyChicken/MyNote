@@ -161,11 +161,22 @@ $ file 文件绝对位置
 
 ![image-20240404092702819](./assets/image-20240404092702819.png)
 
-下载相关库
+1. 下载相关库
 
 ```
 sudo pacman -S llvm-libs
 ```
+
+2. 根据“缺失库+Linux发行版名字”规则进行搜索，可以找到库属于哪一个安装包（Packages）
+
+- 缺失libgcc_s.so.1，前往google搜索：libgcc_s.so.1 archlinux
+- 搜索结果：
+
+![image-20240609175405970](./assets/image-20240609175405970.png)
+
+![image-20240609175552931](./assets/image-20240609175552931.png)
+
+![image-20240609175733320](./assets/image-20240609175733320.png)
 
 ### 库找不到的原因
 
