@@ -213,6 +213,8 @@ sudo pacman -S llvm-libs
 
 ![映射图](D:\02_data\github\笔记\MyNote\Linux\assets\vi-vim-cheat-sheet-sch.gif)
 
+[vi—终端中的编辑器](viNOTE/vi—终端中的编辑器.md)
+
 ## alias 
 
 类型别名，如**使用git log --oneline 经过配置可以使用git lg能有同样的效果**。主要用于减少shell输入字数。
@@ -309,4 +311,8 @@ sudo pacman -S llvm-libs
 
   还有一种bz2的压缩方法，**待定！！！**
 
-- 
+- linux不同的发行版对应的包管理器是不一样的，具体的需要搜索，常用的ubuntu为apt
+
+  archlinux为pacman
+  
+- linux三种设备：字符设备（一次只能读写一个字节）、块设备（一次读写一个块）、网络接口。
