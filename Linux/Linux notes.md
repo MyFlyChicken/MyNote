@@ -327,3 +327,4 @@ sudo pacman -S llvm-libs
   archlinux为pacman
   
 - linux三种设备：字符设备（一次只能读写一个字节）、块设备（一次读写一个块）、网络接口。
+
