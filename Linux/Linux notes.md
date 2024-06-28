@@ -328,3 +328,13 @@ sudo pacman -S llvm-libs
   
 - linux三种设备：字符设备（一次只能读写一个字节）、块设备（一次读写一个块）、网络接口。
 
+- 环境变量的查询
+
+  ```shell
+  printenv
+  env
+  printenv $PATH
+  env $PATH
+  ```
+
+- history 显示最近的命令，history n 显示最近n条命令
