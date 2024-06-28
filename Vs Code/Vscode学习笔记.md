@@ -739,3 +739,36 @@ extensions.json 是 VS Code 编辑器中的一个配置文件，用于存储您�
    前缀不一样，执行的程序也不一样
 
 5. 编译32位程序
+
+## Vscode工作区
+
+[Visual Studio Code 用户和工作区设置](https://vscode.github.net.cn/docs/getstarted/settings)
+
+![image-20240628103312216](./assets/image-20240628103312216.png)
+
+优先级：工作区配置>默认配置
+
+[多项目工作区](https://em-ide.com/zh-cn/docs/advance/multi_prj_workspace)
+
+可以通过工作区配置实现[多项目工作区](https://em-ide.com/zh-cn/docs/advance/multi_prj_workspace)，demo如下。新建一个`.code-workspace` 文件
+
+```
+{
+	"folders": [
+		{
+			"name": "code_one",
+			"path": "code_one"
+		},
+		{
+			"name": "code_two",
+			"path": "code_two"
+		}		
+	],
+	"settings": {
+		...
+	}	
+}
+```
+
+[多项目工作区](https://em-ide.com/zh-cn/docs/advance/multi_prj_workspace)
+
