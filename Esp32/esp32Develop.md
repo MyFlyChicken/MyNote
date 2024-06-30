@@ -72,3 +72,27 @@ D:\InstallSoft\Espressif\python_env\idf5.0_py3.11_env\Scripts\python.exe ..\..\.
 2. 打开esp-idf CMD或esp-idf PowerShell，将运行目录切换至btstack内的port\esp32
 3. 参考btstack内的port\esp32内的README.md文件进行移植
 
+## Linux开发esp32记录
+
+本地的子模块与当前分支或tag一定要与esp32git发布的一致，否则会出现奇怪的错误。
+
+错误：**子模块与tag不匹配**
+
+![image-20240630135913146](./assets/image-20240630135913146.png)
+
+出现这个现象时，可以使用git命令，将子模块切换到与tag匹配的HEAD
+
+```shell
+git submodule update --init --recursive
+```
+
+正确：没有出现不匹配的子模块
+
+![image-20240630135736882](./assets/image-20240630135736882.png)
+
+一定要注意编译警告！！！
+
+
+
+
+
