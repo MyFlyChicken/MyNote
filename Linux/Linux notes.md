@@ -46,22 +46,20 @@ sudo pacman -S hwdata
 WSL --shutdown
 ```
 
-- 查看windows USB设备
-- 共享windows USB设备
-- 附加USB设备
-- 打开linux命令行，查看新增的USB设备
+- 具体步骤如下
 
 ```
-#PowerShell
-usbipd list
-#假设需要访问的USB设备busid为4-4
+#查看windows USB设备 PowerShell 
+usbipd list 
+#共享windows USB设备 假设需要访问的USB设备busid为4-4 
 usbipd bind --busid 4-4
+#附加USB设备
 usbipd attach --wsl --busid <busid>
 #Linux bash
-#lsusb需要先安装usbutils
+#查看新增的USB设备 lsusb需要先安装usbutils
 lsusb
 #PowerShell
-#断开linux对usb的访问
+#断开USB设备 物理断开或命令断开
 usbipd detach --busid <busid>
 ```
 
@@ -229,6 +227,33 @@ sudo pacman -S llvm-libs
 ## alias 
 
 类型别名，如**使用git log --oneline 经过配置可以使用git lg能有同样的效果**。主要用于减少shell输入字数。
+
+可以将alias的设置放置在脚本内，这样方便移植到其他设备内
+
+### fish加入alias
+
+```
+#打开配置文件
+vim ~/.config/fish/config.fish
+#加入alias
+abbr -a <新命令> <原始命令>
+# 例如用l来代替ls -al这一命令
+abbr -a l ls -al
+abbr -a get-idf '. $HOME/esp/esp-idf/export.fish'
+#重启fish
+```
+
+### bash加入alias
+
+```
+#打开配置文件
+vim ~/.bashrc
+#加入配置
+alias get-idf='. $HOME/esp/esp-idf/export.sh'
+#重启bash
+```
+
+
 
 ## 终端
 
