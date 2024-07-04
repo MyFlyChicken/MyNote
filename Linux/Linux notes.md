@@ -323,7 +323,9 @@ alias get-idf='. $HOME/esp/esp-idf/export.sh'
 
 - chmod 改变用户权限
 
-- groupadd groupdel 都需要root权限，组信息保存在/etc/group内。chgrp修改文件所属组
+- groupadd groupdel 都需要root权限，组信息保存在/etc/group内。chgrp修改文件所属组（linux其实有很多组）
+
+  ![image-20240702203215589](./assets/image-20240702203215589.png)
 
 - useradd -m(自动创建用户家目录) -g(所属组) yyf(组)  bbq(用户)
 
@@ -350,7 +352,7 @@ alias get-idf='. $HOME/esp/esp-idf/export.sh'
 - linux不同的发行版对应的包管理器是不一样的，具体的需要搜索，常用的ubuntu为apt
 
   archlinux为pacman
-  
+
 - linux三种设备：字符设备（一次只能读写一个字节）、块设备（一次读写一个块）、网络接口。
 
 - 环境变量的查询
