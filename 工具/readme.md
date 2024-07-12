@@ -89,3 +89,25 @@
 makefile 语法
 
 cmake 语法
+
+
+
+## [bittly](git@github.com:sige5193/bittly.git)
+
+一个支持多种通讯方式和协议的测试工具，支持串口，网络，蓝牙，HTTP，Websocket ...
+
+## python
+
+arch linux 加入python 虚拟环境并激活
+
+```shell
+#在当前路径下创建一个名为python-venv的python虚拟环境
+python -m venv ./python-venv
+#激活虚拟环境，根据不同的shell，需要选择不同的激活脚本
+source python-venv/bin/activate.fish
+#直接输入
+deactivate
+```
+
+
+
