@@ -86,11 +86,31 @@
 -m32 #指定编译的程序为32位
 ```
 
-makefile 语法
+## cmake
 
-cmake 语法
+### cmake 语法
 
+```cmake
+#command(args ...) 其中command为命令的名字，args为命令参数，多个参数使用空格隔开
+cmake_minimum_required(VERSION 2.8.5)
+#set(<variable> <value>... [PARENT_SCOPE]) {}为引用变量的作用，$的作用是取出变量的值吗，${}一般配合使用,用于引出变量的值
+set(COCOS2D_ROOT ${CMAKE_SOURCE_DIR}/cocos2d)
+#if语句
+#当 constant 为 1/ON/YES/TRUE/Y/Non-zero 时判别为真
+#当 constant 为 0/OFF/NO/FALSE/N/IGNORE/NOTFOUND 或者为空字符串或后缀为 -NOTFOUND 时判断为假。
+#字符串的比较可以使用 STREQUAL 来进行
+if(${CMAKE_BUILD_TYPE} STREQUAL "Release")
+　　...
+elseif(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+　　...
+endif()
+```
 
+[参考资料1](https://www.cnblogs.com/phillee/p/12831765.html)
+
+## makefile
+
+### [makefile语法](https://dlonng.com/posts/makefile)
 
 ## [bittly](git@github.com:sige5193/bittly.git)
 
@@ -98,7 +118,7 @@ cmake 语法
 
 ## python
 
-arch linux 加入python 虚拟环境并激活
+linux 加入python 虚拟环境并激活
 
 ```shell
 #在当前路径下创建一个名为python-venv的python虚拟环境
