@@ -129,5 +129,10 @@ source python-venv/bin/activate.fish
 deactivate
 ```
 
+## [excalidraw](https://excalidraw.com/)
 
+在线绘图软件
 
+## [VsCode](../Vs Code/Vscode学习笔记.md)
+
+代码编辑器
