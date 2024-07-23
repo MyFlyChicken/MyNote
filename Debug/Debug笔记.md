@@ -324,3 +324,50 @@ void qbt_jump_to_app(void)
 [arm论坛](https://community.arm.com/support-forums/f/keil-forum/54781/freertos-error-with-portmacro-h---__forceinline)
 
 ![image-20240713190647057](./assets/image-20240713190647057.png)
+
+## pyocd-gdbserver.exe 无法仿真
+
+###  错误例子
+
+![image-20240723105020791](./assets/image-20240723105020791.png)
+
+![0d30c96a70029d44c48a84b2a07776c5](./assets/0d30c96a70029d44c48a84b2a07776c5.png)
+
+### 解决错误
+
+- 查看端口是否被其他线程占用
+
+  ```shell
+  netstat -nao|findstr 3333
+  ```
+
+  如果被占用，则结束占用的线程。如果没被占用，则进行下一步排查
+
+- 查看端口是否被排除
+
+  ```shell
+  netsh interface ipv4 show excludedportrange protocol=tcp
+  ```
+
+  ![image-20240723105334830](./assets/image-20240723105334830.png)
+
+  发现3333端口被排除
+
+- 解决办法
+
+  - 使用没有被排除的端口，如使用指令 netstat -nao|findstr 4444
+
+  - 关闭对3333端口的排除，实际是关闭NAT服务再开启
+
+    ```shell
+    net stop winnat
+    net start winnat
+    ```
+    
+  - [参考连接](https://gsw945.com/index.php/archives/33/)
+  
+
+
+
+  
+
