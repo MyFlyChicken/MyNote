@@ -355,16 +355,31 @@ void qbt_jump_to_app(void)
 
 - 解决办法
 
-  - 使用没有被排除的端口，如使用指令 netstat -nao|findstr 4444
+  - 法1：使用没有被排除的端口，如使用指令 netstat -nao|findstr 4444
 
-  - 关闭对3333端口的排除，实际是关闭NAT服务再开启
+  - 法2：关闭对3333端口的排除，实际是关闭NAT服务再开启
 
     ```shell
     net stop winnat
     net start winnat
     ```
     
-  - [参考连接](https://gsw945.com/index.php/archives/33/)
+    缺陷：可能导致重启nat后，虚拟机无法上网
+    
+    [参考连接](https://gsw945.com/index.php/archives/33/)
+    
+  - 法3：重新设置一下「TCP 动态端口范围」
+  
+    ```shell
+    net stop winnat
+    net start winnat
+    netsh int ipv4 set dynamic tcp start=49152 num=16384
+    netsh int ipv6 set dynamic tcp start=49152 num=16384
+    ```
+  
+    设置后需要重启电脑。
+  
+    [参考连接](https://zhuanlan.zhihu.com/p/474392069)
   
 
 
