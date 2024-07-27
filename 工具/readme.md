@@ -58,6 +58,13 @@
 
 - Windows
 
+  [Windows命令](https://learn.microsoft.com/zh-cn/windows-server/administration/windows-commands/windows-commands)
+
+  ```shell
+  #windows设置环境变量
+  set inc_dir=c:\directory
+  ```
+
   [Arm GNU Toolchain Downloads](https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads)
 
   [Downloads - MinGW-w64](https://www.mingw-w64.org/downloads/)
