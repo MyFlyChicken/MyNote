@@ -15,6 +15,31 @@
 ```
 
 3. 编写Kconfig
+
+   - 注意事项
+
+     ```shell
+     #配置 PKGS_DIR 的值，类型为字符串。option env 表示如果环境变量 PKGS_ROOT 存在且有值，那么 PKGS_DIR 的值即为环境变量的值，否则为 packages
+     config PKGS_DIR 
+         string
+         option env="PKGS_ROOT" #环境变量PKGS_ROOT
+         default "packages" #默认字符串
+     
+     #直接对配置项进行赋值，如下
+     BSP_DIR := .
+     RTT_DIR := rt-thread
+     PKGS_DIR := packages
+     
+     #source 包含目录下级的Kconfig文件
+     source "$(RTT_DIR)/Kconfig" 
+     #osource等于optional source，表示可选的，如果osource指定的kconfig文件不存在，也不报错。
+     osource "$PKGS_DIR/Kconfig"
+     #rsource等于 relative source，后面引用的kconfig文件支持相对路径。路径相对于包含rsource语句的kconfig而言。
+     rsource "drivers/Kconfig"
+     ```
+
+     [鸿蒙内核Kconfig](https://developer.huawei.com/consumer/cn/forum/topic/0202760853720230022)
+
 4. 编写C语言头文件生成脚本kconfig.py
 
 ```
