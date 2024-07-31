@@ -7,7 +7,7 @@
 ### 环境搭建
 
 1. 安装python
-2. 安装Kconfiglib
+2. 安装([kconfiglib · PyPI](https://pypi.org/project/kconfiglib/))
 
 ```
  pip install windows-curses
@@ -19,26 +19,39 @@
    - 注意事项
 
      ```shell
+     #旧的Kconfig(14.1以前)
      #配置 PKGS_DIR 的值，类型为字符串。option env 表示如果环境变量 PKGS_ROOT 存在且有值，那么 PKGS_DIR 的值即为环境变量的值，否则为 packages
      config PKGS_DIR 
          string
          option env="PKGS_ROOT" #环境变量PKGS_ROOT
          default "packages" #默认字符串
      
+     #新的Kconfiglib(14.1及以后)
+     mainmenu "RT-Thread Configuration"
      #直接对配置项进行赋值，如下
-     BSP_DIR := .
-     RTT_DIR := rt-thread
-     PKGS_DIR := packages
+     RTT_DIR := rt-Thread
+     #win 环境变量用%(foo)%取出 linux $foo取出
+     PKGS_DIR := %PKGS_ROOT%
      
      #source 包含目录下级的Kconfig文件
-     source "$(RTT_DIR)/Kconfig" 
+     source "$(RTT_DIR)/Kconfig"
      #osource等于optional source，表示可选的，如果osource指定的kconfig文件不存在，也不报错。
-     osource "$PKGS_DIR/Kconfig"
+     osource "$(PKGS_DIR)/Kconfig"
      #rsource等于 relative source，后面引用的kconfig文件支持相对路径。路径相对于包含rsource语句的kconfig而言。
      rsource "drivers/Kconfig"
+     
+     config RT_STUDIO_BUILT_IN
+         bool
+     	select ARCH_ARM_CORTEX_M3
+         select RT_USING_COMPONENTS_INIT
+         select RT_USING_USER_MAIN
+         default y
+     #实测，RT-thread的env工具，在window下，Kconfig环境变量$(FOO)（新语法）引用，与旧的 $FOO（旧语法）引用不兼容，推荐使用$(FOO)
      ```
-
+     
      [鸿蒙内核Kconfig](https://developer.huawei.com/consumer/cn/forum/topic/0202760853720230022)
+     
+     [kconfiglib · PyPI](https://pypi.org/project/kconfiglib/)
 
 4. 编写C语言头文件生成脚本kconfig.py
 
