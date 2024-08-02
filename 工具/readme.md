@@ -136,10 +136,43 @@ source python-venv/bin/activate.fish
 deactivate
 ```
 
+### [pyenv](git@github.com:pyenv/pyenv.git)
+
+pyenv支持管理多个python包，操作步骤如下(基于Arch Linux)
+
+```shell
+#安装pyenv
+sudo pacman -S pyenv
+#初始化pyenv环境
+pyenv init
+#每次启动shell后不需要重新初始化pyenv环境(pyenv init - | source 这个会在执行pyenv init进行提示)
+echo pyenv init - | source >> ~/.config/fish/config.fish
+#查看能够安装的版本
+pyenv install --list
+#安装python2.7.18版本
+pyenv install 2.7.18
+#设置当前shell的python版本
+pyenv shell 2.7.18
+#设置当前目录的python版本
+pyenv local 2.7.18
+#设置全局python版本
+pyenv global 2.7.18
+```
+
+[在 linux 发行版中，python 多版本共存并自由切换](https://www.fkxxyz.com/c/python-env/)
+
+在设置好python版本后，可以在shell内调用其它的shell执行文件，python的环境变量会传递到被调用的shell执行文件
+
+```shell
+#在fish内调用bash，执行./make.sh，此时python的版本为2.7.18
+pyenv shell 2.7.18
+bash ./make.sh
+```
+
 ## [excalidraw](https://excalidraw.com/)
 
 在线绘图软件
 
 ## [VsCode](../Vs Code/Vscode学习笔记.md)
 
-代码编辑器
+[详情](../Vs Code/Vscode学习笔记.md)
