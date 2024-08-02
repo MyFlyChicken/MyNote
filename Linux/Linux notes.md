@@ -65,6 +65,29 @@ usbipd detach --busid <busid>
 
 - [参考网址](https://learn.microsoft.com/zh-cn/windows/wsl/connect-usb#attach-a-usb-device)
 
+### WSL迁出C盘
+
+在cmd或powershell内执行以下命令
+
+```shell
+#关闭WSL
+wsl --shutdown
+#查看WSL版本，确认已经关闭
+wsl -l -v
+#导出虚拟机(导出命令 导出系统 导出压缩包)
+wsl --export Arch D:\ArchBackup\Arch.tar
+#注销虚拟机(命令 系统)
+wsl --unregister Arch
+#导出虚拟机(导出命令 导出系统 导出压缩包)
+wsl --export Arch D:\ArchBackup\Arch.tar
+#导入压缩的虚拟机到指定的文件夹(命令 系统 导入路径 导入压缩包)
+wsl --import Arch D:\Arch D:\ArchBackup\Arch.tar
+#设置默认登录用户名 
+arch config --default-user  yyf
+```
+
+[参考链接-wsl迁移到d盘](https://blog.csdn.net/weixin_42705114/article/details/131106845)
+
 ## 初装Linux需要进行的操作
 
 1. 镜像源改为国内地址，也可以不更换
