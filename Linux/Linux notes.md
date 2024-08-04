@@ -78,8 +78,6 @@ wsl -l -v
 wsl --export Arch D:\ArchBackup\Arch.tar
 #注销虚拟机(命令 系统)
 wsl --unregister Arch
-#导出虚拟机(导出命令 导出系统 导出压缩包)
-wsl --export Arch D:\ArchBackup\Arch.tar
 #导入压缩的虚拟机到指定的文件夹(命令 系统 导入路径 导入压缩包)
 wsl --import Arch D:\Arch D:\ArchBackup\Arch.tar
 #设置默认登录用户名 
@@ -369,6 +367,8 @@ alias get-idf='. $HOME/esp/esp-idf/export.sh'
   tar -xvf 解包文件.tar
 
   需要压缩的话，就是tar -czvf 和tar -xzvf
+
+  解压指定路径时，使用 -C 选项，后边跟随解压到的目录（tar zxvf test.tgz -C 指定目录 ）
 
   还有一种bz2的压缩方法，**待定！！！**
 
