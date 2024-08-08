@@ -199,3 +199,45 @@ extern "C" {
 [Kconfig语法](https://www.rt-thread.org/document/site/#/development-tools/build-config-system/Kconfig)
 
 [Kconfig语法](https://www.kernel.org/doc/html/latest/kbuild/kconfig-language.html)
+
+### Linux(Ubuntu)使用menuconfig，且使用scons编译
+
+具体步骤如下
+
+```shell
+#安装python
+sudo apt-get install python3
+#安装编译器
+sudo apt-get install gcc-arm-none-eabi
+#安装kconfiglib
+sudo apt-get install python3-kconfiglib
+#安装scons
+sudo apt-get install scons
+#进入项目根目录
+cd demo_project
+#编译工程
+scons
+#配置工程
+python  config.py
+```
+
+可以使用同文件夹[demo_project](https://gitee.com/wanlichangjiang/my-scons-template/tree/main/demo_project)进行验证。需要将build.json内的biuld_flags修改为以下内容
+
+```json
+"biuld_flags":{
+        "exec_path" : "/usr/bin/",
+        "target"    : "hello.elf",
+        "biuld_dir" : "build"
+    },
+
+"LINKFLAGS" : [
+            "-mcpu=cortex-m3",
+            "-mthumb",
+            "-ffunction-sections",
+            "-fdata-sections",
+            "-Wl,--gc-sections,-Map=hello.map,-cref,-u,Reset_Handler",
+            "-T",
+            "link_script/link.lds"
+        ],
+```
+
