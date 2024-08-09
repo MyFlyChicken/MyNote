@@ -313,7 +313,7 @@ void qbt_jump_to_app(void)
 
 ![image-20240709085602543](./assets/image-20240709085602543.png)
 
-
+**注：编写跳转函数时，函数不能有形参，可能会进行入栈，出栈的操作。这样就会导致设置MSP时出现意想不到的错误，[详见](https://cloud.tencent.com/developer/article/2367283)**。
 
 ## MDK-ARM V6编译freertos port.c文件报错
 
