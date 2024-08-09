@@ -1,3 +1,7 @@
+## Debug仿真时，不进行复位调试
+
+### [Keil不复位调试](https://www.stmcu.com.cn/Designresource/detail/document/712028)
+
 ## CherryUSB+SFUD+W25Q64模拟U盘无法格式化
 
 在usbd_msc_sector_write接口函数内，写数据不对。W25Q64需要先擦除，再写入数据
