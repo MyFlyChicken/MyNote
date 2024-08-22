@@ -28,6 +28,12 @@
 
 [视频参考连接](https://www.bilibili.com/video/BV1sW411v7VZ?p=1&vd_source=2e33a3cba9dea05126d330dcf100be27)
 
+### WSL配置Linux子系统资源
+
+![image-20240822105637474](./assets/image-20240822105637474.png)
+
+[WSL 中的高级设置配置 | Microsoft Learn](https://learn.microsoft.com/zh-cn/windows/wsl/wsl-config#wslconf)
+
 ### WSL访问PC的USB设备
 
 - [下载usbipd-win](https://github.com/dorssel/usbipd-win/actions/runs/7813976713)
@@ -81,7 +87,14 @@ wsl --unregister Arch
 #导入压缩的虚拟机到指定的文件夹(命令 系统 导入路径 导入压缩包)
 wsl --import Arch D:\Arch D:\ArchBackup\Arch.tar
 #设置默认登录用户名 
+#win下设置
 arch config --default-user  yyf
+#linux下设置
+vim /etc/wsl.conf
+#添加以下内容
+# Set the user when launching a distribution with WSL.
+[user]
+default = yf
 ```
 
 [参考链接-wsl迁移到d盘](https://blog.csdn.net/weixin_42705114/article/details/131106845)
