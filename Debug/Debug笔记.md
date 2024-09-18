@@ -389,3 +389,179 @@ void qbt_jump_to_app(void)
 ## RT-Thread Studio 报错-----uses VFP register arguments
 
 ![image-20240726215331742](./assets/image-20240726215331742.png)
+
+## 一个定时器输出四路频率不一致且占空比可调的PWM
+
+### 操作步骤（APM32F003F6P6）
+
+1. 找到一个高级定时器，支持输出比较，且支持TOGGLE翻转输出
+
+   ![image-20240918093313431](./assets/image-20240918093313431.png)
+
+2. 配置输出比较使能
+
+```c
+void bsp_tmrpwm1_init(void)
+{
+    TMR1_TimeBaseConfig_T timeBaseConfig;
+
+    _bsp_tmrpwm1_gpio_init();
+    /* Up-counter */
+    timeBaseConfig.cntMode = TMR1_CNT_MODE_UP;
+    /* Set counter = 500 */
+    timeBaseConfig.count = 65535; //TIM1_ARR;
+    /* Set divider = 1 - 1.So TMR1 clock freq ~= 24/(0 + 1) = 24MHZ */
+    timeBaseConfig.divider = 1 - 1;
+    /* Repetition counter = 0x0 */
+    timeBaseConfig.repetitionCount = 0;
+
+    TMR1_ConfigTimerBase(TMR1, &timeBaseConfig);
+
+    /* Clear Status Flag */
+    TMR1_ClearStatusFlag(TMR1, TMR1_FLAG_UPDATE | TIM1_CH1_CCR_INC| TIM1_CH2_CCR_INC | TIM1_CH3_CCR_INC| TIM1_CH4_CCR_INC);
+
+    _target_scan_cnt = 0;
+    _scan_inc_id     = 0;
+    bsp_tmrpwm1_oc_init(TMR1_CHANNEL_1, _target_ccr_inc_scan[0]);
+    bsp_tmrpwm1_oc_init(TMR1_CHANNEL_2, _target_ccr_inc_scan[0]);
+    bsp_tmrpwm1_oc_init(TMR1_CHANNEL_3, _target_ccr_inc_scan[0]);
+    bsp_tmrpwm1_oc_init(TMR1_CHANNEL_4, _target_ccr_inc_scan[0]);
+    
+    TMR1_EnableInterrupt(TMR1,
+                         TMR1_INT_CH1CC | TMR1_INT_CH2CC | TMR1_INT_CH3CC
+                             | TMR1_INT_CH4CC);
+
+    /* Enable TMR1  */
+    TMR1_EnableAutoReloadBuffer(TMR1);
+    TMR1_Enable(TMR1);
+
+    NVIC_EnableIRQRequest(TMR1_UT_IRQn, 0x00);
+    NVIC_EnableIRQRequest(TMR1_CC_IRQn, 1);
+}
+
+void bsp_tmrpwm1_oc_init(uint8_t channel, uint16_t count)
+{
+    TMR1_OCConfig_T ocConfigStruct;
+
+    /* Select channen1  */
+    ocConfigStruct.channel = channel;
+    /* Set compare value = count，比较值用来实现PWM波形输出 */
+    ocConfigStruct.count = count;
+    /* PWM1 mode */
+    ocConfigStruct.mode =
+        TMR1_OC_MODE_TOGGLE; //TMR1_OC_MODE_TOGGLE; TMR1_OC_MODE_ACTIVE TMR1_OC_MODE_PWM
+    /* Idle State is reset */
+    ocConfigStruct.OCxIdleState = TMR1_OC_IDLE_RESET;
+    /* Idle State is reset */
+    ocConfigStruct.OCxNIdleState = TMR1_OC_IDLE_RESET;
+    /* Disable CH1N ouput */
+    ocConfigStruct.OCxNOutputState = TMR1_OC_OUTPUT_DISABLE;
+    /* Enable CH1 ouput */
+    ocConfigStruct.OCxOutputState = TMR1_OC_OUTPUT_ENABLE;
+    /* CH1N polarity is high */
+    ocConfigStruct.OCxNPolarity = TMR1_OC_POLARITY_HIGH;
+    /* CH1 polarity is high */
+    ocConfigStruct.OCxPolarity = TMR1_OC_POLARITY_HIGH;
+    TMR1_ConfigOutputCompare(TMR1, &ocConfigStruct);
+
+    TMR1_EnableOutputCompareFastMode(TMR1, channel);
+    TMR1_DisableOutputCompareBuffer(TMR1, channel);
+
+    TMR1_EnableOutputPWM(TMR1);
+}
+
+void TMR1_UT_IRQHandler(void)
+{
+    if (TMR1_ReadStatusFlag(TMR1, TMR1_FLAG_UPDATE) == SET) {
+        TMR1_ClearStatusFlag(TMR1, TMR1_FLAG_UPDATE);
+        utflag++;
+    }
+}
+
+void TMR1_CC_IRQHandler(void)
+{
+ if (TMR1->STS1 & TMR1_FLAG_CH1CC) {
+        _irq_flag  |= 0x01;
+        TMR1->STS1 &= (uint32_t)~TMR1_FLAG_CH1CC;
+
+        _read_compare[0]   = (uint16_t)TMR1->CH1CC1;
+        _read_compare[0] <<= 8;
+        _read_compare[0]  |= TMR1->CH1CC0;
+
+        _target_compare[0] = _read_compare[0] + TIM1_CH1_CCR_INC;
+        _target_compare[0] =
+             _target_compare[0] <= TIM1_ARR ? _target_compare[0] : _target_compare[0] - TIM1_ARR;
+        TMR1->CH1CC1 = (uint32_t)((_target_compare[0] >> 8) & 0xff);
+        TMR1->CH1CC0 = (uint32_t)(_target_compare[0] & 0xff);
+    }
+    if (TMR1->STS1 & TMR1_FLAG_CH2CC) {
+        _irq_flag  |= 0x02;
+        TMR1->STS1 &= (uint32_t)~TMR1_FLAG_CH2CC;
+
+        _read_compare[1]   = (uint16_t)TMR1->CH2CC1;
+        _read_compare[1] <<= 8;
+        _read_compare[1]  |= TMR1->CH2CC0;
+
+        _target_compare[1] = _read_compare[1] + TIM1_CH2_CCR_INC;
+        _target_compare[1] =
+            _target_compare[1] <= TIM1_ARR ? _target_compare[1] : _target_compare[1] - TIM1_ARR;
+        TMR1->CH2CC1 = (uint32_t)((_target_compare[1] >> 8) & 0xff);
+        TMR1->CH2CC0 = (uint32_t)(_target_compare[1] & 0xff);
+    }
+    if (TMR1->STS1 & TMR1_FLAG_CH3CC) {
+        _irq_flag  |= 0x04;
+        TMR1->STS1 &= (uint32_t)~TMR1_FLAG_CH3CC;
+
+        _read_compare[2]   = (uint16_t)TMR1->CH3CC1;
+        _read_compare[2] <<= 8;
+        _read_compare[2]  |= TMR1->CH3CC0;
+
+        _target_compare[2] = _read_compare[2] + TIM1_CH3_CCR_INC;
+        _target_compare[2] =
+            _target_compare[2] <= TIM1_ARR ? _target_compare[2] : _target_compare[2] - TIM1_ARR;
+        TMR1->CH3CC1 = (uint32_t)((_target_compare[2] >> 8) & 0xff);
+        TMR1->CH3CC0 = (uint32_t)(_target_compare[2] & 0xff);
+    }
+    if (TMR1->STS1 & TMR1_FLAG_CH4CC) {
+        _irq_flag  |= 0x08;
+        TMR1->STS1 &= (uint32_t)~TMR1_FLAG_CH4CC;
+
+        _read_compare[3]   = (uint16_t)TMR1->CH4CC1;
+        _read_compare[3] <<= 8;
+        _read_compare[3]  |= TMR1->CH4CC0;
+        
+        _target_compare[3] = _read_compare[3] + TIM1_CH4_CCR_INC;
+        _target_compare[3] =
+            _target_compare[3] <= TIM1_ARR ? _target_compare[3] : _target_compare[3] - TIM1_ARR;
+        TMR1->CH4CC1 = (uint32_t)((_target_compare[3] >> 8) & 0xff);
+        TMR1->CH4CC0 = (uint32_t)(_target_compare[3] & 0xff);
+    }
+}
+```
+
+3. 原理讲解
+
+   定时器配置为输出比较模式，失能预装载比较值（这样更新比较值时会立即更新），开启输出比较中断。当定时器计数值与比较值相等时，进入中断，硬件会对IO口进行电平翻转。接着在中断内更新比较值，控制下一个翻转的时间，实现PWM多个频率输出。
+
+   eg:假如设置定时器输出比较模式，定时器计数值为65535，周期为24Mhz。需要设置的PWM频率分别为22k/26k，占空比均为50%
+
+   首先需要计算输出比较值
+   22k比较值为 24000000/22000/2=545
+
+   26k比较值为 24000000/26000/2=462
+
+   得到比较值后，每次进入中断后，都需要对对应的输出比较通道的比较值进行更新，这样每次翻转的周期都一样，即可实现占空比为50%的26/24kPWM波形。
+
+   如果需要修改占空比，那么就算先计算更改PWM周期所对应的比较值，再根据占空比的不同，计算每次更新输出比较通道的比较值
+
+   22k比较值为 24000000/22000=1090
+
+   26k比较值为 24000000/26000=924
+
+   如果占空比为22k的占空比为30%，那么输出比较通道的比较值依次更新为1090x30%，1090x70%
+
+   如果占空比为26k的占空比为70%，那么输出比较通道的比较值依次更新为924x70%，924x30%。
+
+   **注，这种方式会频繁的进入中断，需要优化**
+
+   
