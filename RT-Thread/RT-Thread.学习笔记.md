@@ -19,17 +19,23 @@
 
 3. ENV 生成eclipse工程
 
-   打开env，进入需要生成工程的bsp文件夹
+打开env，进入需要生成工程的bsp文件夹
 
-   执行以下指令
+执行以下指令
 
-   ```shell
-   scons --dist --target=eclipse --project-name=stm32h743-atk-apollo --project-path=D:\01_project\19_201\BB
-   ```
+```shell
+scons --dist --target=eclipse --project-name=stm32h743-atk-apollo --project-path=D:\01_project\19_201\BB
+```
 
-   ![image-20240802161041015](./assets/image-20240802161041015.png)
+![image-20240802161041015](./assets/image-20240802161041015.png)
 
 **如果路径不对，可以将RT-ThreadStudio 文件夹内的platform\env_released\env\packages\packages内对应的package.json内容修改为正确的git路径**
+
+4. menuconfig配置后无法更新rtconfig.h
+
+   ```shell
+   scons --useconfig=.config
+   ```
 
 ## 软件架构
 
