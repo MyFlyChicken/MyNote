@@ -76,6 +76,25 @@ menu "System configure"
             help
                 "Use this option allows for the use of the printf device non-blocking."
     endmenu
+
+    #test cmake+Kconfig
+    menu "cmake depend Kconfig config"
+        config TEST1
+            bool "Use test1.c"
+            default n
+            help
+                "Use this TEST1, will add test1.c"
+        config TEST2
+            bool "Use test2.c"
+            default n
+            help
+                "Use this TEST1, will add test2.c"
+        config TEST3
+            bool "Use test3.c"
+            default n
+            help
+                "Use this TEST3, will add test3.c"
+    endmenu
 endmenu
 
 

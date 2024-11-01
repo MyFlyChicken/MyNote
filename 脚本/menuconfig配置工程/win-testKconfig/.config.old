@@ -27,8 +27,8 @@ CONFIG_MR_USING_PRINTF_NONBLOCKING=y
 #
 # cmake depend Kconfig config
 #
-CONFIG_TEST1=y
-CONFIG_TEST2=y
-CONFIG_TEST3=y
+# CONFIG_TEST1 is not set
+# CONFIG_TEST2 is not set
+# CONFIG_TEST3 is not set
 # end of cmake depend Kconfig config
 # end of System configure
