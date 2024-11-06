@@ -99,6 +99,37 @@ default = yf
 
 [参考链接-wsl迁移到d盘](https://blog.csdn.net/weixin_42705114/article/details/131106845)
 
+### WSL配置Clash（适用于Nat模式。W11后可以直接使用镜像）
+
+1. 允许局域网接入Clash
+
+   ![image-20241106095223059](./assets/image-20241106095223059.png)
+
+2. 配置防火墙
+
+   打开**控制面板**，找到**系统和安全** > **Windows Defender 防火墙** > **允许应用通过 Windows 防火墙**，勾选上所有Clash相关的应用，包括但不限于Clash for Windows、clash-win64等。
+
+3. 配置WSL2的虚拟机
+
+   此处以Ubuntu为例
+
+   ```
+   # 创建.proxy
+   touch ~/.proxy
+   # 添加以下内容，其中${hostip}为WSL分配给子系统Linux的的IP地址（windows shell 用ipconfig查看）
+   #!/bin/bash
+   hostip=$(cat /etc/resolv.conf |grep -oP '(?<=nameserver\ ).*')
+   export https_proxy="http://${hostip}:7890"
+   export http_proxy="http://${hostip}:7890"
+   export all_proxy="socks5://${hostip}:7890"
+   # 执行.proxy(source 是一个 shell 内置命令，用于在当前 shell 环境中执行指定的文件)
+   source ~/.proxy
+   # 校验 curl为请求url，请求www.google.com
+   curl www.google.com
+   ```
+
+   ![image-20241106100905997](./assets/image-20241106100905997.png)
+
 ## 初装Linux需要进行的操作
 
 1. 镜像源改为国内地址，也可以不更换
