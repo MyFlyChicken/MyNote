@@ -183,34 +183,14 @@ $ git clone --recursive <project url>
 
 **删除子模块比较麻烦，需要手动删除相关的文件，否则在添加子模块时有可能出现错误** 同样以删除 `GWToolkit` 子模块仓库文件夹为例：
 
-1. 删除子模块文件夹
-
-   ```bash
-   $ git rm --cached GWToolkit
-   $ rm -rf GWToolkit
-   ```
-
-2. 删除 `.gitmodules` 文件中相关子模块的信息，类似于：
-
-   ```v
-   [submodule "GWToolkit"]
-           path = GWToolkit
-           url = https://github.com/iphysresearch/GWToolkit.git
-   ```
-
-3. 删除 `.git/config` 中相关子模块信息，类似于：
-
-   ```v
-   [submodule "GWToolkit"]
-           url = https://github.com/iphysresearch/GWToolkit.git
-           active = true
-   ```
-
-4. 删除 `.git` 文件夹中的相关子模块文件
-
-   ```bash
-   $ rm -rf .git/modules/GWToolki
-   ```
+```shell
+# 删除当前工作树中的子模块文件，但保留子模块的配置
+git submodule deinit -f esp-idf
+# 清理子模块配置
+rm -rf .git/modules/esp-idf
+# 删除子模块的引用
+git rm -f esp-idf
+```
 
 ### 关于子模块的个人理解
 
