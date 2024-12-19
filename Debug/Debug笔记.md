@@ -564,4 +564,35 @@ void TMR1_CC_IRQHandler(void)
 
    **注，这种方式会频繁的进入中断，需要优化**
 
+   ## 如何开关MCU日志输出
+   
+   在编写程序时，偶尔遇到这么一个问题。串口打印耗时，导致一些程序执行时间不及时，但是为了调试又不得不开启串口打印进行日志输出。因此引出了如何在程序运行时开关MCU的串口日志输出。
+   
+   临时解决办法：
+   
+   定义一个函数指针sys_printf，适时修改函数指针指向的内容（可以用按键触发修改或者指令修改）
+   
+   ```shell
+   /*定义一个函数指针printf_pointer*/
+   typedef int (*printf_pointer)(const char* fmt, ...);
+   
+   /*
+   * 定义一个函数指针
+   * 打印时将sys_printf赋值为printf,
+   * 不打印时将sys_printf赋值为my_printf 
+   */
+   printf_pointer sys_printf;
+   
+   /* 自定义函数 */
+   int my_printf(const char *format, ...) {
+       return 0;
+   }
+   ```
+   
+   **注：本方法并不会减少编译后所占用的ROM大小**
+   
+   
+   
+   
+   
    
