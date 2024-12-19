@@ -1,0 +1,34 @@
+/Linux/doxygenDemo
+# 忽略编译生成的目标文件
+*.o
+*.obj
+
+# 忽略可执行文件
+*.exe
+*.out
+
+# 忽略动态链接库和静态链接库文件
+*.so
+*.dylib
+*.a
+
+# 忽略调试信息文件
+*.dSYM
+
+# 忽略中间编译文件和目录
+build/
+Debug/
+Release/
+*.ilk
+*.pdb
+*.exp
+
+# 忽略编辑器自动生成的文件
+*.sublime-project
+*.sublime-workspace
+.vscode/
+
+# 忽略 CMake 构建目录和文件（如果使用 CMake）
+CMakeFiles/
+cmake_install.cmake
+Makefile

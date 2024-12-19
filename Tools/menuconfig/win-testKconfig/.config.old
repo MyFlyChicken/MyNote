@@ -1,0 +1,34 @@
+
+#
+# System configure
+#
+CONFIG_MR_USING_ASSERT=y
+CONFIG_MR_CFG_HEAP_SIZE=4096
+
+#
+# Log configure
+#
+CONFIG_MR_USING_LOG_ERROR=y
+CONFIG_MR_USING_LOG_WARN=y
+CONFIG_MR_USING_LOG_INFO=y
+CONFIG_MR_USING_LOG_DEBUG=y
+CONFIG_MR_USING_LOG_SUCCESS=y
+# CONFIG_MR_USING_LOG_COLOR is not set
+# end of Log configure
+
+#
+# Printf configure
+#
+CONFIG_MR_CFG_PRINTF_BUFSZ=128
+CONFIG_MR_CFG_PRINTF_DEV_NAME="serial1"
+CONFIG_MR_USING_PRINTF_NONBLOCKING=y
+# end of Printf configure
+
+#
+# cmake depend Kconfig config
+#
+# CONFIG_TEST1 is not set
+# CONFIG_TEST2 is not set
+# CONFIG_TEST3 is not set
+# end of cmake depend Kconfig config
+# end of System configure
