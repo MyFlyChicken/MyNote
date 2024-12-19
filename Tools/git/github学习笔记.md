@@ -63,6 +63,42 @@ git restore <文件夹或文件路径>
 
 [参考连接](https://cloud.tencent.com/developer/article/1730774)
 
+## commit合并
+
+```shell
+#从HEAD版本开始往过去数N个版本
+git rebase -i HEAD~N
+```
+
+- `-i（--interactive）`：弹出交互式的界面进行编辑合并
+
+在编辑器中，你可以对提交执行以下操作：
+
+- **pick**: 保留该提交。
+
+- **squash** (或 `s`): 将该提交合并到前一个提交中。
+- **fixup** (或 `f`): 类似于 `squash`，但不保留该提交的提交信息。
+- **edit**: 停止变基过程，让你可以修改该提交。
+- **drop**: 删除该提交。
+- **reword**: 修改该提交的提交信息。
+
+## 删除历史commit，保留最新commit
+
+```shell
+#新建一个空分支
+git checkout --orphan new-master
+#添加文件到新分支
+git add .
+#新分支提交
+git commit -m "Init branch"
+#删除原有分支
+git branch -d master
+#修改新分支名为原有分支
+git branch -m master
+#强制推送到远端分支
+git push origin master --force
+```
+
 ## 子模块处理
 
 ### 添加子模块
