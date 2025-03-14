@@ -383,7 +383,8 @@ UseTab: Never
             "compilerPath": "C:/Program Files (x86)/My Compiler",  
             "cStandard": "c11",  
             "cppStandard": "c++17",  
-            "intelliSenseMode": "gcc-x64"
+            "intelliSenseMode": "gcc-x64",
+			"compileCommands": "${workspaceFolder}/build/compile_commands.json"//用于支持跳转，不必再添加C文件路径
         }  
     ],  
     "version": 4
