@@ -50,6 +50,8 @@
 
 ![image-20240524203344101](./assets/image-20240524203344101.png)
 
+[Theme Cfg](https://www.cnblogs.com/My-Re-liYhao-2021-11-10/p/17854287.html)
+
 [快捷操作配置](https://www.armbbs.cn/forum.php?mod=viewthread&tid=95564&highlight=source%2Binsight)
 
 ## GCC
