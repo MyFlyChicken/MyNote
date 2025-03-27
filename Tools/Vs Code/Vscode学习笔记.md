@@ -775,4 +775,45 @@ extensions.json 是 VS Code 编辑器中的一个配置文件，用于存储您�
 
 [多项目工作区](https://em-ide.com/zh-cn/docs/advance/multi_prj_workspace)
 
- 
+## VScdoe远程连接ssh
+
+​	
+
+1. 配置客户端的ssh config
+
+   ```
+   # GitHub 账号配置
+   Host github.com               # 默认域名，直接使用
+     HostName github.com
+     User git
+     IdentityFile ~/.ssh/id_rsa_github
+   
+   # GitLab 个人账号配置
+   Host gitlab.com               # 默认域名，直接使用
+     HostName gitlab.com
+     User git
+     IdentityFile ~/.ssh/id_rsa_gitlab
+   
+   # 公司 GitLab 账号（不同域名或别名）
+   Host company-gitlab.com       # 自定义别名，用于区分不同仓库
+     HostName git.company.com    # 实际 Git 服务器地址
+     User git
+     IdentityFile ~/.ssh/id_rsa_company
+   
+   # Ubuntu 账号配置
+   Host company-Ubuntu22.04.5       # 自定义别名，用于区分不同仓库
+     HostName 192.168.109.128    # 实际 Git 服务器地址
+     User name                   # Ubuntu账户名字
+     IdentityFile ~/.ssh/id_rsa_github
+   
+   ```
+
+2. 客户端vscode下载ms-vscode-remote.remote-ssh插件
+
+3. 将 Ubuntu 账号配置 下边对应的id_rsa_github.pub的公钥拷贝到Ubuntu/home/.ssh/authorized_keys里边
+
+   ![image-20250327204110416](Vscode学习笔记.assets/image-20250327204110416.png)
+
+4. 客户端vscode配置REMOTE插件
+
+   ![image-20250327204036815](Vscode学习笔记.assets/image-20250327204036815.png)
