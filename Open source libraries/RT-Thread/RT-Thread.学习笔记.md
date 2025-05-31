@@ -257,3 +257,6 @@ int _sys_tmpnam(char* name, int fileno, unsigned maxlength)
 }
 #endif
 ```
+
+## STM32使用RT-Thread，
+- 确保Cubemx配置的dma通道与dma_config配置的dma通道一致，否则会导致DMA冲突，继而导致出现奇怪问题
