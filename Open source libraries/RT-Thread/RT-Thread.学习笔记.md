@@ -236,14 +236,24 @@ sequenceDiagram
 3. config选中后会在rtconfig.h内生成对应的头文件
 
 ### 编写C文件
-
 Kconfig文件与C文件编写相辅相成，根据Kconfig生成的宏定义，编写C函数
 
-
-
 ## USART应用
-
 1. 串口默认配置全部一样，配置宏定义为RT_SERIAL_CONFIG_DEFAULT
 
-
-
+## _sys_tmpnam编译报错
+MDK 5.38发布后，AC6的_sys_tmpnam函数由int变为void
+```
+#if (defined(__ARMCC_VERSION) && (__ARMCC_VERSION >= 6190004))
+void _sys_tmpnam(char* name, int fileno, unsigned maxlength)
+{
+    rt_snprintf(name, maxlength, "tem%03d", fileno);
+}
+#else
+int _sys_tmpnam(char* name, int fileno, unsigned maxlength)
+{
+    rt_snprintf(name, maxlength, "tem%03d", fileno);
+    return 1;
+}
+#endif
+```
