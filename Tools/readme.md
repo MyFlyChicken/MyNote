@@ -178,3 +178,7 @@ bash ./make.sh
 ## [VsCode](../Vs Code/Vscode学习笔记.md)
 
 [详情](../Vs Code/Vscode学习笔记.md)
+
+## [FreeMaster](https://www.nxp.com.cn/design/design-center/software/development-software/freemaster-run-time-debugging-tool:FREEMASTER)
+
+swd协议的变量监控软件，支持st-link,jlink,cmsis-dap
