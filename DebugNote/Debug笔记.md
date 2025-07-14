@@ -53,6 +53,8 @@ error:
 
 - 连接仿真器，看程序一直在哪里运行，判断卡死位置
 
+- GDB调试
+
 ## HardWare 卡死
 
 
@@ -175,7 +177,7 @@ r0无法对应，不知道为什么。
 
 **根据PC的值找到发生故障的位置**
 
-法1：Keil直接分析
+#### 法1：Keil直接分析
 
 ![image-20240516204726908](./assets/image-20240516204726908.png)
 
@@ -183,13 +185,116 @@ r0无法对应，不知道为什么。
 
 此时跳转到了发生HardFault_Handler的指令位置
 
-法2：addr2line.exe 分析
+#### 法2：addr2line.exe 分析
+
+使用J-link commander连接目标设备
+
+输入halt暂停MCU，使用go可以让CPU继续运行
+
+输入regs查看MCU寄存器R0～R14等寄存器的值
+
+根据PC寄存器及LR寄存器的值，使用addr2line.exe 判断函数运行位置
+
+输入memx [addr],[大小] 可以查看指定位置的数据
 
 addr2line.exe -e [可执行文件路径] -f(显示函数名) -i(显示文件及行号) -a(显示地址)
 
 ![image-20240516205420813](./assets/image-20240516205420813.png)
 
-法3：[CmBacktrace](https://github.com/armink/CmBacktrace)库分析
+#### 法3：[CmBacktrace](https://github.com/armink/CmBacktrace)库分析
+
+#### 法4：根据GBD工具调试信息分析
+
+[详情参考](https://developer.aliyun.com/article/699000)
+
+选择Jlink的连接方式
+
+![image-20250714170739008](assets/image-20250714170739008.png)
+
+连接成功后，启用GDB调试
+
+```shell
+arm-none-eabi-gdb.exe {可执行文件，axf文件或elf文件}
+#进入gdb命令行，输入
+target remote localhost:{端口地址}
+#此时已经可以正常调试
+#收入backtrace显示函数调用关系，判函卡死在哪里
+backtrace
+```
+
+实际调试输出日志如下
+
+```shell
+版权所有 (C) Microsoft Corporation。保留所有权利。
+
+尝试新的跨平台 PowerShell https://aka.ms/pscore6
+
+PS C:\Users\yuyunfei> arm-none-eabi-gdb.exe D:\YKC-WORK\01\F767_DCCCU_APP\build\keil\Obj\rt-thread.axf
+GNU gdb (Arm GNU Toolchain 14.2.Rel1 (Build arm-14.52)) 15.2.90.20241130-git
+Copyright (C) 2024 Free Software Foundation, Inc.
+License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+Type "show copying" and "show warranty" for details.
+This GDB was configured as "--host=i686-w64-mingw32 --target=arm-none-eabi".
+Type "show configuration" for configuration details.
+For bug reporting instructions, please see:
+<https://bugs.linaro.org/>.
+Find the GDB manual and other documentation resources online at:
+    <http://www.gnu.org/software/gdb/documentation/>.
+
+For help, type "help".
+Type "apropos word" to search for commands related to "word"...
+Reading symbols from D:\YKC-WORK\01\F767_DCCCU_APP\build\keil\Obj\rt-thread.axf...
+
+warning: Loadable section "RW_IRAM1" outside of ELF segments
+  in D:\YKC-WORK\01\F767_DCCCU_APP\build\keil\Obj\rt-thread.axf
+(gdb)
+(gdb) target remote lowarning: could not convert 'lo' from the host encoding (CP1252) to UTF-32.
+This normally should not happen, please file a bug report.
+
+could not open file: l (error 2):
+(gdb) target remote localhost:2331
+Remote debugging using localhost:2331
+0x080cd940 in stm32_putc (serial=0x2001b334 <uart_obj+760>, c=85 'U') at libraries/HAL_Drivers\drv_usart_v2.c:299
+299         while (__HAL_UART_GET_FLAG(&(uart->handle), UART_FLAG_TC) == RESET)
+(gdb)
+(gdb) backtrace
+#0  0x080cd940 in stm32_putc (serial=0x2001b334 <uart_obj+760>, c=85 'U') at libraries/HAL_Drivers\drv_usart_v2.c:299
+#1  0x0807d570 in _serial_poll_tx (dev=0x2001b334 <uart_obj+760>, pos=0, buffer=0x2001750c <rt_kprintf.rt_log_buf>, size=27)
+    at rt-thread/components/drivers/serial\serial_v2.c:370
+#2  0x0807d202 in _serial_fifo_tx_blocking_buf (dev=0x2001b334 <uart_obj+760>, pos=0, buffer=0x2001750c <rt_kprintf.rt_log_buf>,
+    size=27) at rt-thread/components/drivers/serial\serial_v2.c:513
+#3  0x080b94f6 in rt_device_write (dev=0x2001b334 <uart_obj+760>, pos=0, buffer=0x2001750c <rt_kprintf.rt_log_buf>, size=27)
+    at rt-thread/src\device.c:375
+#4  0x080bb790 in rt_kprintf (fmt=0x80e474d "UART1 message queue full!\r\n") at rt-thread/src\kservice.c:1324
+#5  0x08087b7a in com1_rx_done (dev=0x2001b18c <uart_obj+336>, size=45) at bsp\bsp_uart.c:23
+#6  0x080ba896 in rt_hw_serial_isr (serial=0x2001b18c <uart_obj+336>, event=2307)
+    at rt-thread/components/drivers/serial\serial_v2.c:1502
+#7  0x080901b6 in dma_recv_isr (serial=0x2001b18c <uart_obj+336>, isr_flag=0 '\000') at libraries/HAL_Drivers\drv_usart_v2.c:428
+#8  0x080d7202 in uart_isr (serial=0x2001b18c <uart_obj+336>) at libraries/HAL_Drivers\drv_usart_v2.c:495
+#9  0x08073076 in USART1_IRQHandler () at libraries/HAL_Drivers\drv_usart_v2.c:551
+#10 <signal handler called>
+#11 0x080cd940 in stm32_putc (serial=0x2001b334 <uart_obj+760>, c=27 '\033') at libraries/HAL_Drivers\drv_usart_v2.c:299
+#12 0x0807d570 in _serial_poll_tx (dev=0x2001b334 <uart_obj+760>, pos=0, buffer=0x2001750c <rt_kprintf.rt_log_buf>, size=14)
+    at rt-thread/components/drivers/serial\serial_v2.c:370
+#13 0x0807d202 in _serial_fifo_tx_blocking_buf (dev=0x2001b334 <uart_obj+760>, pos=0, buffer=0x2001750c <rt_kprintf.rt_log_buf>,
+    size=14) at rt-thread/components/drivers/serial\serial_v2.c:513
+#14 0x080b94f6 in rt_device_write (dev=0x2001b334 <uart_obj+760>, pos=0, buffer=0x2001750c <rt_kprintf.rt_log_buf>, size=14)
+    at rt-thread/src\device.c:375
+#15 0x080bb790 in rt_kprintf (fmt=0x80e24f7 "\033[32m[I/comm] ") at rt-thread/src\kservice.c:1324
+#16 0x08088eac in comm_thd_count_printf () at applications/public\comm.c:184
+#17 0x0807dd62 in _thd_timer_timeout (parameter=0x0) at applications\thd_init.c:28
+#18 0x080c0f1a in rt_soft_timer_check () at rt-thread/src\timer.c:758
+#19 0x0807e460 in _timer_thread_entry (parameter=0x0) at rt-thread/src\timer.c:823
+#20 0x0807dd68 in ?? ()
+Backtrace stopped: previous frame identical to this frame (corrupt stack?)
+```
+
+
+
+
+
 
 ## 中断
 
@@ -606,9 +711,9 @@ AT指令必须执行完毕才允许执行下一条AT指令，否则会出现竞�
 
 
 **注：本方法并不会减少编译后所占用的ROM大小**
+
    
+
    
-   
-   
-   
+
    
