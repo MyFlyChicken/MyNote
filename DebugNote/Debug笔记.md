@@ -225,31 +225,7 @@ backtrace
 实际调试输出日志如下
 
 ```shell
-版权所有 (C) Microsoft Corporation。保留所有权利。
-
-尝试新的跨平台 PowerShell https://aka.ms/pscore6
-
-PS C:\Users\yuyunfei> arm-none-eabi-gdb.exe D:\YKC-WORK\01\F767_DCCCU_APP\build\keil\Obj\rt-thread.axf
-GNU gdb (Arm GNU Toolchain 14.2.Rel1 (Build arm-14.52)) 15.2.90.20241130-git
-Copyright (C) 2024 Free Software Foundation, Inc.
-License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
-This is free software: you are free to change and redistribute it.
-There is NO WARRANTY, to the extent permitted by law.
-Type "show copying" and "show warranty" for details.
-This GDB was configured as "--host=i686-w64-mingw32 --target=arm-none-eabi".
-Type "show configuration" for configuration details.
-For bug reporting instructions, please see:
-<https://bugs.linaro.org/>.
-Find the GDB manual and other documentation resources online at:
-    <http://www.gnu.org/software/gdb/documentation/>.
-
-For help, type "help".
-Type "apropos word" to search for commands related to "word"...
-Reading symbols from D:\YKC-WORK\01\F767_DCCCU_APP\build\keil\Obj\rt-thread.axf...
-
-warning: Loadable section "RW_IRAM1" outside of ELF segments
-  in D:\YKC-WORK\01\F767_DCCCU_APP\build\keil\Obj\rt-thread.axf
-(gdb)
+arm-none-eabi-gdb.exe [axf文件]
 (gdb) target remote lowarning: could not convert 'lo' from the host encoding (CP1252) to UTF-32.
 This normally should not happen, please file a bug report.
 
@@ -260,34 +236,34 @@ Remote debugging using localhost:2331
 299         while (__HAL_UART_GET_FLAG(&(uart->handle), UART_FLAG_TC) == RESET)
 (gdb)
 (gdb) backtrace
-#0  0x080cd940 in stm32_putc (serial=0x2001b334 <uart_obj+760>, c=85 'U') at libraries/HAL_Drivers\drv_usart_v2.c:299
-#1  0x0807d570 in _serial_poll_tx (dev=0x2001b334 <uart_obj+760>, pos=0, buffer=0x2001750c <rt_kprintf.rt_log_buf>, size=27)
+#0  0x00000000 in stm32_putc (serial=0x2001b334 <uart_obj+760>, c=85 'U') at libraries/HAL_Drivers\drv_usart_v2.c:299
+#1  0x00000000 in _serial_poll_tx (dev=0x2001b334 <uart_obj+760>, pos=0, buffer=0x2001750c <rt_kprintf.rt_log_buf>, size=27)
     at rt-thread/components/drivers/serial\serial_v2.c:370
-#2  0x0807d202 in _serial_fifo_tx_blocking_buf (dev=0x2001b334 <uart_obj+760>, pos=0, buffer=0x2001750c <rt_kprintf.rt_log_buf>,
+#2  0x00000000 in _serial_fifo_tx_blocking_buf (dev=0x2001b334 <uart_obj+760>, pos=0, buffer=0x2001750c <rt_kprintf.rt_log_buf>,
     size=27) at rt-thread/components/drivers/serial\serial_v2.c:513
-#3  0x080b94f6 in rt_device_write (dev=0x2001b334 <uart_obj+760>, pos=0, buffer=0x2001750c <rt_kprintf.rt_log_buf>, size=27)
+#3  0x00000000 in rt_device_write (dev=0x2001b334 <uart_obj+760>, pos=0, buffer=0x2001750c <rt_kprintf.rt_log_buf>, size=27)
     at rt-thread/src\device.c:375
-#4  0x080bb790 in rt_kprintf (fmt=0x80e474d "UART1 message queue full!\r\n") at rt-thread/src\kservice.c:1324
-#5  0x08087b7a in com1_rx_done (dev=0x2001b18c <uart_obj+336>, size=45) at bsp\bsp_uart.c:23
-#6  0x080ba896 in rt_hw_serial_isr (serial=0x2001b18c <uart_obj+336>, event=2307)
+#4  0x00000000 in rt_kprintf (fmt=0x80e474d "UART1 message queue full!\r\n") at rt-thread/src\kservice.c:1324
+#5  0x00000000 in com1_rx_done (dev=0x2001b18c <uart_obj+336>, size=45) at bsp\bsp_uart.c:23
+#6  0x00000000 in rt_hw_serial_isr (serial=0x2001b18c <uart_obj+336>, event=2307)
     at rt-thread/components/drivers/serial\serial_v2.c:1502
-#7  0x080901b6 in dma_recv_isr (serial=0x2001b18c <uart_obj+336>, isr_flag=0 '\000') at libraries/HAL_Drivers\drv_usart_v2.c:428
-#8  0x080d7202 in uart_isr (serial=0x2001b18c <uart_obj+336>) at libraries/HAL_Drivers\drv_usart_v2.c:495
-#9  0x08073076 in USART1_IRQHandler () at libraries/HAL_Drivers\drv_usart_v2.c:551
+#7  0x00000000 in dma_recv_isr (serial=0x2001b18c <uart_obj+336>, isr_flag=0 '\000') at libraries/HAL_Drivers\drv_usart_v2.c:428
+#8  0x00000000 in uart_isr (serial=0x2001b18c <uart_obj+336>) at libraries/HAL_Drivers\drv_usart_v2.c:495
+#9  0x00000000 in USART1_IRQHandler () at libraries/HAL_Drivers\drv_usart_v2.c:551
 #10 <signal handler called>
-#11 0x080cd940 in stm32_putc (serial=0x2001b334 <uart_obj+760>, c=27 '\033') at libraries/HAL_Drivers\drv_usart_v2.c:299
-#12 0x0807d570 in _serial_poll_tx (dev=0x2001b334 <uart_obj+760>, pos=0, buffer=0x2001750c <rt_kprintf.rt_log_buf>, size=14)
+#11 0x00000000 in stm32_putc (serial=0x2001b334 <uart_obj+760>, c=27 '\033') at libraries/HAL_Drivers\drv_usart_v2.c:299
+#12 0x00000000 in _serial_poll_tx (dev=0x2001b334 <uart_obj+760>, pos=0, buffer=0x2001750c <rt_kprintf.rt_log_buf>, size=14)
     at rt-thread/components/drivers/serial\serial_v2.c:370
-#13 0x0807d202 in _serial_fifo_tx_blocking_buf (dev=0x2001b334 <uart_obj+760>, pos=0, buffer=0x2001750c <rt_kprintf.rt_log_buf>,
+#13 0x00000000 in _serial_fifo_tx_blocking_buf (dev=0x2001b334 <uart_obj+760>, pos=0, buffer=0x2001750c <rt_kprintf.rt_log_buf>,
     size=14) at rt-thread/components/drivers/serial\serial_v2.c:513
-#14 0x080b94f6 in rt_device_write (dev=0x2001b334 <uart_obj+760>, pos=0, buffer=0x2001750c <rt_kprintf.rt_log_buf>, size=14)
+#14 0x00000000 in rt_device_write (dev=0x2001b334 <uart_obj+760>, pos=0, buffer=0x2001750c <rt_kprintf.rt_log_buf>, size=14)
     at rt-thread/src\device.c:375
-#15 0x080bb790 in rt_kprintf (fmt=0x80e24f7 "\033[32m[I/comm] ") at rt-thread/src\kservice.c:1324
-#16 0x08088eac in comm_thd_count_printf () at applications/public\comm.c:184
-#17 0x0807dd62 in _thd_timer_timeout (parameter=0x0) at applications\thd_init.c:28
-#18 0x080c0f1a in rt_soft_timer_check () at rt-thread/src\timer.c:758
-#19 0x0807e460 in _timer_thread_entry (parameter=0x0) at rt-thread/src\timer.c:823
-#20 0x0807dd68 in ?? ()
+#15 0x00000000 in rt_kprintf (fmt=0x80e24f7 "\033[32m[I/comm] ") at rt-thread/src\kservice.c:1324
+#16 0x00000000 in comm_thd_count_printf () at applications/public\comm.c:184
+#17 0x00000000 in _thd_timer_timeout (parameter=0x0) at applications\thd_init.c:28
+#18 0x00000000 in rt_soft_timer_check () at rt-thread/src\timer.c:758
+#19 0x00000000 in _timer_thread_entry (parameter=0x0) at rt-thread/src\timer.c:823
+#20 0x00000000 in ?? ()
 Backtrace stopped: previous frame identical to this frame (corrupt stack?)
 ```
 
