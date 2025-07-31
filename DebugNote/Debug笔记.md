@@ -57,7 +57,7 @@ error:
 
 ## HardWare 卡死
 
-
+- GDB调试，查看函数调用关系
 
 ## MAP文件分析
 
@@ -266,8 +266,6 @@ Remote debugging using localhost:2331
 #20 0x00000000 in ?? ()
 Backtrace stopped: previous frame identical to this frame (corrupt stack?)
 ```
-
-
 
 
 
@@ -685,8 +683,20 @@ AT指令必须执行完毕才允许执行下一条AT指令，否则会出现竞�
 ## Jlink无法稳定连接
 降低Jlink的驱动版本
 
-
 **注：本方法并不会减少编译后所占用的ROM大小**
+
+## SPI半双工从机开发注意事项
+
+- 从机发送时，需要将数据准备好后，主机才可以**产生时钟进行接收数据**
+- 从机接收时，需要**先使能从机接收，再开启主机发送**，否则可能造成数据错误
+
+- 从机空闲时，将SPI禁止，取消DMA请求
+
+- 禁止SPI时，需要根据标志位依次判断，直到符合停止条件方可禁止SPI，如下图。
+
+  ![image-20250731174355785](assets/image-20250731174355785.png)
+
+  
 
    
 
