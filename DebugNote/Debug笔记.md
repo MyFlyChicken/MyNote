@@ -669,7 +669,71 @@ void TMR1_CC_IRQHandler(void)
    ```
    
 ## 使用AT指令注意事项
-AT指令必须执行完毕才允许执行下一条AT指令，否则会出现竞争
+- AT指令必须执行完毕才允许执行下一条AT指令，否则会出现竞争
+
+- RT-thread的at组件，接收从机由AT模式转化为透传模式发送的数据，可以新增一个缓冲区进行接收。
+
+  ```
+  static int at_recv_readline(at_client_t client)
+  {
+      char      ch = 0, last_ch = 0;
+      rt_bool_t is_full = RT_FALSE;
+  
+      rt_memset(client->recv_line_buf, 0x00, client->recv_bufsz);
+      client->recv_line_len = 0;
+  
+      while (1)
+      {
+          at_client_getchar(client, &ch, RT_WAITING_FOREVER);
+  		/* 增加备份模式缓存透传模式数据 */
+          if (1 == client->back_mode)
+          {
+              if (client->back_len < client->back_bufsz)
+              {
+                  if (client->back_buf)
+                  {
+                      client->back_buf[client->back_len++] = ch;
+                  }
+              }
+          }
+          /* 增加备份模式缓存透传模式数据 */
+  
+          if (client->recv_line_len < client->recv_bufsz)
+          {
+              client->recv_line_buf[client->recv_line_len++] = ch;
+          }
+          else
+          {
+              is_full = RT_TRUE;
+          }
+  
+          /* is newline or URC data */
+          if ((client->urc = get_urc_obj(client)) != RT_NULL || (ch == '\n' && last_ch == '\r')
+              || (client->end_sign != 0 && ch == client->end_sign))
+          {
+              if (is_full)
+              {
+                  LOG_E("read line failed. The line data length is out of buffer size(%d)!", client->recv_bufsz);
+                  rt_memset(client->recv_line_buf, 0x00, client->recv_bufsz);
+                  client->recv_line_len = 0;
+                  return -RT_EFULL;
+              }
+              break;
+          }
+          last_ch = ch;
+      }
+  
+  #ifdef AT_PRINT_RAW_CMD
+      at_print_raw_cmd("recvline", client->recv_line_buf, client->recv_line_len);
+  #endif
+  
+      return client->recv_line_len;
+  }
+  ```
+
+  
+
+  
 
 ## STM32F767,LSE初始化一直超时
 解决办法：加入__HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_HIGH);提高LSE的驱动能力可以初始化
