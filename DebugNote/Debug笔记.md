@@ -266,8 +266,23 @@ Remote debugging using localhost:2331
 #20 0x00000000 in ?? ()
 Backtrace stopped: previous frame identical to this frame (corrupt stack?)
 ```
-
-
+## 高优先级死循环导致低优先级无法执行的死循环位置定位办法
+- 连接GDB
+- 设置断点（b/break），例如将每个线程内的某一处函数设置断点，
+- 全速运行（c/continue），触发断点。确定卡死的线程优先级范围。
+- 查看调用栈（backtrace），进行分析
+- 定位死循环位置
+### 更粗暴的办法
+- 连接GDB
+- 全速运行（c/continue）
+- ctrl + c运行n次。看程序大部分在哪里停止
+- 在停止的位置打断点（b/break 文件:行数）。如要在ps.c的199行打断点，那么在GDB内执行
+```
+b ps.c:199
+```
+- 一直运行（c/continue）
+- 观察断点是否连续进入
+- 如果断点是连续进入，那么99%概率是这里卡死
 
 
 ## 中断
@@ -730,10 +745,6 @@ void TMR1_CC_IRQHandler(void)
       return client->recv_line_len;
   }
   ```
-
-  
-
-  
 
 ## STM32F767,LSE初始化一直超时
 解决办法：加入__HAL_RCC_LSEDRIVE_CONFIG(RCC_LSEDRIVE_HIGH);提高LSE的驱动能力可以初始化
