@@ -784,6 +784,7 @@ void TMR1_CC_IRQHandler(void)
 - 从机仅在主机有CLK时，产生数据传输。（即配置好DMA，且使能DMA发送时，从机才开使传输数据，主机同理）
 - 硬件设计时，建议增加一个从机状态引脚，用于通知主机当前从机状态。
 - [详见](./assets/SPI从机设计思路.excalidraw)
+  **注意：DMA的NDTR变为0时，会产生DMA完成中断，此时SPI的FIFO可能有数据，如果主机没有足够多的时钟取出FIFO内的数据，会导致HAL库产生HAL_SPI_ERROR_FLAG**
 
 ## DMA环形模式下取数据代码
 ```
