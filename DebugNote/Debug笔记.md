@@ -783,3 +783,38 @@ void TMR1_CC_IRQHandler(void)
 - CS上升沿通知从机数据传输结束
 - 从机仅在主机有CLK时，产生数据传输。（即配置好DMA，且使能DMA发送时，从机才开使传输数据，主机同理）
 - 硬件设计时，建议增加一个从机状态引脚，用于通知主机当前从机状态。
+- [详见](./assets/SPI从机设计思路.excalidraw)
+
+## DMA环形模式下取数据代码
+```
+static void dma_buffer_copy(void)
+{
+    uint32_t curr = get_dma_remaining_data();// 获取DMA剩余传输字节数
+    uint32_t prev = g_last_remaining;// 上次获取的DMA剩余传输字节数
+    if (curr == prev)
+        return;
+
+    const uint32_t BUF = 2048;//DMA缓冲区大小
+    uint32_t       rp  = BUF - prev; // 上次读到的位置
+    uint32_t       wp  = BUF - curr; // 本次写到的位置
+
+    if (wp >= rp)
+    {
+        uint32_t len = wp - rp;
+        if (len)
+            memcpy(buf, &dma_buffer[rp], len);
+    }
+    else
+    {
+        // 要保证每次CS下降沿期间接收的数据一次性保存完毕，避免重复触发_data_parsed_cplt_cb
+        uint32_t len1 = BUF - rp; // 尾段
+        uint32_t len2 = wp;       // 头段
+
+        if (len1)
+            memcpy(buf, &dma_buffer[rp], len1);
+        if (len2)
+            memcpy(buf+len1, &dma_buffer[0], len2);
+    }
+    g_last_remaining = curr;
+}
+```
