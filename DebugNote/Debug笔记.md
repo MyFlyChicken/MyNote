@@ -283,6 +283,60 @@ b ps.c:199
 - 一直运行（c/continue）
 - 观察断点是否连续进入
 - 如果断点是连续进入，那么99%概率是这里卡死
+#### 法5：使用Jlink+Vscode进行不复位仿真
+- Vscode安装 Cortex-Debug 插件
+- Jlink RESET脚不能连接到目标板
+- 连接 Jlink到目标板
+- 配置 arm-none-eabi-gdb.exe 的环境变量
+- **配置 JLinkRemoteServerCL.exe 的环境变量**
+- 配置 launch.json
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "JLink Debug (STM32F767)",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "jlink",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/keil/Obj/rt-thread.axf",
+            "device": "STM32F767ZI",
+            "interface": "swd",
+            "swoConfig": {
+                "enabled": false
+            },
+            "runToEntryPoint": "main",
+            "svdFile": "${workspaceFolder}/STM32F767.svd",
+            "gdbPath": "C:/SysPath/arm-gnu-toolchain-14.2.rel1-mingw-w64-i686-arm-none-eabi/bin/arm-none-eabi-gdb.exe",
+            "armToolchainPath": "C:/SysPath/arm-gnu-toolchain-14.2.rel1-mingw-w64-i686-arm-none-eabi/bin",
+            "preLaunchCommands": [
+                "monitor reset"
+            ],
+            "postLaunchCommands": [
+                "monitor reset halt"
+            ],
+            "showDevDebugOutput": "none"
+        },
+        {
+            "name": "JLink Attach (No DL/No Reset)",
+            "type": "cortex-debug",
+            "request": "attach",
+            "servertype": "jlink",
+            "cwd": "${workspaceFolder}",
+            "executable": "${workspaceFolder}/build/keil/Obj/rt-thread.axf",
+            "device": "STM32F767ZI",
+            "interface": "swd",
+            "svdFile": "${workspaceFolder}/STM32F767.svd",
+            "gdbPath": "C:/SysPath/arm-gnu-toolchain-14.2.rel1-mingw-w64-i686-arm-none-eabi/bin/arm-none-eabi-gdb.exe",
+            "armToolchainPath": "C:/SysPath/arm-gnu-toolchain-14.2.rel1-mingw-w64-i686-arm-none-eabi/bin",
+            // 不下载不复位，仅附加；如不想暂停目标，删除 monitor halt
+            "postAttachCommands": [],
+            "showDevDebugOutput": "raw"
+        },
+    ]
+}
+```
 
 
 ## 中断
