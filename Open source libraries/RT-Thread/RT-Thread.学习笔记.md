@@ -260,3 +260,44 @@ int _sys_tmpnam(char* name, int fileno, unsigned maxlength)
 
 ## STM32使用RT-Thread，
 - 确保Cubemx配置的dma通道与dma_config配置的dma通道一致，否则会导致DMA冲突，继而导致出现奇怪问题
+
+## 线程栈空间分析
+
+1. 将_object_container添加到监视，找到type为RT_Object_Class_Thread，查看成员
+
+   ![image-20250923095759438](assets/image-20250923095759438.png)
+
+2. 根据指针查看内存，如查看上述图片0x2001a870的指向的区域内容
+
+   内存对应关系如下
+
+   ```C
+    /* stack point and entry */
+       void       *sp;                                     /**< stack point */
+       void       *entry;                                  /**< entry */
+       void       *parameter;                              /**< parameter */
+       void       *stack_addr;                             /**< stack address */
+       rt_uint32_t stack_size;                             /**< stack size */
+   ```
+
+   ![image-20250923100047226](assets/image-20250923100047226.png)
+
+3. 计算栈的使用空间以及判断栈是否越界
+
+   图示：
+
+   ![image-20250923101304092](assets/image-20250923101304092.png)
+
+   sp为向下生长的满栈，在初始化线程时：
+
+   ```c
+   thread->sp = (void *)rt_hw_stack_init(thread->entry, thread->parameter,(rt_uint8_t *)((char *)thread->stack_addr + thread->stack_size - sizeof(rt_ubase_t)),(void *)_thread_exit);
+   ```
+
+   那么栈使用空间为：
+   (stack_size+stack_addr-sp)
+
+   判断栈越界：
+   sp<stack_addr
+
+   
