@@ -132,7 +132,7 @@
 	},
 	"settings": {
 		//clangd settings, need to install clangd extension first
-		"clangd.path": "C:\\Users\\yuyunfei\\AppData\\Roaming\\Code\\User\\globalStorage\\llvm-vs-code-extensions.vscode-clangd\\install\\19.1.2\\clangd_19.1.2\\bin\\clangd.exe",
+		"clangd.path": "C:\\Users\\AppData\\Roaming\\Code\\User\\globalStorage\\llvm-vs-code-extensions.vscode-clangd\\install\\19.1.2\\clangd_19.1.2\\bin\\clangd.exe",
 		"clangd.arguments": [
 			"--background-index",
 			//keil generate compile-commands.json in workspace root
@@ -144,7 +144,7 @@
 			"--header-insertion=never"
 		],
 		//must be absolute path
-		"clang-format.executable": "C:\\Users\\yuyunfei\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG\\bin\\clang-format.exe",
+		"clang-format.executable": "C:\\Users\\AppData\\Local\\Keil_v5\\ARM\\ARMCLANG\\bin\\clang-format.exe",
 		"terminal.integrated.profiles.windows": {
 			"Git Bash": {
 				"source": "Git Bash",
