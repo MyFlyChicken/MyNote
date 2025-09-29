@@ -1,0 +1,155 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"extensions": {
+		"recommendations": [
+			"llvm-vs-code-extensions.vscode-clangd",
+			"cschlosser.doxdocgen",
+			"ms-python.python",
+			"xaver.clang-format",
+			"marus25.cortex-debug",
+			"trond-snekvik.gnu-mapfiles",
+			"spmeesseman.vscode-taskexplorer",
+			"ms-vscode.vscode-serial-monitor"
+		]
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"cwd": "${workspaceRoot}",
+				"executable": "${workspaceFolder}/build/rt-thread.axf",
+				"name": "Debug with OpenOCD",
+				"request": "launch",
+				"type": "cortex-debug",
+				//openocd must be environment variable
+				"servertype": "openocd",
+				"device": "STM32F767ZI",
+				"interface": "swd",
+				//must be absolute path
+				"gdbPath": "/usr/bin/gdb-multiarch",
+				"armToolchainPath": "/usr/bin",
+				"svdFile": "${workspaceFolder}/STM32F767.svd",
+				"serverArgs": [
+					"-c",
+					"adapter speed 4000"
+				],
+				"configFiles": [
+					"interface/cmsis-dap.cfg",
+					"target/stm32f7x.cfg"
+				],
+				"searchDir": [],
+				"runToEntryPoint": "main",
+				"showDevDebugOutput": "none"
+			},
+			{
+				"name": "OpenOCD Attach (No Reset)",
+				"type": "cortex-debug",
+				"request": "attach",
+				"servertype": "openocd",
+				"cwd": "${workspaceFolder}",
+				"executable": "${workspaceFolder}/build/rt-thread.axf",
+				"device": "STM32F767ZI",
+				"interface": "swd",
+				//must be absolute path
+				"gdbPath": "/usr/bin/gdb-multiarch",
+				"armToolchainPath": "/usr/bin",
+				"svdFile": "${workspaceFolder}/STM32F767.svd",
+				"configFiles": [
+					"interface/cmsis-dap.cfg",
+					"target/stm32f7x.cfg"
+				],
+				"serverArgs": [
+					"-c",
+					"adapter speed 4000"
+				],
+				"runToEntryPoint": false,
+				"showDevDebugOutput": "none"
+			},
+			{
+				"name": "JLink Debug (STM32F767)",
+				"type": "cortex-debug",
+				"request": "launch",
+				"servertype": "jlink",
+				"cwd": "${workspaceFolder}",
+				"executable": "${workspaceFolder}/build/rt-thread.axf",
+				"device": "STM32F767ZI",
+				"interface": "swd",
+				"swoConfig": {
+					"enabled": false
+				},
+				"runToEntryPoint": "main",
+				"svdFile": "${workspaceFolder}/STM32F767.svd",
+				//must be absolute path
+				"gdbPath": "/usr/bin/gdb-multiarch",
+				"armToolchainPath": "/usr/bin",
+				"preLaunchCommands": [
+					"monitor reset"
+				],
+				"postLaunchCommands": [
+					"monitor reset halt"
+				],
+				"showDevDebugOutput": "none"
+			},
+			{
+				"name": "JLink Attach (No DL/No Reset)",
+				"type": "cortex-debug",
+				"request": "attach",
+				"servertype": "jlink",
+				"cwd": "${workspaceFolder}",
+				"executable": "${workspaceFolder}/build/rt-thread.axf",
+				"device": "STM32F767ZI",
+				"interface": "swd",
+				"svdFile": "${workspaceFolder}/STM32F767.svd",
+				//must be absolute path
+				"gdbPath": "/usr/bin/gdb-multiarch",
+				"armToolchainPath": "/usr/bin",
+				"postAttachCommands": [],
+				"showDevDebugOutput": "raw"
+			},
+		]
+	},
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": [
+			{
+				"label": "keil generate compile-commands.json",
+				"command": "python",
+				"type": "shell",
+				"args": [
+					"Keil2Json.py"
+				],
+				"problemMatcher": [],
+				"presentation": {
+					"reveal": "always"
+				},
+				"group": "build"
+			}
+		]
+	},
+	"settings": {
+		//clangd settings, need to install clangd extension first
+		"clangd.path": "/usr/bin/clangd",
+		"clangd.arguments": [
+			"--background-index",
+			//keil generate compile-commands.json in workspace root
+			"--compile-commands-dir=${workspaceFolder}",
+			"-j=12",
+			"--clang-tidy",
+			"--completion-style=detailed",
+			"--pch-storage=disk",
+			"--header-insertion=never"
+		],
+		//must be absolute path
+		"clang-format.executable": "/usr/bin/clang-format",
+		"terminal.integrated.profiles.windows": {
+			"Git Bash": {
+				"source": "Git Bash",
+				"icon": "terminal-bash"
+			}
+		},
+	}
+}
