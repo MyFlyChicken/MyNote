@@ -182,3 +182,6 @@ bash ./make.sh
 ## [FreeMaster](https://www.nxp.com.cn/design/design-center/software/development-software/freemaster-run-time-debugging-tool:FREEMASTER)
 
 swd协议的变量监控软件，支持st-link,jlink,cmsis-dap
+
+## [clickcharts by nch software](https://www.nchsoftware.com/chart/index.html?srsltid=AfmBOoouvxWc9JPpgGCqsxfCKmRlrfW240vF_CdoJsldyIVyK2Q3DvpB)
+绘制流程图的软件
