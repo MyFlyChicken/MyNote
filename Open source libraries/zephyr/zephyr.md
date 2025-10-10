@@ -31,3 +31,15 @@ support/
 ```
 
 ### [bindings文件](https://docs.zephyrproject.org/latest/build/dts/bindings-syntax.html)
+
+### [DTS文件](https://docs.zephyrproject.org/latest/build/dts/index.html)
+
+- [C/C++使用dts生成的文件](https://docs.zephyrproject.org/latest/build/dts/api-usage.html)
+
+- [DTS参考链接](https://www.cnblogs.com/jayant97/articles/17209392.html#1-%E5%89%8D%E8%A8%80)
+- 注意事项:
+  name@x: 这里的x表示设备的地址，必须是十六进制数(x没有0x前缀，如果节点没有reg属性，则可以省略@x部分)
+  reg属性首地址必须与name@x中的x值一致，且地址必须加0x前缀
+- compatible属性必须与bindings文件夹下的yaml文件中的compatible值一致
+
+
