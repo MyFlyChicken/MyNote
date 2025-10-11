@@ -29,7 +29,8 @@
 				"servertype": "openocd",
 				"device": "STM32F767ZI",
 				"interface": "swd",
-				//must be absolute path
+				//must be absolute path				
+				// "toolchainPrefix": ,// This is needed if your toolchain uses a prefix (e.g. arm-none-eabi-)
 				"gdbPath": "C:/SysPath/arm-gnu-toolchain-14.2.rel1-mingw-w64-i686-arm-none-eabi/bin/arm-none-eabi-gdb.exe",
 				"armToolchainPath": "C:/SysPath/arm-gnu-toolchain-14.2.rel1-mingw-w64-i686-arm-none-eabi/bin",
 				"svdFile": "${workspaceFolder}/STM32F767.svd",
@@ -55,6 +56,7 @@
 				"device": "STM32F767ZI",
 				"interface": "swd",
 				//must be absolute path
+				// "toolchainPrefix": ,// This is needed if your toolchain uses a prefix (e.g. arm-none-eabi-)
 				"gdbPath": "C:/SysPath/arm-gnu-toolchain-14.2.rel1-mingw-w64-i686-arm-none-eabi/bin/arm-none-eabi-gdb.exe",
 				"armToolchainPath": "C:/SysPath/arm-gnu-toolchain-14.2.rel1-mingw-w64-i686-arm-none-eabi/bin",
 				"svdFile": "${workspaceFolder}/STM32F767.svd",
@@ -84,6 +86,7 @@
 				"runToEntryPoint": "main",
 				"svdFile": "${workspaceFolder}/STM32F767.svd",
 				//must be absolute path
+				// "toolchainPrefix": ,// This is needed if your toolchain uses a prefix (e.g. arm-none-eabi-)
 				"gdbPath": "C:/SysPath/arm-gnu-toolchain-14.2.rel1-mingw-w64-i686-arm-none-eabi/bin/arm-none-eabi-gdb.exe",
 				"armToolchainPath": "C:/SysPath/arm-gnu-toolchain-14.2.rel1-mingw-w64-i686-arm-none-eabi/bin",
 				"preLaunchCommands": [
@@ -105,6 +108,7 @@
 				"interface": "swd",
 				"svdFile": "${workspaceFolder}/STM32F767.svd",
 				//must be absolute path
+				// "toolchainPrefix": ,// This is needed if your toolchain uses a prefix (e.g. arm-none-eabi-)
 				"gdbPath": "C:/SysPath/arm-gnu-toolchain-14.2.rel1-mingw-w64-i686-arm-none-eabi/bin/arm-none-eabi-gdb.exe",
 				"armToolchainPath": "C:/SysPath/arm-gnu-toolchain-14.2.rel1-mingw-w64-i686-arm-none-eabi/bin",
 				"postAttachCommands": [],
