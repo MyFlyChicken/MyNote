@@ -300,4 +300,20 @@ int _sys_tmpnam(char* name, int fileno, unsigned maxlength)
    判断栈越界：
    sp<stack_addr
 
-   
+## packages修改为offline packages
+1. 将已经下载的package包拷贝到offline-pacekages文件夹内
+2. 新增Kconfig文件
+```
+    menu "offline packages"
+    source "path/to/your/offline-packages/Kconfig"
+    endmenu
+```
+3. 修改最顶层Kconfig文件，意在将offline-packages包含进去
+```
+    #新增
+    source "offline-packages/Kconfig"
+```
+4. 将每个offline-packages内的package对应env路径的Kconfig拷贝到offline-packages的package文件夹内
+5. 删除每个offline-packages内的package的.git文件夹
+6. 删除packages文件夹内的SConscript，不再让该文件夹内的package参与编译
+[参考链接](https://club.rt-thread.org/ask/article/1ffd4c6324681f23.html)
