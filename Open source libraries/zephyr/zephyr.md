@@ -30,6 +30,22 @@ Kconfig.defconfig
 support/
 ```
 
+#### 传递自定义板路径
+```
+west build -b <board name> -- -DBOARD_ROOT=<path to boards>
+
+cmake -Bbuild -GNinja -DBOARD=<board name> -DBOARD_ROOT=<path to boards> .
+ninja -Cbuild
+```
+
+#### 指定文件夹
+```
+#指定build文件夹
+west build -b <board name> -- -DBOARD_ROOT=<path to boards> -d <build directory>
+#指定烧录文件夹
+west flash -d <build directory>
+```
+
 ### [bindings文件](https://docs.zephyrproject.org/latest/build/dts/bindings-syntax.html)
 
 ### [DTS文件](https://docs.zephyrproject.org/latest/build/dts/index.html)
