@@ -4,6 +4,10 @@
 - [设计文档](https://docs.mcuboot.com/design.html)
 
 ## [镜像工具](https://docs.mcuboot.com/imgtool.html)
+```
+# imgtool 对固件签名
+/scripts/imgtool.py sign --key root-rsa-2048.pem --header-size 0x200 --align 4 --version 1.0.0 --slot-size 0x40000 ../build-app/zephyr/zephyr.bin ../build-app/zephyr/zephyr-signed.bin
+```
 
 ### 签名镜像布局
 ```
