@@ -12,7 +12,7 @@ source zephyr-env.sh
 source setup.sh 
 ```
 ## [应用开发](https://docs.zephyrproject.org/latest/develop/application/index.html)
-
+ 
 ### [自定义板](https://docs.zephyrproject.org/latest/hardware/porting/board_porting.html#create-your-board-directory)
 
 自定义板时，**自定义板文件夹**需要包含以下文件
