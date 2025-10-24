@@ -60,3 +60,28 @@ west flash -d <build directory>
 - *.overlay文件用于覆盖dts配置，有app.overlay和board.overlay两种，默认情况下app.overlay优先级高于board.overlay。其中，app.overlay用于应用层的覆盖（例如，节点修改），board.overlay用于板级的覆盖（例如，引脚修改）。
 - *.conf文件用于覆盖Kconfig，有prj.conf和${boardname}.conf两种，默认情况下app.conf优先级高于${boardname}.conf。其中，prj.conf用于应用层的覆盖（例如，部分功能开启/关闭），${boardname}.conf用于板级的覆盖（例如，外设修改）。
 - 注意编写overlay文件时，不允许重复定义节点，否则会报错
+
+## 在Ubuntu上进行vscode在线仿真
+
+- 如果不用zephyr-SDK自带的openocd，gdbserver会报错，提示Error: CMSIS-DAP: SWD not supported,具体原因还不清楚
+```
+#launch.json配置文件
+{
+  "name": "Attach (OpenOCD, CMSIS-DAP)",
+  "device": "STM32F767IG",
+  "cwd": "${workspaceFolder}",
+  "executable": "build-app/zephyr/zephyr.elf",//指定可执行文件路径
+  "request": "attach",//仿真请求类型，attach表示附加到正在运行的进程，不会复位。launch表示启动一个新的调试会话，通常会复位目标设备。
+  "type": "cortex-debug",
+  "runToEntryPoint": "main",
+  "servertype": "openocd",
+  "serverpath": "${userHome}/.local/zephyr-sdk-0.17.4/sysroots/x86_64-pokysdk-linux/usr/bin/openocd",//指定openocd路径
+  "toolchainPrefix": "arm-zephyr-eabi",//指定工具链前缀
+  "configFiles": [//指定openocd配置文件路径
+    "${workspaceFolder}/boards/vendor/stm32f767ig/support/openocd.cfg"
+  ],  
+  "armToolchainPath": "${userHome}/.local/zephyr-sdk-0.17.4/arm-zephyr-eabi/bin",
+  "gdbPath": "${userHome}/.local/zephyr-sdk-0.17.4/arm-zephyr-eabi/bin/arm-zephyr-eabi-gdb"
+},
+```
+
