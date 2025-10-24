@@ -591,6 +591,8 @@ extensions.json 是 VS Code 编辑器中的一个配置文件，用于存储您�
     ]
 }
 ```
+- cortex-debug可以查看ucOS-II/uCOS-III/FreeRTOS/zephyr的任务信息，需要在仿真时暂停，然后在XRTOS视图内刷新任务列表
+![alt text](Vscode学习笔记.assets/image.png)
 
 ### 需要的环境变量
 
