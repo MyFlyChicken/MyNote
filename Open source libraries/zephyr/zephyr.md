@@ -61,6 +61,11 @@ west flash -d <build directory>
 - *.conf文件用于覆盖Kconfig，有prj.conf和${boardname}.conf两种，默认情况下app.conf优先级高于${boardname}.conf。其中，prj.conf用于应用层的覆盖（例如，部分功能开启/关闭），${boardname}.conf用于板级的覆盖（例如，外设修改）。
 - 注意编写overlay文件时，不允许重复定义节点，否则会报错
 
+### 应用Kconfig配置
+- 在prj.conf同目录下增加Kconfig文件
+- 在Kconfig文件中使用source语句引入其他Kconfig文件
+![eg](../assets/image-2025102814281234.png)
+
 ## 在Ubuntu上进行vscode在线仿真
 
 - 如果不用zephyr-SDK自带的openocd，gdbserver会报错，提示Error: CMSIS-DAP: SWD not supported,具体原因还不清楚
