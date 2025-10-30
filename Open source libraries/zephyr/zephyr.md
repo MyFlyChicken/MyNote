@@ -57,9 +57,32 @@ west flash -d <build directory>
   name@x: 这里的x表示设备的地址，必须是十六进制数(x没有0x前缀，如果节点没有reg属性，则可以省略@x部分)
   reg属性首地址必须与name@x中的x值一致，且地址必须加0x前缀
 - compatible属性必须与bindings文件夹下的yaml文件中的compatible值一致
-- *.overlay文件用于覆盖dts配置，有app.overlay和board.overlay两种，默认情况下app.overlay优先级高于board.overlay。其中，app.overlay用于应用层的覆盖（例如，节点修改），board.overlay用于板级的覆盖（例如，引脚修改）。
 - *.conf文件用于覆盖Kconfig，有prj.conf和${boardname}.conf两种，默认情况下app.conf优先级高于${boardname}.conf。其中，prj.conf用于应用层的覆盖（例如，部分功能开启/关闭），${boardname}.conf用于板级的覆盖（例如，外设修改）。
-- 注意编写overlay文件时，不允许重复定义节点，否则会报错
+
+### OVERLAY文件注意事项
+- *.overlay文件用于覆盖dts内节点配置，有app.overlay和board.overlay两种，默认情况下app.overlay优先级高于board.overlay。其中，app.overlay用于应用层的覆盖（例如，节点修改），board.overlay用于板级的覆盖（例如，引脚修改）。
+- overlay文件中不允许重复定义节点，否则会报错（即同一文件冲出现两个相同名字的节点）
+- overlay移除节点的几种方法
+  - 使用status = "disabled";将节点禁用
+  - 使用/delete-node/删除节点
+  - 使用/delete-node/删除绝对路径的节点
+- 举例
+```
+/* 删除特定名称的子节点 */
+  &quadspi {
+      /delete-node/ flash@0;  /* ✅ 删除 flash@0 节点 */
+  };
+
+/* 禁用节点（不是真正删除，但设备不会被初始化） */
+&quadspi {
+    flash@0 {
+        status = "disabled";  /* ✅ 设备驱动不会绑定此节点 */
+    };
+};
+
+/* 通过完整路径删除 */
+/delete-node/ &{/soc/quadspi@a0001000/flash@0};
+```
 
 ### 应用Kconfig配置
 - 在prj.conf同目录下增加Kconfig文件
