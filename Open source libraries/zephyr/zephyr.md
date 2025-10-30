@@ -83,6 +83,37 @@ west flash -d <build directory>
 /* 通过完整路径删除 */
 /delete-node/ &{/soc/quadspi@a0001000/flash@0};
 ```
+### chosen与alias的区别
+- 如下表
+
+|  名称  |   chosen   |   alias    |
+|----|-----------|-----------|
+|  目的  |   系统级配置 |   便利的引用名称 |
+|  用途  |   告诉系统使用哪个设备 |   提供设备的简短名称 |
+|  影响  |   影响系统行为 |   不影响功能，只是别名 |
+|  必要性 |   某些 chosen 是必需的 |   完全可选 |
+|  命名空间 |   通常带前缀（如 zephyr,） |   自由命名 |
+|  代码访问 |   DT_CHOSEN() |   DT_ALIAS() |
+|  示例 |   zephyr,console = &uart1; |   uart0 = &uart1; |
+- demo
+```
+# chosen 和 alias 示例
+/ {
+    chosen {
+        /* 必需的基础配置 */
+        zephyr,console = &uart0;        // 控制台
+    };
+
+    aliases {
+        /* LED（通常 led0, led1, led2...） */
+        led0 = &green_led;
+        led1 = &red_led;
+    };
+}
+# 查找设备示例
+const struct device *console_dev = DEVICE_DT_GET(DT_CHOSEN(zephyr_console));
+const struct device *led0_dev = DEVICE_DT_GET(DT_ALIAS(led0));
+```
 
 ### 应用Kconfig配置
 - 在prj.conf同目录下增加Kconfig文件
