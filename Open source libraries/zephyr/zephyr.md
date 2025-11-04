@@ -120,6 +120,18 @@ const struct device *led0_dev = DEVICE_DT_GET(DT_ALIAS(led0));
 - 在Kconfig文件中使用source语句引入其他Kconfig文件
 ![eg](../assets/image-2025102814281234.png)
 
+### 问题排查思路
+- 编译报错
+  - 检查CMakeLists.txt文件中是否正确引入了需要的模块
+  - 检查prj.conf文件中是否正确配置了所需的Kconfig选项
+  - 检查DTS文件和overlay文件中是否存在冲突或错误的节点定义
+- 运行时错误
+  - 使用日志功能（LOG_MODULE_REGISTER）记录关键操作和状态
+  - 使用断言（__ASSERT）检查关键条件
+  - 检查设备树节点是否正确绑定到驱动程序（前往build/zephyr/zephyr.dts检查生成的设备树是否与源代码中的设备树定义一致，前往build/zephyr/include/generated/autoconf.h检查配置选项）
+- 调试技巧
+  - 使用GDB进行调试，设置断点，单步执行
+
 ## 在Ubuntu上进行vscode在线仿真
 
 - 如果不用zephyr-SDK自带的openocd，gdbserver会报错，提示Error: CMSIS-DAP: SWD not supported,具体原因还不清楚
