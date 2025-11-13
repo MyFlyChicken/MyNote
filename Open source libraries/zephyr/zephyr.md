@@ -119,6 +119,16 @@ const struct device *led0_dev = DEVICE_DT_GET(DT_ALIAS(led0));
 - 在prj.conf同目录下增加Kconfig文件
 - 在Kconfig文件中使用source语句引入其他Kconfig文件
 ![eg](../assets/image-2025102814281234.png)
+- 这个Kconfig文件是所有Kconfig的入口点，必须包含Kconfig.zephyr，确保标准符号可用
+```
+# SPDX-License-Identifier: Apache-2.0
+
+# 引入 Zephyr 默认应用层 Kconfig，确保标准符号可用
+source "Kconfig.zephyr"
+
+# 引入自定义库的 Kconfig（相对路径）
+rsource "mylib/Kconfig"
+```
 
 ### 问题排查思路
 - 编译报错
@@ -154,5 +164,19 @@ const struct device *led0_dev = DEVICE_DT_GET(DT_ALIAS(led0));
   "armToolchainPath": "${userHome}/.local/zephyr-sdk-0.17.4/arm-zephyr-eabi/bin",
   "gdbPath": "${userHome}/.local/zephyr-sdk-0.17.4/arm-zephyr-eabi/bin/arm-zephyr-eabi-gdb"
 },
+{
+  "name": "Attach (JLink)",
+  "device": "STM32F767IG",
+  "cwd": "${workspaceFolder}",
+  "executable": "build-app/zephyr/zephyr.elf",
+  "request": "attach",
+  "type": "cortex-debug",
+  "runToEntryPoint": "main",
+  "servertype": "jlink",
+  "armToolchainPath": "${userHome}/.local/zephyr-sdk-0.17.4/arm-zephyr-eabi/bin",
+  "gdbPath": "${userHome}/.local/zephyr-sdk-0.17.4/arm-zephyr-eabi/bin/arm-zephyr-eabi-gdb",
+  "interface": "swd",
+  // "preLaunchTask": "West Build"
+}
 ```
 
