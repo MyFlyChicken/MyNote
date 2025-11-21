@@ -317,3 +317,58 @@ int _sys_tmpnam(char* name, int fileno, unsigned maxlength)
 5. 删除每个offline-packages内的package的.git文件夹
 6. 删除packages文件夹内的SConscript，不再让该文件夹内的package参与编译
 [参考链接](https://club.rt-thread.org/ask/article/1ffd4c6324681f23.html)
+
+## AT组件架构
+
+[架构](./figures/at_client架构.excalidraw)
+
+```
+static rt_err_t at_client_getchar(at_client_t client, char* ch, rt_int32_t timeout)
+{
+    rt_err_t result = RT_EOK;
+
+    // 只有在读取失败的情况下才进入循环
+    while (rt_device_read(client->device, 0, ch, 1) == 0)
+    {
+        result = rt_sem_take(client->rx_notice, rt_tick_from_millisecond(timeout));
+        if (result != RT_EOK)
+        {
+            return result;
+        }
+
+        rt_sem_control(client->rx_notice, RT_IPC_CMD_RESET, RT_NULL);
+    }
+
+    return RT_EOK;
+}
+
+static int at_recv_readline(at_client_t client)
+{
+     char      ch = 0, last_ch = 0;
+    rt_bool_t is_full = RT_FALSE;
+
+    rt_memset(client->recv_line_buf, 0x00, client->recv_bufsz);
+    client->recv_line_len = 0;
+
+    while (1)
+    {
+        at_client_getchar(client, &ch, RT_WAITING_FOREVER);
+
+        // 判断是否接收到完整的一行，接收完毕则退出循环
+    }
+}
+
+static void client_parser(at_client_t client)
+{
+    uint8_t ch_back;
+    while (1)
+    {
+        if (at_recv_readline(client) > 0)
+        {
+            //1. 判断接收的是否为URC数据
+
+            //2. 判断接收的是否为命令响应数据
+        }
+    }
+}
+```
