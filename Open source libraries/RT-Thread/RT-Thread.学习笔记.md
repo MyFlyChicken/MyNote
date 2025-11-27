@@ -371,4 +371,21 @@ static void client_parser(at_client_t client)
         }
     }
 }
+
 ```
+
+## RT-Thread 更换内核不同的MCU，需要做的步骤
+此处以STM32H7更换为STM32F4为例
+1. 随便找一个STM32F4的bsp工程，生成rt-thread工程
+```
+scons --dist
+```
+![alt text](./figures/image.png)
+2. 替换H7工程内的以下文件
+- template.uvprojx
+- template.uvproj
+- rtconfig.py(该文件提供给SConscript使用)
+- Kconfig
+- rt-thread文件夹
+- boards文件夹
+
