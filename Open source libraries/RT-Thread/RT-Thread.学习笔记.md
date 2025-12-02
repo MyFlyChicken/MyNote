@@ -389,3 +389,8 @@ scons --dist
 - rt-thread文件夹
 - boards文件夹
 
+## BOOT+APP工程配置项简介
+- 根据实际编译器配置链接文件（sct,ld,icf），使编译的代码地址分配在正确的地址
+- 配置烧录起始地址及flash大小
+- 配置中断向量表（SCB->VTOR）
+
