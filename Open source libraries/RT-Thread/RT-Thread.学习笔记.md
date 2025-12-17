@@ -394,3 +394,18 @@ scons --dist
 - 配置烧录起始地址及flash大小
 - 配置中断向量表（SCB->VTOR）
 
+## 优化ROM占用空间
+- 关闭不必要的组件
+- 成熟组件固定优化选项
+```
+from building import *
+
+cwd = GetCurrentDir()
+path  = [cwd]
+
+src  = Glob('*.c')
+# LWIP组件使用02优化选项
+group = DefineGroup('lwIP', src, depend = ['RT_USING_LWIP'], CPPPATH = path, LOCAL_CFLAGS = ' -O2')
+
+Return('group')
+```
