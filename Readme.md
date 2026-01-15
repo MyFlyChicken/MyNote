@@ -20,3 +20,10 @@ extern uint32_t chry_ringbuffer_linear_read_done(chry_ringbuffer_t *rb, uint32_t
     module_depend.c
     module_depend.h
 ```
+ - ROM空间优化
+    - 查看MAP，查看标准库的引用。看是否能够用其它功能一样的函数替代标准库，减小空间占用。（如用power替换pow）
+    - 浮点数打印时可以通过扩大倍数来避免使用浮点打印函数，从而节省空间。
+    - 使用更小的数据类型，如uint8_t代替int，float代替double，或者在结构体中使用位域进行成员压缩
+    - 表驱动比分支语句更节省空间
+
+    
