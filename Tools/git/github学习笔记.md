@@ -335,3 +335,102 @@ Port 443
 5. 新建tag(git tag 新分支)
 6. 推送代码(git push origin 新分支)
 
+## git action使用教程
+
+- 在仓库根目录新增 （.github/workflows）文件夹
+
+- 文件夹内为yml文件，用于指定工作流内容
+
+- yml文件可以包含多个，如果有多个工作流，可以同时校验或者顺序校验
+
+![image-20260206175007448](./assets/image-20260206175007448.png)
+
+```yaml
+# 指定该工作流的名字
+name: Cppcheck action
+# 定义触发该工作流的事件，这里是当有 push 到 main 分支时触发
+on:
+  push:
+  pull_request:
+# 定义工作流的作业，这里只有一个作业，名字为 cppcheck
+jobs:
+  cppcheck:
+    # 指定运行该作业的环境，这里使用最新版本的 Ubuntu
+    runs-on: ubuntu-latest
+    # 定义作业的步骤，每一步都有一个name和run，name为步骤名字，run为步骤操作。run后跟随|表示后边的指令不要合并在一起。即一摸一样的在linux内执行。run后用\是用来将指令简短，增加可视性，实际执行是按照一行处理的。
+    #| 保留换行。你写几行，执行时就是几行。（写脚本最常用）
+    #\ 把一行拆成多行写，纯粹是为了好看、好读，系统执行时会把它们拼回成一行。
+    steps:
+      # 第一步：检出代码仓库
+      - name: Checkout code
+        uses: actions/checkout@v2
+      # 第二步：安装 Cppcheck 工具
+      - name: Install Cppcheck
+        run: sudo apt-get install -y cppcheck
+      # 第三步：运行 Cppcheck 进行代码静态分析
+      #        
+      - name: Run Cppcheck
+      # --enable 指定使能的检查类型
+      # --language 指定代码语言为 C
+      # --platform 指定目标平台为 unix32
+      # --std 指定代码标准为 C99
+      # --force 强制检查所有文件
+      # -i 用于排除不需要检查的目录 i为ignore的意思
+        run: cppcheck --enable=warning,portability,performance \
+                      --language=c \
+                      --platform=unix32 \
+                      --std=c99 \
+                      --force . \
+                      -i ./UnityTesting/ \
+                      -i ./os/
+
+```
+
+```yaml
+#指定工作流的名字
+name: Build and Test
+#定义触发该工作流的事件，这里是当有 push 或 pull request 到
+on:
+  push:
+    branches:
+    # 仅当推送master分支时才出发该工作流
+    - master
+  pull_request:
+    branches:
+    - master
+  # workflow_run:
+  #   workflows: ["Cppcheck action"]  # 必须与第一个 yml 的 name 一致
+  #   types:
+  #     - completed
+jobs:
+  unity_test:
+    runs-on: ubuntu-latest
+    steps:
+      # 第一步 检出代码仓库
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with: #每个 Action 插件都有默认的操作。通过 with，你可以修改它的默认行为，让它按照你的需求工作。
+          submodules: recursive # 告诉插件：请把子模块也递归拉下来
+          fetch-depth: 0        # 告诉插件：我要完整的 Git 提交历史，不只是最后一版
+      # 第二步 安装依赖 cmake
+      - name: Install dependencies
+        run: sudo apt-get update && sudo apt-get install -y cmake ninja-build
+      #第三步 cmake构建程序
+      - name: build
+        run: |
+          cmake -DCMAKE_BUILD_TYPE=debug -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_TOOLCHAIN_FILE="$PWD/cmake/linux_gcc.cmake" -S . -B build/Debug -G Ninja
+          cmake --build build/Debug -j 8
+      #第四步 执行unity testh函数 
+      - name: unity test
+      # | 用于表示接下来的内容是一个多行脚本，请原样保留换行符，不要把它们挤成一行
+        run: |
+          cd build/Debug
+          # 对生成的可执行文件添加执行权限，并设置超时时间为10秒，防止测试程序进入死循环导致工作流卡住
+          # 工作流会判断function_test返回的值，如果非0，那么会直接退出，认为该步骤出现错误
+          chmod +x ./function_test
+          timeout 10s sudo ./function_test
+
+```
+
+
+
