@@ -819,3 +819,51 @@ extensions.json 是 VS Code 编辑器中的一个配置文件，用于存储您�
 4. 客户端vscode配置REMOTE插件
 
    ![image-20250327204036815](Vscode学习笔记.assets/image-20250327204036815.png)
+
+## cppcheck静态审查
+
+- 安装C/C++ Advanced Lint（jbenden.c-cpp-flylint）
+
+- 配置C/C++ Advanced Lint
+
+  ![image-20260206215048989](./assets/image-20260206215048989.png)
+
+- settings.json配置
+
+  ```json
+  	// 1. 指定使用 cppcheck 作为后端
+      "c-cpp-flylint.cppcheck.enable": true,
+      // 2. 指向你的 cppcheck 可执行程序路径
+      "c-cpp-flylint.cppcheck.executable": "cppcheck",
+      // 3. 核心：传递 MISRA 参数
+      // --addon=misra 会告诉 cppcheck 调用其内部的 misra.py 脚本
+      // 建议同时开启 --inline-suppr 以便在代码中手动忽略某些误报
+      "c-cpp-flylint.cppcheck.standard": [
+          "c11"
+      ],
+      "c-cpp-flylint.cppcheck.extraArgs": [
+          "--addon=misra",
+          "--inline-suppr",
+          "--suppress=missingIncludeSystem"
+      ],
+      // 4. 这里的配置是为了让插件能正确解析输出
+      //"c-cpp-flylint.standard": "c11",
+      "c-cpp-flylint.run": "onSave", // 建议保存时触发，避免实时扫描太卡
+      "c-cpp-flylint.cppcheck.force": true
+  ```
+
+clang-tidy静态审查
+
+- c/c++插件自带clang-tidy分许，不过需要将.clang-tidy文件放在工程根目录，同时在c/c++插件配置clang-tidy路径
+
+  ![image-20260206215521306](./assets/image-20260206215521306.png)
+
+![image-20260206215551857](./assets/image-20260206215551857.png)
+
+![image-20260206215615023](./assets/image-20260206215615023.png)
+
+- clangd可以直接启用clang-tidy审查，仅将.clang-tidy文件放在工程根目录即可
+
+  这里使用--clang-tidy，表示clangd 提供代码补全和跳转的同时，实时在后台运行 Clang-Tidy 检查，并将结果直接反馈到你的编辑器界面上。
+
+  ![image-20260206215833853](./assets/image-20260206215833853.png)
